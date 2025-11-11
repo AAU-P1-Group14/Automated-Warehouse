@@ -1,12 +1,5 @@
 #include <stdio.h>
 
-#define ANSI_COLOR_RED     "\x1b[31m"
-#define ANSI_COLOR_GREEN   "\x1b[32m"
-#define ANSI_COLOR_YELLOW  "\x1b[33m"
-#define ANSI_COLOR_BLUE    "\x1b[34m"
-#define ANSI_COLOR_MAGENTA "\x1b[35m"
-#define ANSI_COLOR_CYAN    "\x1b[36m"
-#define ANSI_COLOR_RESET   "\x1b[0m"
 
 enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging};
 
@@ -66,19 +59,34 @@ void printArray(int layout[36][19])
         {
             switch (layout[x_col][y_row])
             {
-            case vacant: printf(" "); break;
+            case vacant:
+                printf(" ");
+                break;
 
-            case v_line: printf(ANSI_COLOR_BLUE "|" ANSI_COLOR_RESET); break;
+            case v_line:
+                printf("|");
+                break;
 
-            case h_line: printf(ANSI_COLOR_BLUE "-" ANSI_COLOR_RESET); break;
+            case h_line:
+                printf("-");
+                break;
 
-            case robot: printf(ANSI_COLOR_CYAN "O" ANSI_COLOR_RESET); break;
+            case robot:
+                printf("O");
+                break;
 
-            case shelf: printf(ANSI_COLOR_YELLOW "X" ANSI_COLOR_RESET); break;
+            case shelf:
+                printf("X");
+                break;
 
-            case drop_off: printf(ANSI_COLOR_GREEN "D" ANSI_COLOR_RESET); break;
+            case drop_off:
+                printf("D");
+                break;
 
-            case charging: printf(ANSI_COLOR_GREEN "C" ANSI_COLOR_RESET); break;
+            case charging:
+                printf("C");
+                break;
+
             }
 
 
