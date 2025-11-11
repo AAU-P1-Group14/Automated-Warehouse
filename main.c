@@ -72,8 +72,6 @@ void printArray(int layout[36][19])
 
             case charging: printf("C"); break;
             }
-
-
         }
         printf("\n");
     }
