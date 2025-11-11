@@ -8,8 +8,6 @@ void printArray(int layout[36][19]);
 
 int main(void) {
 
-    enum pos pos;
-
     static int layout[36][19];
 
     initArray(layout);
