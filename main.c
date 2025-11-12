@@ -6,12 +6,12 @@
 // Using enum for the warehouse layout to make the code more readable
 enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging};
 
-void initArray(int layout[36][19]); // prototype of initArray
-void printArray(int layout[36][19]); // prototype of printArray
+void initArray(int layout[WIDTH][HEIGHT]); // prototype of initArray
+void printArray(int layout[WIDTH][HEIGHT]); // prototype of printArray
 
 int main(void)
 {
-    static int layout[36][19]; // Creating an empty static 2D array to store the warehouse layout
+    static int layout[WIDTH][HEIGHT]; // Creating an empty static 2D array to store the warehouse layout
 
     initArray(layout);
     printArray(layout);
@@ -19,11 +19,11 @@ int main(void)
     return 0;
 }
 
-void initArray(int layout[36][19])
+void initArray(int layout[WIDTH][HEIGHT])
 {
-    for (int y_row = 0; y_row < 19; ++y_row) // Looping through all the rows in the layout array
+    for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
     {
-        for (int x_col = 0; x_col < 36; ++x_col) // Looping through all the coloumns in the layout array
+        for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (y_row)
             {
@@ -40,12 +40,12 @@ void initArray(int layout[36][19])
                 }
                 break;
 
-            case 0: case 18: // At the first and last row, place horizontal lines at every coloum
+            case 0: case HEIGHT-1: // At the first and last row, place horizontal lines at every coloum
                 layout[x_col][y_row] = h_line;
             }
             switch (x_col)
             {
-                case 0: case 35: // At the first and last coloum, place vertical lines at every row
+                case 0: case WIDTH-1: // At the first and last coloum, place vertical lines at every row
                 layout[x_col][y_row] = v_line;
             }
         }
@@ -54,11 +54,11 @@ void initArray(int layout[36][19])
     layout[31][16] = charging; // Charging station is hardcoded to be at this spot
 }
 
-void printArray(int layout[36][19])
+void printArray(int layout[WIDTH][HEIGHT])
 {
-    for (int y_row = 0; y_row < 19; ++y_row) // Looping through all the rows in the layout array
+    for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
     {
-        for (int x_col = 0; x_col < 36; ++x_col) // Looping through all the coloumns in the layout array
+        for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (layout[x_col][y_row])
             {
