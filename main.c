@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#define WIDTH 36
+#define HEIGHT 19
+
 // Using enum for the warehouse layout to make the code more readable
 enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging};
 
