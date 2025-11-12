@@ -6,15 +6,12 @@
 // Using enum for the warehouse layout to make the code more readable
 enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging};
 
-void initArray(int layout[WIDTH][HEIGHT]); // prototype of initArray
-void printArray(int layout[WIDTH][HEIGHT]); // prototype of printArray
+void initArray(int layout[HEIGHT][WIDTH]); // prototype of initArray
+void printArray(int layout[HEIGHT][WIDTH]); // prototype of printArray
 
 int main(void) {
 
-    static int layout[36][19];
-int main(void)
-{
-    static int layout[WIDTH][HEIGHT]; // Creating an empty static 2D array to store the warehouse layout
+    static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
 
     initArray(layout);
     printArray(layout);
@@ -22,8 +19,9 @@ int main(void)
     return 0;
 }
 
-void initArray(int layout[WIDTH][HEIGHT])
-{
+void initArray(int layout[HEIGHT][WIDTH]) {
+
+
     for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
     {
         for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
@@ -36,34 +34,34 @@ void initArray(int layout[WIDTH][HEIGHT])
                 // should be placed (every 6th column with an offset of 2)
                 if ((x_col+2)%6 == 0) 
                 {
-                    layout[x_col][y_row] = shelf;
-                    layout[x_col-1][y_row] = shelf;
-                    layout[x_col-2][y_row] = shelf;
-                    layout[x_col-3][y_row] = shelf;
+                    layout[y_row][x_col] = shelf;
+                    layout[y_row][x_col-1] = shelf;
+                    layout[y_row][x_col-2] = shelf;
+                    layout[y_row][x_col-3] = shelf;
                 }
                 break;
 
             case 0: case HEIGHT-1: // At the first and last row, place horizontal lines at every coloum
-                layout[x_col][y_row] = h_line;
+                layout[y_row][x_col] = h_line;
             }
             switch (x_col)
             {
                 case 0: case WIDTH-1: // At the first and last coloum, place vertical lines at every row
-                layout[x_col][y_row] = v_line;
+                layout[y_row][x_col] = v_line;
             }
         }
     }
-    layout[4][16] = drop_off; // Drop off is hardcoded to be at this spot
-    layout[31][16] = charging; // Charging station is hardcoded to be at this spot
+    layout[16][4] = drop_off; // Drop off is hardcoded to be at this spot
+    layout[16][31] = charging; // Charging station is hardcoded to be at this spot
 }
 
-void printArray(int layout[WIDTH][HEIGHT])
-{
+void printArray(int layout[HEIGHT][WIDTH]) {
+
     for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
     {
         for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
         {
-            switch (layout[x_col][y_row])
+            switch (layout[y_row][x_col])
             {
             case vacant: printf(" "); break; // If the element is vacant, print a blank space " "
 
