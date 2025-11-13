@@ -4,4 +4,5 @@ project(Automated-Warehouse C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(Automated-Warehouse main.c
-        main.c)
+        main.c
+        funcs.c)

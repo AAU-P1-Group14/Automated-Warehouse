@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "funcs.h"
+
 #define WIDTH 36
 #define HEIGHT 19
 
