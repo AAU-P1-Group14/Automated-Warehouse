@@ -64,8 +64,13 @@ double double_avr(const double *array, const int size) {
 int array_occur(const void *array, const void *target, const int size, int elem_size, int (*compare)(const void *, const void *)) {
     int sum = 0;
 
+    //The reason as to why we do this here, is we convert it into a pointer that points
+    //to a single byte, this will be used later, as when you step along in raw memory, you step by bytes
+    //More basically said, arr becomes a pointer to the first byte at the same location that array points to
     const unsigned char *arr = array;
     for (int i = 0; i < size; i++) {
+        //So we start at the pointer to the byte we found ealier, then we move
+        //i * sie of the elements bytes forward to find the start of i-th element
         const void *current = arr + i * elem_size;
         if (compare(current, target)) {
             sum++;
