@@ -1,3 +1,6 @@
+#ifndef FUNCS
+#define FUNCS
+
 #define len(arr) (sizeof(arr) / sizeof((arr)[0]))
 int max_int(const int array[], const int size);
 double max_double(const double array[], const int size);
@@ -20,3 +23,5 @@ int get_index(const void *array, const void *target, const int size, int elem_si
 int cmp_int(const void *a, const void *b);
 int cmp_double(const void *a, const void *b);
 int cmp_string(const void *a, const void *b);
+
+#endif
