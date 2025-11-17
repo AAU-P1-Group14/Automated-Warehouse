@@ -8,25 +8,34 @@
 #define MAX_BRANCHES 100
 
 // Using enum for the warehouse layout to make the code more readable
-enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging, visited};
+enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging, path_enum};
 
 void initArray(int layout[HEIGHT][WIDTH]); // prototype of initArray
+void input_target(int layout[HEIGHT][WIDTH], int *target_row, int *target_col);
+int input_validation(int layout[HEIGHT][WIDTH], int target_row, int target_col);
 void printArray(int layout[HEIGHT][WIDTH]); // prototype of printArray
-bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col);
+bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col);
 int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH], int target_row, int target_col, int row, int col);
 
-int main(void) {
+typedef struct {
+    int x;
+    int y;
+} node;
 
+int main(void) {
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
     static int vis[HEIGHT][WIDTH];
 
-    int target_row = 10;
-    int target_col = 7;
-
     initArray(layout);
-    bool found = BFS(layout, vis, target_row, target_col, 16, 31);
+
+    int target_row = 3;
+    int target_col = 3;
+
+    input_target(layout, &target_row, &target_col);
+
+    bool found = BFS(layout, vis, target_row, target_col, 16, 4);
     printArray(layout);
-    
+
 /*
     int len_vis = sizeof(vis) / sizeof(vis[0]);
     for (int j = 0; j < HEIGHT; j++) {
@@ -72,8 +81,8 @@ void initArray(int layout[HEIGHT][WIDTH]) {
             }
         }
     }
-    layout[16][4] = drop_off; // Drop off is hardcoded to be at this spot
-    layout[16][31] = charging; // Charging station is hardcoded to be at this spot
+    layout[16][4] = charging; // Drop off is hardcoded to be at this spot
+    layout[16][31] = drop_off; // Charging station is hardcoded to be at this spot
 }
 
 void printArray(int layout[HEIGHT][WIDTH]) {
@@ -98,14 +107,39 @@ void printArray(int layout[HEIGHT][WIDTH]) {
 
             case charging: printf("C"); break; // If the element is charging , print a "C"
 
-            case visited: printf("*"); break;
+            case path_enum: printf("*"); break;
             }
         }
         printf("\n"); // Go to the next row with a new-line
     }
 }
 
-bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col)
+void input_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col){
+    while (1) {
+        printf("Enter target (row col): ");
+        scanf("%d %d", target_row, target_col);
+
+        int valid_target = input_validation(layout, *target_row, *target_col);
+        if (!valid_target){
+            printf("Invalid target: Must be shelf or drop-off.\n\n");
+        }
+        else break;
+    }
+}
+
+int input_validation(int layout[HEIGHT][WIDTH], int target_row, int target_col){
+    if (target_row > HEIGHT || target_row < 0 || target_col > WIDTH || target_col < 0) {
+        return 0;
+    }
+
+    if (layout[target_row][target_col] != shelf && layout[target_row][target_col] != drop_off) {
+        return 0;
+    }
+
+    return 1;
+}
+
+bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col)
 {
     // If cell lies out of bounds
     if (row < 0 || col < 0 || row >= HEIGHT || col >= WIDTH)
@@ -114,6 +148,8 @@ bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col)
     // If cell is already visited
     if (vis[row][col])
         return false;
+
+    if (row == target_row && col == target_col) return true;
 
     switch  (grid[row][col]) {
         case v_line: case h_line: case shelf:
@@ -125,12 +161,13 @@ bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col)
 }
 
 // Function to perform the BFS traversal
-int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
-        int target_row, int target_col, int row, int col)
+int BFS(
+    int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
+    int target_row, int target_col,
+    int row, int col)
 {
     // Simple queue implementation using arrays
-    int qx[HEIGHT * WIDTH];
-    int qy[HEIGHT * WIDTH];
+    node queue[HEIGHT * WIDTH];
     int front = 0, back = 0;
 
     // Direction vectors (op, højre, ned, venstre)
@@ -138,21 +175,18 @@ int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
     int dCol[] = { 0, 1, 0, -1 };
 
     // Forældre-arrays til backtracking
-    int parent_row[HEIGHT][WIDTH];
-    int parent_col[HEIGHT][WIDTH];
+    node parent[HEIGHT][WIDTH];
 
     // Init parents til -1 (ingen forælder)
     for (int r = 0; r < HEIGHT; r++) {
         for (int c = 0; c < WIDTH; c++) {
-            parent_row[r][c] = -1;
-            parent_col[r][c] = -1;
+            parent[r][c] = (node){-1, -1};
         }
     }
 
     // Mark the starting cell as visited
     // and push it into the queue
-    qx[back] = row;
-    qy[back] = col;
+    queue[back] = (node){row,col};
     back++;
     vis[row][col] = 1;
 
@@ -163,8 +197,8 @@ int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
     int found = 0;
     while (front < back) {
 
-        int x = qx[front];
-        int y = qy[front];
+        int x = queue[front].x;
+        int y = queue[front].y;
         front++;
 
         // Hvis vi har ramt målet, kan vi stoppe
@@ -176,19 +210,16 @@ int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
         // Go to the adjacent cells
         for (int i = 0; i < 4; i++) {
 
-            int adjx = x + dRow[i];
-            int adjy = y + dCol[i];
+            node adj = {x + dRow[i], y + dCol[i]};
 
-            if (isValid(vis, grid, adjx, adjy)) {
-                qx[back] = adjx;
-                qy[back] = adjy;
+            if (isValid(vis, grid, adj.x, adj.y, target_row, target_col)) {
+                queue[back] = adj;
                 back++;
 
-                vis[adjx][adjy] = 1;
+                vis[adj.x][adj.y] = 1;
                 //grid[adjx][adjy] = visited;
 
-                parent_row[adjx][adjy] = x;
-                parent_col[adjx][adjy] = y;
+                parent[adj.x][adj.y] = (node){x,y};
             }
         }
     }
@@ -199,41 +230,33 @@ int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
     }
 
     // Backtrack ruten fra target til start
-    int path_row[HEIGHT * WIDTH];
-    int path_col[HEIGHT * WIDTH];
+    node path[HEIGHT * WIDTH];
     int path_len = 0;
 
-    int cx = target_row;
-    int cy = target_col;
+    node child = (node){target_row, target_col};
 
-    while (!(cx == row && cy == col)) {
-        path_row[path_len] = cx;
-        path_col[path_len] = cy;
+    while (!(child.x == row && child.y == col)) {
+        path[path_len] = child;
         path_len++;
 
-        int px = parent_row[cx][cy];
-        int py = parent_col[cx][cy];
-
         // Safety check hvis noget går galt
-        if (px == -1 && py == -1) {
+        if (parent[child.x][child.y].x == -1 && parent[child.x][child.y].y == -1) {
             printf("Fejl under backtracking\n");
             return 0;
         }
 
-        cx = px;
-        cy = py;
+        child = parent[child.x][child.y];
     }
 
     // Til sidst også startcellen
-    path_row[path_len] = row;
-    path_col[path_len] = col;
+    path[path_len] = (node){row,col};
     path_len++;
 
     // Print ruten fra start → target
     for (int i = path_len - 1; i >= 0; i--) {
-        printf("(%d, %d) ", path_row[i], path_col[i]);
-        if (!(path_row[i] == row && path_col[i] == col)) {
-            grid[path_row[i]][path_col[i]] = visited;
+        // printf("(%d, %d) ", path_row[i], path_col[i]);
+        if (!(path[i].x == row && path[i].y == col) && !(path[i].x == target_row && path[i].y == target_col)) {
+            grid[path[i].x][path[i].y] = path_enum;
         }
     }
     printf("\n");
