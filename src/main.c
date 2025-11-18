@@ -12,9 +12,10 @@ int main(void) {
     int target_row = 0;
     int target_col = 0;
 
-    input_target(layout, &target_row, &target_col);
+    promptCustomShelf(layout,&target_row,&target_col);
 
     bfs(layout, vis, target_row, target_col, 16, 4);
+
     print_array(layout);
 
 /*
