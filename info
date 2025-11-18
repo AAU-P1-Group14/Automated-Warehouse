@@ -1,0 +1,13 @@
+Oversigt over navngivning:
+
+Dir -> små bogstaver
+AlgORithms -> algorithms
+
+Fil -> små bogstaver (snake pattern)
+ArrayManagER -> array_manager
+
+funcs -> små bogstaver (snake pattern)
+printArRay -> print_array
+
+Macros -> store bogstaver
+len -> LEN
