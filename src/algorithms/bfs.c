@@ -1,11 +1,11 @@
-#include "BFS.h"
+#include "bfs.h"
 
 #define WIDTH 36
 #define HEIGHT 19
 #define MAX_BRANCHES 100
 
 
-bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col)
+bool is_valid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col)
 {
     // If cell lies out of bounds
     if (row < 0 || col < 0 || row >= HEIGHT || col >= WIDTH)
@@ -28,7 +28,7 @@ bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, 
 
 
 // Function to perform the BFS traversal
-int BFS(
+int bfs(
     int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
     int target_row, int target_col,
     int row, int col)
@@ -79,7 +79,7 @@ int BFS(
 
             node adj = {x + dRow[i], y + dCol[i]};
 
-            if (isValid(vis, grid, adj.x, adj.y, target_row, target_col)) {
+            if (is_valid(vis, grid, adj.x, adj.y, target_row, target_col)) {
                 queue[back] = adj;
                 back++;
 

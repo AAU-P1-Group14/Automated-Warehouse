@@ -1,21 +1,21 @@
-#include "BFS.h"
-#include "funcs.h"
-#include "input_management.h"
-#include "arrayManagement.h"
+#include "algorithms/bfs.h"
+#include "utility/misc.h"
+#include "managers/input_manager.h"
+#include "managers/array_manager.h"
 
 int main(void) {
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
     static int vis[HEIGHT][WIDTH];
 
-    initArray(layout);
+    init_array(layout);
 
     int target_row = 0;
     int target_col = 0;
 
     input_target(layout, &target_row, &target_col);
 
-    BFS(layout, vis, target_row, target_col, 16, 4);
-    printArray(layout);
+    bfs(layout, vis, target_row, target_col, 16, 4);
+    print_array(layout);
 
 /*
     int len_vis = sizeof(vis) / sizeof(vis[0]);
