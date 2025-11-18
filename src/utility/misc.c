@@ -1,7 +1,7 @@
 #include <string.h>
 
-//Get array length — return the number of elements in a static array.
-#define len(arr) (sizeof(arr) / sizeof((arr)[0]))
+//Get array length, return the number of elements in a static array.
+#define LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 //Find max/min value in an array.
 int max_int(const int *array, const int size) {
