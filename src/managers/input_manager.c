@@ -1,4 +1,4 @@
-#include "input_management.h"
+#include "input_manager.h"
 
 void input_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col){
     while (1) {
