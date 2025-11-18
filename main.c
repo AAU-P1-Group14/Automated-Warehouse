@@ -5,6 +5,8 @@
 #define HEIGHT 19
 #define MAX_BRANCHES 100
 
+#super sek test jaja
+
 void initArray(int layout[HEIGHT][WIDTH]); // prototype of initArray
 void input_target(int layout[HEIGHT][WIDTH], int *target_row, int *target_col);
 int input_validation(int layout[HEIGHT][WIDTH], int target_row, int target_col);
