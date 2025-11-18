@@ -7,4 +7,9 @@ add_executable(Automated-Warehouse main.c
         main.c
         funcs.c
         BFS.c
-        BFS.h)
+        BFS.h
+        input_management.c
+        input_management.h
+        arrayManagement.c
+        arrayManagement.h
+        types.h)
