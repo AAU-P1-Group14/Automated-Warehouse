@@ -1,8 +1,5 @@
 #include "BFS.h"
 
-#include <stdio.h>
-#include <stdbool.h>
-
 #define WIDTH 36
 #define HEIGHT 19
 #define MAX_BRANCHES 100

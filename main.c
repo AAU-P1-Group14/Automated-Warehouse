@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdbool.h>
 #include "BFS.h"
-
 #include "funcs.h"
 
 #define WIDTH 36

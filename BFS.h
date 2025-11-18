@@ -1,6 +1,10 @@
 #ifndef AUTOMATED_WAREHOUSE_BFS_H
 #define AUTOMATED_WAREHOUSE_BFS_H
 
+#include <stdbool.h>
+#include <stdio.h>
+
+
 #define WIDTH 36
 #define HEIGHT 19
 #define MAX_BRANCHES 100
