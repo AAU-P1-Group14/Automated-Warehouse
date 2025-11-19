@@ -1,3 +1,4 @@
+// TEST
 #include "algorithms/bfs.h"
 #include "utility/misc.h"
 #include "managers/input_manager.h"
