@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "types.h"
 
-bool isValid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col);
-int BFS(int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH], int target_row, int target_col, int row, int col);
+bool isValid(int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col);
+int BFS(int grid[HEIGHT][WIDTH], int target_row, int target_col, int row, int col, int* tiles);
 
 #endif //AUTOMATED_WAREHOUSE_BFS_H

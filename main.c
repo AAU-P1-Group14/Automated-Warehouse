@@ -5,17 +5,46 @@
 
 int main(void) {
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
-    static int vis[HEIGHT][WIDTH];
 
-    initArray(layout);
 
-    int target_row = 0;
-    int target_col = 0;
 
-    input_target(layout, &target_row, &target_col);
+    for (int i = 0; i < 2; i++) {
 
-    BFS(layout, vis, target_row, target_col, 16, 4);
-    printArray(layout);
+        initArray(layout);
+
+        int target_row = 0;
+        int target_col = 0;
+        input_target(layout, &target_row, &target_col);
+
+        int tiles_one;
+        int tiles_two;
+
+        switch (i) {
+            case 0:
+
+            BFS(layout, target_row, target_col, 16, 4, &tiles_one);
+
+            printArray(layout);
+
+            BFS(layout, 16, 31, target_row, target_col, &tiles_two);
+
+            printArray(layout);
+
+            printf("Final route was %d tiles", tiles_one + tiles_two);
+
+            break;
+
+            case 1:
+                break;
+
+
+            default:
+                break;
+        }
+
+
+
+}
 
 /*
     int len_vis = sizeof(vis) / sizeof(vis[0]);
