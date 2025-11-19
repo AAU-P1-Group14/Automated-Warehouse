@@ -1,4 +1,4 @@
-#include "BFS.h"
+#include "bfs.h"
 
 #define WIDTH 36
 #define HEIGHT 19
@@ -29,7 +29,7 @@ bool isValid(int grid[HEIGHT][WIDTH], int row, int col, int target_row, int targ
 
 
 // Function to perform the BFS traversal
-int BFS(
+int bfs(
     int grid[HEIGHT][WIDTH],
     int target_row, int target_col,
     int row, int col,

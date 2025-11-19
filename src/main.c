@@ -1,7 +1,7 @@
-#include "BFS.h"
-#include "funcs.h"
-#include "input_management.h"
-#include "arrayManagement.h"
+#include "algorithms/bfs.h"
+#include "utility/misc.h"
+#include "managers/array_manager.h"
+#include "managers/input_manager.h"
 
 int main(void) {
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
@@ -10,7 +10,7 @@ int main(void) {
 
     for (int i = 0; i < 2; i++) {
 
-        initArray(layout);
+        init_array(layout);
 
         int target_row = 0;
         int target_col = 0;
@@ -22,13 +22,13 @@ int main(void) {
         switch (i) {
             case 0:
 
-            BFS(layout, target_row, target_col, 16, 4, &tiles_one);
+            bfs(layout, target_row, target_col, 16, 4, &tiles_one);
 
-            printArray(layout);
+            print_array(layout);
 
-            BFS(layout, 16, 31, target_row, target_col, &tiles_two);
+            bfs(layout, 16, 31, target_row, target_col, &tiles_two);
 
-            printArray(layout);
+            print_array(layout);
 
             printf("Final route was %d tiles", tiles_one + tiles_two);
 
