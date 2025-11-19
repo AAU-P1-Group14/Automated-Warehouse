@@ -1,4 +1,6 @@
-#include "input_management.h"
+#include "input_manager.h"
+
+#include <stdbool.h>
 
 void input_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col){
     while (1) {
@@ -23,4 +25,33 @@ int input_validation(int layout[HEIGHT][WIDTH], int target_row, int target_col){
     }
 
     return 1;
+}
+
+void promptCustomShelf(int layout[HEIGHT][WIDTH], int* target_row, int* target_col)
+{
+    char input;
+    bool validInput = 0;
+
+    while (validInput == 0)
+    {
+        printf("Choose a custom shelf? y/n\n");
+        scanf(" %c", &input);
+
+        switch (input)
+        {
+        case 'y':
+            validInput = 1;
+            input_target(layout, target_row, target_col);
+            break;
+        case 'n':
+            validInput = 1;
+            *target_row = 3;
+            *target_col = 3;
+            break;
+
+        default:
+            printf("Invalid input\n");
+            break;
+        }
+    }
 }

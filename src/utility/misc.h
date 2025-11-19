@@ -2,7 +2,7 @@
 #define FUNCS
 
 
-#define len(arr) (sizeof(arr) / sizeof((arr)[0]))
+#define LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 int max_int(const int array[], const int size);
 double max_double(const double array[], const int size);
 int sum_ints(const int array[], const int size);
