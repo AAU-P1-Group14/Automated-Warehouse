@@ -3,11 +3,10 @@ project(Automated-Warehouse C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(Automated-Warehouse src/Main.c
-        src/Main.c
-        src/utility/Misc.c
-        src/algorithms/BFS.c
-        src/algorithms/BFS.h
+add_executable(Automated-Warehouse src/main.c
+        src/utility/misc.c
+        src/algorithms/bfs.c
+        src/algorithms/bfs.h
         src/managers/input_manager.c
         src/managers/input_manager.h
         src/managers/array_manager.c

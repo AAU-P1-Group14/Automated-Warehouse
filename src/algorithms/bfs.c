@@ -5,7 +5,7 @@
 #define MAX_BRANCHES 100
 
 
-bool is_valid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col)
+bool isValid(int grid[HEIGHT][WIDTH], int row, int col, int target_row, int target_col)
 {
     // If cell lies out of bounds
     if (row < 0 || col < 0 || row >= HEIGHT || col >= WIDTH)
@@ -17,6 +17,7 @@ bool is_valid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col,
 
     if (row == target_row && col == target_col) return true;
 
+    //Cant walk through shelfs or walls
     switch  (grid[row][col]) {
         case v_line: case h_line: case shelf:
             return false;
@@ -29,10 +30,15 @@ bool is_valid(int vis[HEIGHT][WIDTH], int grid[HEIGHT][WIDTH], int row, int col,
 
 // Function to perform the BFS traversal
 int bfs(
-    int grid[HEIGHT][WIDTH], int vis[HEIGHT][WIDTH],
+    int grid[HEIGHT][WIDTH],
     int target_row, int target_col,
-    int row, int col)
+    int row, int col,
+    int* tiles)
 {
+
+
+
+
     // Simple queue implementation using arrays
     node queue[HEIGHT * WIDTH];
     int front = 0, back = 0;
@@ -79,7 +85,7 @@ int bfs(
 
             node adj = {x + dRow[i], y + dCol[i]};
 
-            if (is_valid(vis, grid, adj.x, adj.y, target_row, target_col)) {
+            if (isValid(grid, adj.x, adj.y, target_row, target_col)) {
                 queue[back] = adj;
                 back++;
 
@@ -127,6 +133,15 @@ int bfs(
         }
     }
     printf("\n");
+
+    *tiles = path_len;
+
+    for (int i = 0; i < HEIGHT; i++) {
+
+        for (int j = 0; j < WIDTH; j++) {
+            vis[i][j] = 0;
+        }
+    }
 
     return 1;
 }
