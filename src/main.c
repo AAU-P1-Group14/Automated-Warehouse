@@ -23,6 +23,8 @@ int main(void) {
         // Prompt the user to use a custom or pre-defined shelf
         promptCustomShelf(layout,&target);
 
+
+
         int tiles_one;
         int tiles_two;
 

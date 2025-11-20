@@ -6,8 +6,8 @@
 
 
 int input_validation(int layout[HEIGHT][WIDTH], node target);
-void input_target(int layout[HEIGHT][WIDTH], node *target_row);
-void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target_row);
+void input_target(int layout[HEIGHT][WIDTH], node* target);
+void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target);
 
 
 #endif //AUTOMATED_WAREHOUSE_INPUT_MANAGEMENT_H
