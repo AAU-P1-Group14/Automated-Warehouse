@@ -3,19 +3,21 @@
 
 
 int horizontal_num() {
-
-    bool first=true;
-    for (int i=0;i<WIDTH; i++) {
+    bool first = true;
+    for (int i = 0; i < WIDTH; i++) {
         if (i % 5 == 0) {
-            if (first){
-                printf("  %d         ",i);
-                first=false;
+            if (first) {
+                printf("  %dx        ", i);
+                first = false;
             } else {
-                printf("%d        ",i);
+                if (i > 9)
+                    printf(" %d       ", i);
+                else
+                    printf("%d        ", i);
+                }
             }
         }
-        }
-        printf("\n");
+    printf("\n");
     }
 
 
