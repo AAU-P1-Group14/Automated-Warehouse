@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-void input_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col){
+void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
         printf("Enter target (row col): ");
-        scanf("%d %d", target_row, target_col);
+        scanf("%d %d", &target->x, &target->y);
 
-        int valid_target = input_validation(layout, *target_row, *target_col);
+        int valid_target = input_validation(layout, *target);
         if (!valid_target){
             printf("Invalid target: Must be shelf or drop-off.\n\n");
         }
@@ -17,19 +17,19 @@ void input_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col){
     }
 }
 
-int input_validation(int layout[HEIGHT][WIDTH], int target_row, int target_col){
-    if (target_row > HEIGHT || target_row < 0 || target_col > WIDTH || target_col < 0) {
+int input_validation(int layout[HEIGHT][WIDTH], node target){
+    if (target.y > HEIGHT || target.y < 0 || target.x > WIDTH || target.x < 0) {
         return 0;
     }
 
-    if (layout[target_row][target_col] != shelf && layout[target_row][target_col] != drop_off) {
+    if (layout[target.x][target.y] != shelf && layout[target.x][target.y] != drop_off) {
         return 0;
     }
 
     return 1;
 }
 
-void promptCustomShelf(int layout[HEIGHT][WIDTH], int* target_row, int* target_col)
+void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
 {
     char input;
     bool validInput = 0;
@@ -44,11 +44,11 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], int* target_row, int* target_c
         {
         case 'y':
             validInput = 1;
-            input_target(layout, target_row, target_col);
+            input_target(layout, target);
             break;
         case 'n':
             validInput = 1;
-            random_target(layout, target_row, target_col);
+            *target = (node){3,3};
             break;
 
         default:
