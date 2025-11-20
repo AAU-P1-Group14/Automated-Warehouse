@@ -2,6 +2,8 @@
 #include <stdbool.h>
 
 
+//delete this text
+
 int horizontal_num() {
     bool first = true;
     for (int i = 0; i < WIDTH; i++) {
