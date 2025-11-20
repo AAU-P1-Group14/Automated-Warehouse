@@ -9,7 +9,7 @@ int horizontal_num() {
     for (int i = 0; i < WIDTH; i++) {
         if (i % 5 == 0) {
             if (first) {
-                printf("  %dx        ", i);
+                printf("  %d         ", i);
                 first = false;
             } else {
                 if (i > 9)
@@ -104,20 +104,14 @@ void print_array(int layout[HEIGHT][WIDTH]) {
 
 
 
-static bool verti = false;
+
 void print_num_array(int layout[HEIGHT][WIDTH]) {
 
-    static bool Hori = true;
-    if (Hori) {
         horizontal_num();
-        Hori=false;
-    }
 
     for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
     {
-        if (!verti) {
             vertical_num(y_row);
-        }
 
         for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
         {
@@ -142,5 +136,4 @@ void print_num_array(int layout[HEIGHT][WIDTH]) {
         }
         printf("\n"); // Go to the next row with a new-line
     }
-    verti=true;
 }

@@ -48,7 +48,6 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
             break;
         case 'n':
             validInput = 1;
-                print_array(layout);
             *target = (node){3,3};
             break;
 
