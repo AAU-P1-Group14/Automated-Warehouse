@@ -89,12 +89,9 @@ int bfs(
                 vis[adj.x][adj.y] = 1;
                 //grid[adjx][adjy] = visited;
 
-<<<<<<< Updated upstream
-                parent[adj.x][adj.y] = xy;
-=======
                 //Makes sure that when searching for adjecent grids their value is the parent grid.
-                parent[adj.x][adj.y] = (node){x,y};
->>>>>>> Stashed changes
+                parent[adj.x][adj.y] = xy;
+
             }
         }
     }
