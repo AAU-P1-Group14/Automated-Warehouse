@@ -9,12 +9,13 @@ int main(void) {
 
     init_array(layout);
 
-    int target_row = 0;
-    int target_col = 0;
+    node target = (node){0,0};
 
-    promptCustomShelf(layout,&target_row,&target_col);
+    promptCustomShelf(layout,&target);
 
-    bfs(layout, vis, target_row, target_col, 16, 4);
+    printf("%d, %d", target.x, target.y);
+
+    bfs(layout, vis, target, (node){16, 4});
 
     print_array(layout);
 

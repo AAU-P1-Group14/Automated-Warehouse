@@ -1,5 +1,7 @@
 #include <string.h>
 
+#include "types.h"
+
 //Get array length, return the number of elements in a static array.
 #define LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 
@@ -114,4 +116,8 @@ int cmp_string(const void *a, const void *b) {
     const char *x = *(const char **)a;
     const char *y = *(const char **)b;
     return strcmp(x, y);
+}
+
+int cmp_node(node a, node b) {
+    return a.x == b.x && a.y == b.y;
 }

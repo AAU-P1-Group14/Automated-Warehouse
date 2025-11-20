@@ -24,5 +24,6 @@ int get_index(const void *array, const void *target, const int size, int elem_si
 int cmp_int(const void *a, const void *b);
 int cmp_double(const void *a, const void *b);
 int cmp_string(const void *a, const void *b);
+int cmp_node(node a, node b);
 
 #endif
