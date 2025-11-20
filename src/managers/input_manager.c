@@ -47,8 +47,8 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
             input_target(layout, target);
             break;
         case 'n':
-            validInput = 1;
-            *target = (node){3,3};
+            random_target(layout, target);
+            validInput = input_validation(layout, *target);
             break;
 
         default:
@@ -58,7 +58,7 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
     }
 }
 
-void random_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col) {
+void random_target(int layout[HEIGHT][WIDTH], node* target) {
     // 2D array to store the coordinates of all shelves
     node shelf_arr[HEIGHT * WIDTH];
 
@@ -90,9 +90,8 @@ void random_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col) 
     int random_target = rand() % (shelf_counter + 1);
 
     // Choosing a random shelf (row and column)
-    *target_row = shelf_arr[random_target].y;
-    *target_col = shelf_arr[random_target].x;
+    target->y = shelf_arr[random_target].y;
+    target->x = shelf_arr[random_target].x;
 
-    if (!input_validation(layout, *target_row, *target_col)) printf("Invalid target: (%d, %d)!\n\n", *target_row, *target_col);
-    else printf("Target shelf: (%d, %d)\n", *target_row, *target_col);
+    printf("Target shelf: (%d, %d)\n", target->y, target->x);
 }
