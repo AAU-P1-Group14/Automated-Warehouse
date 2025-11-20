@@ -11,3 +11,9 @@ printArRay -> print_array
 
 Macros -> store bogstaver
 len -> LEN
+
+varibles -> små bogstaver (snake pattern)
+VLiNE -> v_line
+
+Defines -> store bogstaver (snake pattern)
+maxBranches -> MAX_BRANCHES

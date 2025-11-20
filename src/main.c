@@ -12,19 +12,16 @@ int main(void) {
     // Static 0-initialises
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
 
-
-
     for (int i = 0; i < 2; i++) {
         
         // Creating the layout in the array
         init_array(layout);
    
         // Creating target point
-        int target_row = 0;
-        int target_col = 0;
+        node target = {0,0};
         
         // Prompt the user to use a custom or pre-defined shelf
-        promptCustomShelf(layout,&target_row,&target_col);
+        promptCustomShelf(layout,&target);
 
 
 
@@ -33,33 +30,29 @@ int main(void) {
 
         switch (i) {
             case 0:
-   
-            // Path finding algorithm, changing the layout with a path to the target point
-            bfs(layout, target_row, target_col, 16, 4, &tiles_one);
+                // Path finding algorithm, changing the layout with a path to the target point
+                bfs(layout, target, (node){16, 4}, &tiles_one);
 
-            // Print the layout
-            print_array(layout);
+                // Print the layout
+                print_array(layout);
 
-            // Path finding algorithm, changing the layout with a path to the target point
-            bfs(layout, 16, 31, target_row, target_col, &tiles_two);
-  
+                // Path finding algorithm, changing the layout with a path to the target point
+                bfs(layout, (node){16, 31}, target, &tiles_two);
 
-            break;
+                break;
 
             case 1:
                 break;
-
 
             default:
                 break;
         }
                   
-            // Print the layout
-            print_array(layout);
+        // Print the layout
+        print_array(layout);
 
-            printf("Final route was %d tiles\n", tiles_one + tiles_two);
-
-}
+        printf("Final route was %d tiles\n", tiles_one + tiles_two);
+    }
     
     // Output for debug
     if (debug)
@@ -80,6 +73,3 @@ int main(void) {
 
     return 0;
 }
-
-
-
