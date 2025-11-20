@@ -7,7 +7,7 @@
 void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
         printf("Enter target (row col): ");
-        scanf("%d %d", &target->x, &target->y);
+        scanf("%d %d", &target->y, &target->x);
 
         int valid_target = input_validation(layout, *target);
         if (!valid_target){
@@ -19,10 +19,12 @@ void input_target(int layout[HEIGHT][WIDTH], node* target){
 
 int input_validation(int layout[HEIGHT][WIDTH], node target){
     if (target.y > HEIGHT || target.y < 0 || target.x > WIDTH || target.x < 0) {
+        printf("OUT OF BOUNDS");
         return 0;
     }
 
-    if (layout[target.x][target.y] != shelf && layout[target.x][target.y] != drop_off) {
+    if (layout[target.y][target.x] != shelf && layout[target.y][target.x] != drop_off) {
+        printf("NOT A SHELF");
         return 0;
     }
 
@@ -75,7 +77,7 @@ void random_target(int layout[HEIGHT][WIDTH], node* target) {
             // the shelf_arr and increase shelf_counter by 1;
             if (layout[row][col] == shelf)
             {
-                shelf_arr[shelf_counter] = (node){col, row};
+                shelf_arr[shelf_counter] = (node){row, col};
                 shelf_counter++;
             }
         }
@@ -90,8 +92,7 @@ void random_target(int layout[HEIGHT][WIDTH], node* target) {
     int random_target = rand() % (shelf_counter + 1);
 
     // Choosing a random shelf (row and column)
-    target->y = shelf_arr[random_target].y;
-    target->x = shelf_arr[random_target].x;
+    *target = shelf_arr[random_target];
 
     printf("Target shelf: (%d, %d)\n", target->y, target->x);
 }

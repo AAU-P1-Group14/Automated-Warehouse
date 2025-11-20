@@ -6,8 +6,8 @@
 #define MAX_BRANCHES 100
 
 typedef struct {
-    int x;
     int y;
+    int x;
 } node;
 
 // Using enum for the warehouse layout to make the code more readable
