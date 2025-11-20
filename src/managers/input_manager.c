@@ -1,5 +1,5 @@
 #include "input_manager.h"
-
+#include "array_manager.h"
 #include <stdbool.h>
 
 void input_target(int layout[HEIGHT][WIDTH], int* target_row, int* target_col){
@@ -36,6 +36,10 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], int* target_row, int* target_c
     {
         printf("Choose a custom shelf? y/n\n");
         scanf(" %c", &input);
+
+        if (input='y') {
+            print_array(layout);
+        }
 
         switch (input)
         {
