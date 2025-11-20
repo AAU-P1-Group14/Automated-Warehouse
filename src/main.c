@@ -57,7 +57,7 @@ int main(void) {
             // Print the layout
             print_array(layout);
 
-            printf("Final route was %d tiles", tiles_one + tiles_two);
+            printf("Final route was %d tiles\n", tiles_one + tiles_two);
 
 }
     

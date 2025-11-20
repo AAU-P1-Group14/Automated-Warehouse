@@ -37,18 +37,18 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], int* target_row, int* target_c
         printf("Choose a custom shelf? y/n\n");
         scanf(" %c", &input);
 
-        if (input='y') {
-            print_array(layout);
-        }
+
 
         switch (input)
         {
         case 'y':
             validInput = 1;
+                print_num_array(layout);
             input_target(layout, target_row, target_col);
             break;
         case 'n':
             validInput = 1;
+                print_array(layout);
             *target_row = 3;
             *target_col = 3;
             break;
