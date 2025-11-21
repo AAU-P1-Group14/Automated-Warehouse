@@ -14,7 +14,6 @@ void print_menu(int layout_selected) {
     printf("(3) Dynamic layout\n");
     printf("\n(0) Exit\n");
     printf("--------------------------------\n");
-
 }
 
 int select(int layout[HEIGHT][WIDTH], int* layout_selected) {
@@ -30,10 +29,8 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected) {
             return 1;
         }
 
-        else {
-            clear_terminal();
-            return 0;
-        };
+        clear_terminal();
+        return 0;
     
     case 2:
         clear_terminal();

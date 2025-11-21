@@ -1,5 +1,6 @@
 #include "input_manager.h"
 #include "array_manager.h"
+#include "../utility/misc.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
@@ -52,6 +53,8 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
     {
         printf("Choose a custom shelf? y/n\n");
         scanf(" %c", &input);
+
+        clear_terminal();
 
         switch (input)
         {
