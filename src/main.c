@@ -12,6 +12,9 @@ int main(void) {
     // Static 0-initialises
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
 
+    // Creating array that contains coordinates of the robot path
+    static node path[HEIGHT * WIDTH];
+
     for (int i = 0; i < 2; i++) {
         
         // Creating the layout in the array
@@ -26,16 +29,18 @@ int main(void) {
         // Input target in layout array
         layout[target_t.y][target_t.x] = target;
 
-        int tiles_one;
-        int tiles_two;
+        int tiles_one = 0;
+        int tiles_two = 0;
+
+        int tiles_len = tiles_one + tiles_two;
 
         switch (i) {
             case 0:
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, target_t, (node){16, 4}, &tiles_one);
+                bfs(layout, target_t, (node){16, 4}, &tiles_one, path, tiles_len);
 
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, (node){16, 31}, target_t, &tiles_two);
+                bfs(layout, (node){16, 31}, target_t, &tiles_two, path, tiles_len);
 
                 break;
 
@@ -47,7 +52,7 @@ int main(void) {
         }
                   
         // Print the layout
-        print_array(layout,false);
+        print_array(layout,true);
 
         // Reset layout array
         // Clear target
@@ -65,6 +70,8 @@ int main(void) {
         }
 
         printf("Final route was %d tiles\n", tiles_one + tiles_two);
+
+        print_array(layout,true);
     }
     
     // Output for debug

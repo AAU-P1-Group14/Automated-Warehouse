@@ -34,7 +34,9 @@ int bfs(
     int grid[HEIGHT][WIDTH],
     node target_t,
     node current,
-    int* tiles)
+    int* tiles,
+    node path[HEIGHT * WIDTH],
+    int path_len)
 {
 
     // Simple queue implementation using arrays
@@ -103,7 +105,7 @@ int bfs(
 
     // Backtrack ruten fra target til start
 
-    int path_len = 0;
+    //int path_len = 0;
 
     node child = target_t;
 

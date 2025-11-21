@@ -15,6 +15,6 @@ enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging, path_enum, t
 
 static int vis[HEIGHT][WIDTH];
 
-static node path[HEIGHT * WIDTH];
+
 
 #endif //AUTOMATED_WAREHOUSE_TYPES_H
