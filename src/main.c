@@ -51,12 +51,13 @@ int main(void) {
         // Print the layout
         print_array(layout,false);
 
-        clear_path(layout, path, tiles, target_t);
+        //Clears the path from the layout array
+        clear_path(layout, path, &tiles, target_t);
 
+        //Prints layout
         print_array(layout,false);
 
-
-
+        //Prints stats
         printf("Final route was %d tiles\n", tiles);
     }
     
