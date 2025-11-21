@@ -56,4 +56,7 @@ dkms.conf
 
 #CLion settings
 .idea/
+
+#Visual Studio Code
 /.vscode/
+/build/

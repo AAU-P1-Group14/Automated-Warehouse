@@ -7,27 +7,38 @@
 void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
         printf("Enter target (row col): ");
-        scanf("%d %d", &target->y, &target->x);
+
+        //We check how many inputs was successfully read from the input buffer.
+        int buffer = scanf(" %d %d", &target->y, &target->x);
+
+        //Magic that clears the scanf buffer, so that the inout doesn't stay.
+        //It does this by reading the charecters from stdin buffer until the new line.
+        while (getchar() != '\n');
+
+        if (buffer != 2) {
+            printf("INVALID INPUT.\n");
+            continue;
+        }
 
         int valid_target = input_validation(layout, *target);
-        if (!valid_target){
-            printf("Invalid target: Must be shelf or drop-off.\n\n");
+
+        if (valid_target){
+            break;
         }
-        else break;
     }
 }
 
 int input_validation(int layout[HEIGHT][WIDTH], node target){
     if (target.y > HEIGHT || target.y < 0 || target.x > WIDTH || target.x < 0) {
-        printf("OUT OF BOUNDS");
+        printf("OUT OF BOUNDS\n");
         return 0;
     }
 
     if (layout[target.y][target.x] != shelf && layout[target.y][target.x] != drop_off) {
-        printf("NOT A SHELF");
+        printf("NOT A SHELF\n");
         return 0;
     }
-
+    
     return 1;
 }
 
@@ -52,6 +63,7 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
         case 'n':
             random_target(layout, target);
             validInput = input_validation(layout, *target);
+            printf("TARGET: (%d, %d)\n\n", target->y, target->y);
             break;
 
         default:

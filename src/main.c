@@ -2,6 +2,7 @@
 #include "utility/misc.h"
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
+#include "managers/main_menu.h"
 
 int debug = 0;
 
@@ -11,14 +12,21 @@ int main(void) {
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
+    int break_loop = 0;
+    int layout_selected = 0;
+
+    // Start menu
+    clear_terminal();
+    while (!break_loop) {
+        print_menu(layout_selected);
+        break_loop = select(layout, &layout_selected);
+    }
+    clear_terminal();
 
     // Creating array that contains coordinates of the robot path
     static node path[HEIGHT * WIDTH];
 
     for (int i = 0; i < 2; i++) {
-        
-        // Creating the layout in the array
-        init_array(layout);
    
         // Creating target point
         node target_t = {0,0};
