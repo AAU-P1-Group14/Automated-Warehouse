@@ -1,4 +1,4 @@
-#include "bfs.h"
+#include "dfs.h"
 #include "../utility/misc.h"
 
 #define WIDTH 36
@@ -6,7 +6,7 @@
 #define MAX_BRANCHES 100
 
 
-bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
+bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target)
 {
     // If cell lies out of bounds
     if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
@@ -16,9 +16,10 @@ bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
     if (vis[current.y][current.x])
         return false;
 
+    // Check if target is reached
     if (cmp_node(current, target)) return true;
 
-    //"Is this cell blocked by a wall or a shelf? If yes → invalid (cannot move here)."
+    //Cant walk through shelves or walls
     switch (grid[current.y][current.x]) {
         case v_line: case h_line: case shelf:
             return false;
@@ -29,8 +30,8 @@ bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
 }
 
 
-// Function to perform the BFS traversal
-int bfs(
+// Function to perform the DFS traversal
+int dfs(
     int grid[HEIGHT][WIDTH],
     node target,
     node current,
@@ -38,8 +39,8 @@ int bfs(
 {
 
     // Simple queue implementation using arrays
-    node queue[HEIGHT * WIDTH];
-    int front = 0, back = 0;
+    node stack[HEIGHT * WIDTH];
+    int top = -1;
 
     // Direction vectors (op, højre, ned, venstre)
     int dRow[] = { -1, 0, 1, 0 };
@@ -57,8 +58,7 @@ int bfs(
 
     // Mark the starting cell as visited
     // and push it into the queue
-    queue[back] = current;
-    back++;
+    stack[++top] = current;
     vis[current.y][current.x] = 1;
 
     // (valgfrit) markér start i grid, hvis du vil
@@ -66,10 +66,9 @@ int bfs(
 
     // BFS
     int found = 0;
-    while (front < back) {
+    while (top >= 0) {
 
-        node yx = queue[front];
-        front++;
+        node yx = stack[top--];
 
         // Hvis vi har ramt målet, kan vi stoppe
         if (cmp_node(yx, target)) {
@@ -82,9 +81,8 @@ int bfs(
 
             node adj = {yx.y + dRow[i], yx.x + dCol[i]};
 
-            if (isValid(grid, adj, target)) {
-                queue[back] = adj;
-                back++;
+            if (isdfsValid(grid, adj, target)) {
+                stack[++top] = adj;
 
                 vis[adj.y][adj.x] = 1;
                 //grid[adjy][adjx] = visited;

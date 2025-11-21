@@ -11,4 +11,6 @@ add_executable(Automated-Warehouse src/main.c
         src/managers/input_manager.h
         src/managers/array_manager.c
         src/managers/array_manager.h
-        src/utility/Types.h)
+        src/utility/Types.h
+        src/algorithms/dfs.c
+        src/algorithms/dfs.h)
