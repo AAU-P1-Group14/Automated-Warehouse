@@ -1,4 +1,5 @@
 #include "algorithms/bfs.h"
+#include "algorithms/worst_case.h"
 #include "utility/misc.h"
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
@@ -37,13 +38,13 @@ int main(void) {
         switch (i) {
             case 0:
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, target, (node){16, 4}, &tiles_one);
-
+                //bfs(layout, target, (node){16, 4}, &tiles_one);
+                int found_worst_case = worst_case(layout, target, (node){16, 4});
                 // Print the layout
                 print_array(layout);
 
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, (node){16, 31}, target, &tiles_two);
+                //bfs(layout, (node){16, 31}, target, &tiles_two);
 
                 break;
 
