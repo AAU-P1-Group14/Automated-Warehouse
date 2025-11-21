@@ -1,5 +1,6 @@
 #include <string.h>
-
+#include <stdlib.h>
+#include <stdio.h>
 #include "types.h"
 
 //Get array length, return the number of elements in a static array.
@@ -78,7 +79,6 @@ int array_occur(const void *array, const void *target, const int size, int elem_
             sum++;
         }
     }
-
     return sum;
 }
 
@@ -100,7 +100,6 @@ int get_index(const void *array, const void *target, const int size, int elem_si
     return -1;
 }
 
-
 //------------ MISC HELP FUNCS -------------
 int cmp_int(const void *a, const void *b) {
     int x = *(const int *)a, y = *(const int *)b;
@@ -120,4 +119,18 @@ int cmp_string(const void *a, const void *b) {
 
 int cmp_node(node a, node b) {
     return a.x == b.x && a.y == b.y;
+}
+
+// Function to clear the terminal/console from previous outputs
+void clear_terminal(void) {
+    #ifdef _WIN32
+        system("cls");    // Good OS (Windows)
+    #else
+        system("clear");  // Bad OS (Mac)
+    #endif
+
+    // Fallback: Spam new lines
+    for (int i = 0; i < 50; ++i) {
+        printf("\n");
+    }
 }

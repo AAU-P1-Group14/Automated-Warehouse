@@ -25,5 +25,6 @@ int cmp_int(const void *a, const void *b);
 int cmp_double(const void *a, const void *b);
 int cmp_string(const void *a, const void *b);
 int cmp_node(node a, node b);
+void clear_terminal(void);
 
 #endif
