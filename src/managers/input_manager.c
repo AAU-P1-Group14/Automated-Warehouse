@@ -60,11 +60,10 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
         {
         case 'y':
             validInput = 1;
-                print_array(layout,true);
-            input_target(layout, target);
+
             break;
         case 'n':
-            random_target(layout, target);
+
             validInput = input_validation(layout, *target);
             printf("TARGET: (%d, %d)\n\n", target->y, target->y);
             break;
