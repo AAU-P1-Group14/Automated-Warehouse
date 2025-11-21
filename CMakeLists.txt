@@ -14,3 +14,6 @@ add_executable(Automated-Warehouse src/main.c
         src/utility/Types.h
         src/dynamic_warehouse_designer.c
         src/dynamic_warehouse_designer.h)
+        src/managers/main_menu.c
+        src/managers/main_menu.h
+        src/utility/Types.h)
