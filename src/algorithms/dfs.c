@@ -40,9 +40,11 @@ int dfs(
     int* tiles)
 {
 
-    // Simple queue implementation using arrays
+    /// We make an array for stack instead of queue.
+    /// stack is an array that will hold all nodes we might visit.
+    /// top = index of the top cell in the stack. ie the first one to check
     node stack[HEIGHT * WIDTH];
-    int top = -1;
+    int top = -1; /// it makes it start out empty, top is the current "top" of the stock
 
     // Direction vectors (op, højre, ned, venstre)
     int dRow[] = { -1, 0, 1, 0 };
@@ -57,20 +59,28 @@ int dfs(
             parent[r][c] = (node){-1, -1};
         }
     }
+    ///Tracks where we came from to reach each cell.
+    ///Needed to reconstruct the path after DFS finds the target.
 
-    // Mark the starting cell as visited
-    // and push it into the queue
+
+
+    ///++top → move top from -1 → 0, stack[0] = current → push start cell
     stack[++top] = current;
     vis[current.y][current.x] = 1;
+    /// Mark current as visited (vis[y][x] = 1)
+    /// DFS begins from here
 
-    // (valgfrit) markér start i grid, hvis du vil
-    // grid[row][col] = visited;
 
-    // BFS
+
+
+    // DFS
     int found = 0;
+    ///Check if the stack is empty (top >= 0). If it is empty → DFS is done.
+    ///Loop continues while stack is not empty.
     while (top >= 0) {
-
         node yx = stack[top--];
+        /// yx = current cell being explored (pop from top).
+        /// DFS explores the most recently added cell first → depth-first.
 
         // Hvis vi har ramt målet, kan vi stoppe
         if (cmp_node(yx, target)) {
@@ -82,15 +92,17 @@ int dfs(
         for (int i = 0; i < 4; i++) {
 
             node adj = {yx.y + dRow[i], yx.x + dCol[i]};
+            ///loops through all possible directions
 
             if (isdfsValid(grid, adj, target)) {
                 stack[++top] = adj;
+                /// if a cell is valid we push it onto the stack
 
                 vis[adj.y][adj.x] = 1;
-                //grid[adjy][adjx] = visited;
+                ///Mark visited → prevent loops.
 
-                //Makes sure that when searching for adjecent grids their value is the parent grid.
                 parent[adj.y][adj.x] = yx;
+                ///Set parent → needed to trace path back after DFS.
 
             }
         }
