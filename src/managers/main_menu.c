@@ -44,7 +44,7 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected) {
     case 3:
     // Lav dynamisk setup
         clear_terminal();
-        break;
+        return 0;
     
     case 0:
         exit(1);
