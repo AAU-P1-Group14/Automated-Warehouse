@@ -3,6 +3,7 @@
 #include "utility/misc.h"
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
+#include "managers/main_menu.h"
 
 int debug = 0;
 
@@ -12,11 +13,18 @@ int main(void) {
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
+    int break_loop = 0;
+    int layout_selected = 0;
+
+    // Start menu
+    clear_terminal();
+    while (!break_loop) {
+        print_menu(layout_selected);
+        break_loop = select(layout, &layout_selected);
+    }
+    clear_terminal();
 
     for (int i = 0; i < 2; i++) {
-        
-        // Creating the layout in the array
-        init_array(layout);
    
         // Creating target point
         node target = {0,0};
@@ -24,13 +32,13 @@ int main(void) {
         // Prompt the user to use a custom or pre-defined shelf
         promptCustomShelf(layout,&target);
 
-
-
         int tiles_one;
         int tiles_two;
 
         switch (i) {
             case 0:
+                clear_terminal();
+
                 // Path finding algorithm, changing the layout with a path to the target point
                 bfs(layout, target, (node){16, 4}, &tiles_one);
 
