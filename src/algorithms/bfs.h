@@ -6,6 +6,6 @@
 #include "../utility/types.h"
 
 bool isValid(int grid[HEIGHT][WIDTH], node current, node target);
-int bfs(int grid[HEIGHT][WIDTH],node target,node current,int* tiles);
+int bfs(int grid[HEIGHT][WIDTH],node target_t,node current,int* tiles);
 
 #endif //AUTOMATED_WAREHOUSE_BFS_H

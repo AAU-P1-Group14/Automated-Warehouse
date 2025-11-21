@@ -42,13 +42,11 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
         printf("Choose a custom shelf? y/n\n");
         scanf(" %c", &input);
 
-
-
         switch (input)
         {
         case 'y':
             validInput = 1;
-                print_num_array(layout);
+                print_array(layout,true);
             input_target(layout, target);
             break;
         case 'n':

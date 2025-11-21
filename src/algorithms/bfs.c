@@ -32,7 +32,7 @@ bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
 // Function to perform the BFS traversal
 int bfs(
     int grid[HEIGHT][WIDTH],
-    node target,
+    node target_t,
     node current,
     int* tiles)
 {
@@ -72,7 +72,7 @@ int bfs(
         front++;
 
         // Hvis vi har ramt målet, kan vi stoppe
-        if (cmp_node(yx, target)) {
+        if (cmp_node(yx, target_t)) {
             found = 1;
             break;
         }
@@ -82,7 +82,7 @@ int bfs(
 
             node adj = {yx.y + dRow[i], yx.x + dCol[i]};
 
-            if (isValid(grid, adj, target)) {
+            if (isValid(grid, adj, target_t)) {
                 queue[back] = adj;
                 back++;
 
@@ -97,15 +97,15 @@ int bfs(
     }
 
     if (!found) {
-        printf("Ingen vej fundet til (%d, %d)\n", target.y, target.x);
+        printf("Ingen vej fundet til (%d, %d)\n", target_t.y, target_t.x);
         return 0;
     }
 
     // Backtrack ruten fra target til start
-    node path[HEIGHT * WIDTH];
+
     int path_len = 0;
 
-    node child = target;
+    node child = target_t;
 
     while (!cmp_node(child, current)) {
         path[path_len] = child;
@@ -128,7 +128,7 @@ int bfs(
     // Print ruten fra start → target
     for (int i = path_len - 1; i >= 0; i--) {
         // printf("(%d, %d) ", path_row[i], path_col[i]);
-        if (!cmp_node(path[i], current) && !cmp_node(path[i], target)) {
+        if (!cmp_node(path[i], current) && !cmp_node(path[i], target_t)) {
             grid[path[i].y][path[i].x] = path_enum;
         }
     }
@@ -142,6 +142,8 @@ int bfs(
             vis[i][j] = 0;
         }
     }
+
+
 
     return 1;
 }
