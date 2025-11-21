@@ -1,10 +1,7 @@
 #include "array_manager.h"
 #include <stdbool.h>
 
-
-//delete this text
-
-int horizontal_num() {
+void horizontal_num() {
     bool first = true;
     for (int i = 0; i < WIDTH; i++) {
         if (i % 5 == 0) {
@@ -20,18 +17,15 @@ int horizontal_num() {
             }
         }
     printf("\n");
+}
+
+void vertical_num(const int y_row) {
+    if (y_row < 10) {
+        printf("%d ", y_row);
+    } else {
+        printf("%d", y_row);
     }
-
-
-int vertical_num(int y_row) {
-        if (y_row<10) {
-            printf("%d ",y_row);
-        } else {
-            printf("%d",y_row);
-        }
-    }
-
-
+}
 
 void init_array(int layout[HEIGHT][WIDTH]) {
 

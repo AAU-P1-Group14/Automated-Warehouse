@@ -41,6 +41,8 @@ int main(void) {
 
         switch (i) {
             case 0:
+                clear_terminal();
+
                 // Path finding algorithm, changing the layout with a path to the target point
                 bfs(layout, target_t, (node){16, 4}, &tiles, path);
 
