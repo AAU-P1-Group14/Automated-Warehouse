@@ -27,7 +27,7 @@ int input_validation(int layout[HEIGHT][WIDTH], node target){
         printf("NOT A SHELF");
         return 0;
     }
-
+    
     return 1;
 }
 
@@ -54,6 +54,7 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
         case 'n':
             random_target(layout, target);
             validInput = input_validation(layout, *target);
+            printf("TARGET: (%d, %d)\n\n", target->y, target->y);
             break;
 
         default:
