@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "types.h"
 
 //Get array length, return the number of elements in a static array.
@@ -122,7 +123,17 @@ int cmp_node(node a, node b) {
 }
 
 // Function to clear the terminal/console from previous outputs
-void clear_terminal() {
-    system("cls"); // Windows
-    system("clear"); // Mac & Linux
+void clear_screen(void) {
+    /* 1) ANSI escape-koder (virker i mange moderne terminaler) */
+    printf("\033[2J\033[H");
+    fflush(stdout);
+
+    /* 2) system("cls") – klassisk Windows cmd/powershell */
+    system("cls");
+
+    /* 3) system("clear") – hvis nogen kører via fx Git Bash eller WSL */
+    system("clear");
+
+    /* 4) conio.h's clrscr() – KUN hvis I rent faktisk har conio.h */
+    /* clrscr(); */
 }
