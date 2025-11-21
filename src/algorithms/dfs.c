@@ -6,6 +6,8 @@
 #define MAX_BRANCHES 100
 
 
+//delete this
+
 bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target)
 {
     // If cell lies out of bounds
