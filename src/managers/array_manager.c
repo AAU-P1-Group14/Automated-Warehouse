@@ -106,3 +106,24 @@ void print_array(int layout[HEIGHT][WIDTH], bool print_num) {
         printf("\n"); // Go to the next row with a new-line
     }
 }
+
+
+void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int tiles, node target_t) {
+
+    // Reset layout array
+    // Clear path in layout array and clear path node array
+    for (int i = 0; i < tiles; ++i)
+    {
+        //printf("i: %d\n", i);
+        //printf("Layout plads (y,x): %d\n", layout[path[i].y][path[i].x]);
+        //printf("path[i].y, path[i].x: %d,%d\n", path[i].y, path[i].x);
+        if (layout[path[i].y][path[i].x] != charging && layout[path[i].y][path[i].x] != drop_off) {
+            layout[path[i].y][path[i].x] = vacant;
+            path[i].y = 0;
+            path[i].x = 0;
+        }
+    }
+
+    layout[target_t.y][target_t.x] = shelf;
+
+}

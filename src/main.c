@@ -29,18 +29,15 @@ int main(void) {
         // Input target in layout array
         layout[target_t.y][target_t.x] = target;
 
-        int tiles_one = 0;
-        int tiles_two = 0;
-
-        int tiles_len = tiles_one + tiles_two;
+        int tiles = 0;
 
         switch (i) {
             case 0:
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, target_t, (node){16, 4}, &tiles_one, path, tiles_len);
+                bfs(layout, target_t, (node){16, 4}, &tiles, path);
 
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, (node){16, 31}, target_t, &tiles_two, path, tiles_len);
+                bfs(layout, (node){16, 31}, target_t, &tiles, path);
 
                 break;
 
@@ -52,26 +49,15 @@ int main(void) {
         }
                   
         // Print the layout
-        print_array(layout,true);
+        print_array(layout,false);
 
-        // Reset layout array
-        // Clear target
-        layout[target_t.y][target_t.x] = shelf;
+        clear_path(layout, path, tiles, target_t);
 
-        // Clear path in layout array and clear path node array
-        for (int i = 0; i < tiles_one+tiles_two; ++i)
-        {
-            printf("i: %d\n", i);
-            printf("Layout plads (y,x): %d\n", layout[path[i].y][path[i].x]);
-            printf("path[i].y, path[i].x: %d,%d\n", path[i].y, path[i].x);
-            layout[path[i].y][path[i].x] = vacant;
-            path[i].y = 0;
-            path[i].x = 0;
-        }
+        print_array(layout,false);
 
-        printf("Final route was %d tiles\n", tiles_one + tiles_two);
 
-        print_array(layout,true);
+
+        printf("Final route was %d tiles\n", tiles);
     }
     
     // Output for debug

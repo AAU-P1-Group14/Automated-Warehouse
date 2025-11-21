@@ -35,8 +35,7 @@ int bfs(
     node target_t,
     node current,
     int* tiles,
-    node path[HEIGHT * WIDTH],
-    int path_len)
+    node path[HEIGHT * WIDTH])
 {
 
     // Simple queue implementation using arrays
@@ -105,12 +104,12 @@ int bfs(
 
     // Backtrack ruten fra target til start
 
-    //int path_len = 0;
+    int path_len = 0;
 
     node child = target_t;
 
     while (!cmp_node(child, current)) {
-        path[path_len] = child;
+        path[*tiles+path_len] = child;
         path_len++;
 
         // Safety check hvis noget går galt
@@ -124,19 +123,19 @@ int bfs(
     }
 
     // Til sidst også startcellen
-    path[path_len] = current;
+    path[*tiles + path_len] = current;
     path_len++;
 
     // Print ruten fra start → target
     for (int i = path_len - 1; i >= 0; i--) {
         // printf("(%d, %d) ", path_row[i], path_col[i]);
-        if (!cmp_node(path[i], current) && !cmp_node(path[i], target_t)) {
-            grid[path[i].y][path[i].x] = path_enum;
+        if (!cmp_node(path[*tiles+i], current) && !cmp_node(path[*tiles+i], target_t)) {
+            grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
         }
     }
     printf("\n");
 
-    *tiles = path_len;
+    *tiles += path_len;
 
     for (int i = 0; i < HEIGHT; i++) {
 
