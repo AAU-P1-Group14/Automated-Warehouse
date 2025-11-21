@@ -1,4 +1,5 @@
 #include "algorithms/bfs.h"
+#include "algorithms/dfs.h"
 #include "utility/misc.h"
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
@@ -50,6 +51,17 @@ int main(void) {
                 break;
 
             case 1:
+                clear_terminal();
+
+                // Path finding algorithm, changing the layout with a path to the target point
+                dfs(layout, target, (node){16, 4}, &tiles_one);
+
+                // Print the layout
+                print_array(layout);
+
+                // Path finding algorithm, changing the layout with a path to the target point
+                dfs(layout, (node){16, 31}, target, &tiles_two);
+
                 break;
 
             default:
