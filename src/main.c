@@ -32,6 +32,18 @@ int main(void) {
         switch (i) {
             case 0:
                 // Path finding algorithm, changing the layout with a path to the target point
+                bfs(layout, target, (node){16, 4}, &tiles_one);
+
+                // Print the layout
+                print_array(layout);
+
+                // Path finding algorithm, changing the layout with a path to the target point
+                bfs(layout, (node){16, 31}, target, &tiles_two);
+
+                break;
+
+            case 1:
+                // Path finding algorithm, changing the layout with a path to the target point
                 dfs(layout, target, (node){16, 4}, &tiles_one);
 
                 // Print the layout
@@ -40,9 +52,6 @@ int main(void) {
                 // Path finding algorithm, changing the layout with a path to the target point
                 dfs(layout, (node){16, 31}, target, &tiles_two);
 
-                break;
-
-            case 1:
                 break;
 
             default:
