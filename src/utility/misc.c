@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "types.h"
+#include <unistd.h>
 
 //Get array length, return the number of elements in a static array.
 #define LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
@@ -123,11 +124,6 @@ int cmp_node(node a, node b) {
 
 // Function to clear the terminal/console from previous outputs
 void clear_terminal() {
-    // If running on a good OS (Windows)
-    #ifdef _WIN32
-        system("cls");
-    // If running on a bad OS (Mac)
-    #else
-        system("clear");
-    #endif
+    const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
 }
