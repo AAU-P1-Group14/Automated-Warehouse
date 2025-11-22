@@ -68,7 +68,7 @@ int dfs(
    // DFS begins from here
 
    // DFS
-   int found = 0;
+   int found = false;
    //Check if the stack is empty (top >= 0). If it is empty → DFS is done.
    //Loop continues while stack is not empty.
    while (top >= 0) {

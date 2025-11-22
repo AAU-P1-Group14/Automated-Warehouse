@@ -62,7 +62,7 @@ int bfs(
     vis[current.y][current.x] = 1;
 
     // BFS
-    int found = 0;
+    int found = false;
     while (front < back) {
 
         node yx = queue[front];

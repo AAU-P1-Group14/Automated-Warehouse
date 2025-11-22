@@ -31,11 +31,11 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     case 1:
         if (*layout_selected) {
             clear_terminal();
-            return 1;
+            return true;
         }
 
         clear_terminal();
-        return 0;
+        return false;
 
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
@@ -44,19 +44,19 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         input_target(layout, target);
         clear_terminal();
         *shelf_selected = 1;
-        return 0;
+        return false;
     
     case 3:
         clear_terminal();
         random_target(layout, target);
         *shelf_selected = 0;
-        return 0;
+        return false;
     
     case 4:
         clear_terminal();
         init_array(layout);
         *layout_selected = 1;
-        return 0;
+        return false;
     
     case 5:
         /*
@@ -64,7 +64,7 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         */
         clear_terminal();
         *layout_selected = 0;
-        return 0;
+        return false;
     
     case 0:
         exit(1);
@@ -73,6 +73,6 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         clear_terminal();
         while (getchar() != '\n');
         printf("INVALID INPUT\n");
-        return 0;
+        return false;
     }
 }

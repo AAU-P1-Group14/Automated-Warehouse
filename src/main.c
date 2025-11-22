@@ -7,7 +7,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-int debug = 0;
+int debug = false;
 
 int main(void) {
     // Initialising randomness for random target selection
@@ -18,14 +18,6 @@ int main(void) {
     // Static 0-initialises
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
 
-    int break_loop = 0;
-
-    // Setting layout (1: pre determined, 0: dynamic) 
-    int layout_selected = 1;
-
-    // Set shelf_selection (0: Random, 1: Custom)
-    int shelf_selection = 0;
-
     // Creating target point
     node target_t = {0,0};
 
@@ -33,11 +25,18 @@ int main(void) {
 
     random_target(layout, &target_t);
 
+    // Boolean var to define when to break the main menu
+    int break_main_menu = false;
+    // Setting layout (1: pre determined, 0: dynamic) 
+    int layout_selected = 1;
+    // Set shelf_selection (0: Random, 1: Custom)
+    int shelf_selection = 0;
+
     // Start menu
     clear_terminal();
-    while (!break_loop) {
+    while (!break_main_menu) {
         print_menu(layout_selected, shelf_selection, target_t);
-        break_loop = select(layout, &layout_selected, &shelf_selection, &target_t);
+        break_main_menu = select(layout, &layout_selected, &shelf_selection, &target_t);
     }
     clear_terminal();
 
@@ -72,9 +71,6 @@ int main(void) {
                 print_array(layout, false);
                 printf("\nFinal route for BFS was %d tiles\n\n\n", tiles_bfs);
 
-                //Clears the path from the layout array
-                clear_path(layout, path, &tiles_bfs, target_t);
-
                 break;
 
             case 1:
@@ -96,15 +92,14 @@ int main(void) {
                 printf("DFS algorithm:\n");
                 print_array(layout, false);
                 printf("\nFinal route for DFS was %d tiles\n", tiles_dfs);
-                
-                //Clears the path from the layout array
-                clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
 
             default:
                 break;
         }
+        //Clears the path from the layout array
+        clear_path(layout, path, &tiles_bfs, target_t);
     }
     
     // Output for debug
