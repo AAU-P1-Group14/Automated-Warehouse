@@ -44,50 +44,67 @@ int main(void) {
     // Creating array that contains coordinates of the robot path
     static node path[HEIGHT * WIDTH];
 
-    for (int i = 0; i < 1; i++) {
+    printf("TARGET SHELF: (%d, %d)\n\n", target_t.y, target_t.x);
+    for (int i = 0; i < 2; i++) {
 
         // Input target in layout array
         layout[target_t.y][target_t.x] = target;
 
-        int tiles = 0;
+        int tiles_bfs = 0;
+        int tiles_dfs = 0;
 
         switch (i) {
             case 0:
+                // BFS Path finding algorithm, adding the path from charging station to target
+                int valid_bfs_1 = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
+                if (!valid_bfs_1) {
+                    printf("\nUnknown error in BFS to target\n");
+                    continue;
+                }
+                // BFS Path finding algorithm, adding the path from target station to drop-off
+                int valid_bfs_2 = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path);
+                if (!valid_bfs_2) {
+                    printf("\nUnknown error in BFS to drop-off\n");
+                    continue;
+                }
+                // Print out the result from BFS
+                printf("BFS algorithm:\n");
+                print_array(layout, false);
+                printf("\nFinal route for BFS was %d tiles\n\n\n", tiles_bfs);
 
-                // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, target_t, (node){16, 4}, &tiles, path);
-
-                // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, (node){16, 31}, target_t, &tiles, path);
+                //Clears the path from the layout array
+                clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
 
             case 1:
-                clear_terminal();
+                // DFS Path finding algorithm, adding the path from charging station to target
+                int valid_dfs_1 = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
+                
+                if (!valid_dfs_1) {
+                    printf("\nUnknown error in DFS to target\n");
+                    continue;
+                }
+                // DFS Path finding algorithm, adding the path from target station to drop-off
+                int valid_dfs_2 = dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
+                if (!valid_dfs_2) {
+                    printf("\nUnknown error in DFS to drop-off\n");
+                    continue;
+                }
 
-                // Path finding algorithm, changing the layout with a path to the target point
-                dfs(layout, target, (node){16, 4}, &tiles_one);
-
-                // Print the layout
-                print_array(layout);
-
-                // Path finding algorithm, changing the layout with a path to the target point
-                dfs(layout, (node){16, 31}, target, &tiles_two);
+                // Print out the result from BFS
+                printf("DFS algorithm:\n");
+                print_array(layout, false);
+                printf("\nFinal route for DFS was %d tiles\n", tiles_dfs);
+                
+                //Clears the path from the layout array
+                clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
 
             default:
                 break;
         }
-                  
-        // Print the layout
-        print_array(layout,false);
-
-        //Prints stats
-        printf("Final route was %d tiles\n", tiles);
-
-        //Clears the path from the layout array
-        clear_path(layout, path, &tiles, target_t);
     }
     
     // Output for debug
@@ -104,7 +121,6 @@ int main(void) {
     }
   
     // When running in external console, the program only closes after enter is pressed
-    getchar();
     getchar();
 
     return 0;

@@ -1,8 +1,4 @@
 #include "input_manager.h"
-#include "array_manager.h"
-#include "../utility/misc.h"
-#include <stdbool.h>
-#include <stdlib.h>
 
 void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
@@ -31,46 +27,15 @@ void input_target(int layout[HEIGHT][WIDTH], node* target){
 int input_validation(int layout[HEIGHT][WIDTH], node target){
     if (target.y > HEIGHT || target.y < 0 || target.x > WIDTH || target.x < 0) {
         printf("OUT OF BOUNDS\n");
-        return 0;
+        return false;
     }
 
     if (layout[target.y][target.x] != shelf && layout[target.y][target.x] != drop_off) {
         printf("NOT A SHELF\n");
-        return 0;
+        return false;
     }
     
-    return 1;
-}
-
-void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
-{
-    char input;
-    bool validInput = 0;
-
-    while (validInput == 0)
-    {
-        printf("Choose a custom shelf? y/n\n");
-        scanf(" %c", &input);
-
-        clear_terminal();
-
-        switch (input)
-        {
-        case 'y':
-            validInput = 1;
-
-            break;
-        case 'n':
-
-            validInput = input_validation(layout, *target);
-            printf("TARGET: (%d, %d)\n\n", target->y, target->y);
-            break;
-
-        default:
-            printf("Invalid input\n");
-            break;
-        }
-    }
+    return false;
 }
 
 void random_target(int layout[HEIGHT][WIDTH], node* target) {
