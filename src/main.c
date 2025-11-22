@@ -4,49 +4,61 @@
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
 #include "managers/main_menu.h"
+#include <time.h>
+#include <stdlib.h>
 
 int debug = 0;
 
 int main(void) {
+    // Initialising randomness for random target selection
+    srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
     static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
+
     int break_loop = 0;
-    int layout_selected = 0;
+
+    // Setting layout (1: pre determined, 0: dynamic) 
+    int layout_selected = 1;
+
+    // Set shelf_selection (0: Random, 1: Custom)
+    int shelf_selection = 0;
+
+    // Creating target point
+    node target_t = {0,0};
+
+    init_array(layout);
+
+    random_target(layout, &target_t);
 
     // Start menu
     clear_terminal();
     while (!break_loop) {
-        print_menu(layout_selected);
-        break_loop = select(layout, &layout_selected);
+        print_menu(layout_selected, shelf_selection, target_t);
+        break_loop = select(layout, &layout_selected, &shelf_selection, &target_t);
     }
     clear_terminal();
 
-    for (int i = 0; i < 2; i++) {
-   
-        // Creating target point
-        node target = {0,0};
-        
-        // Prompt the user to use a custom or pre-defined shelf
-        promptCustomShelf(layout,&target);
+    // Creating array that contains coordinates of the robot path
+    static node path[HEIGHT * WIDTH];
 
-        int tiles_one;
-        int tiles_two;
+    for (int i = 0; i < 1; i++) {
+
+        // Input target in layout array
+        layout[target_t.y][target_t.x] = target;
+
+        int tiles = 0;
 
         switch (i) {
             case 0:
-                clear_terminal();
 
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, target, (node){16, 4}, &tiles_one);
-
-                // Print the layout
-                print_array(layout);
+                bfs(layout, target_t, (node){16, 4}, &tiles, path);
 
                 // Path finding algorithm, changing the layout with a path to the target point
-                bfs(layout, (node){16, 31}, target, &tiles_two);
+                bfs(layout, (node){16, 31}, target_t, &tiles, path);
 
                 break;
 
@@ -69,9 +81,13 @@ int main(void) {
         }
                   
         // Print the layout
-        print_array(layout);
+        print_array(layout,false);
 
-        printf("Final route was %d tiles\n", tiles_one + tiles_two);
+        //Prints stats
+        printf("Final route was %d tiles\n", tiles);
+
+        //Clears the path from the layout array
+        clear_path(layout, path, &tiles, target_t);
     }
     
     // Output for debug

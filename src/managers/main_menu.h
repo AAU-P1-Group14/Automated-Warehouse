@@ -2,9 +2,10 @@
 #define AUTOMATED_WAREHOUSE_MAIN_MENU_H
 
 #include <stdio.h>
+#include "../utility/types.h"
 
-void print_menu();
-int select();
+void print_menu(int layout_selected, int shelf_selection, node target);
+int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target);
 
 
 #endif //AUTOMATED_WAREHOUSE_MAIN_MENU_H

@@ -3,7 +3,6 @@
 #include "../utility/misc.h"
 #include <stdbool.h>
 #include <stdlib.h>
-#include <time.h>
 
 void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
@@ -47,7 +46,6 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
 {
     char input;
     bool validInput = 0;
-    srand(time(NULL));
 
     while (validInput == 0)
     {
@@ -60,11 +58,10 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
         {
         case 'y':
             validInput = 1;
-                print_num_array(layout);
-            input_target(layout, target);
+
             break;
         case 'n':
-            random_target(layout, target);
+
             validInput = input_validation(layout, *target);
             printf("TARGET: (%d, %d)\n\n", target->y, target->y);
             break;
@@ -109,6 +106,4 @@ void random_target(int layout[HEIGHT][WIDTH], node* target) {
 
     // Choosing a random shelf (row and column)
     *target = shelf_arr[random_target];
-
-    printf("Target shelf: (%d, %d)\n", target->y, target->x);
 }
