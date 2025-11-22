@@ -106,6 +106,4 @@ void random_target(int layout[HEIGHT][WIDTH], node* target) {
 
     // Choosing a random shelf (row and column)
     *target = shelf_arr[random_target];
-
-    printf("Target shelf: (%d, %d)\n", target->y, target->x);
 }
