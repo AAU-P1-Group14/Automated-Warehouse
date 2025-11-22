@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "../utility/types.h"
+#include "../utility/misc.h"
 
 
 // Check if a node is valid to visit

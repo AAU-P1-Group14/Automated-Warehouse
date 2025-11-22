@@ -2,7 +2,11 @@
 #define AUTOMATED_WAREHOUSE_INPUT_MANAGEMENT_H
 
 #include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include "../utility/types.h"
+#include "array_manager.h"
+#include "../utility/misc.h"
 
 
 int input_validation(int layout[HEIGHT][WIDTH], node target);

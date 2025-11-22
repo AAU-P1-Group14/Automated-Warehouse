@@ -1,6 +1,10 @@
 #ifndef FUNCS
 #define FUNCS
 
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "types.h"
 
 #define LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 int max_int(const int array[], const int size);

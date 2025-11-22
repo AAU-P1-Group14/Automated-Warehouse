@@ -1,24 +1,23 @@
 #include "main_menu.h"
-#include "array_manager.h"
-#include "../utility/misc.h"
-#include <stdlib.h>
-
-#include "input_manager.h"
 
 
 void print_menu(int layout_selected, int shelf_selection, node target) {
-    if (shelf_selection) printf("> Shelf: Custom (%d, %d)\n", target.y, target.x);
-    else printf("> Shelf: Random\n");
+    if (shelf_selection) printf("> Target shelf: Custom (%d, %d)\n", target.y, target.x);
+    else printf("> Target shelf: Random\n");
 
     if (layout_selected) printf("> Layout: Predefined\n");
     else printf("> Layout: Dynamic\n");
 
     printf("\n--------------------------------\n");
-    printf("(1) Start simulation\n");
-    printf("(2) Custom shelf\n");
-    printf("(3) Predefined layout\n");
-    printf("(4) Dynamic layout\n");
-    printf("\n(0) Exit\n");
+    printf("(1) Start simulation\n\n");
+
+    printf("(2) Custom target\n");
+    printf("(3) Random target\n\n");
+
+    printf("(4) Predefined layout\n");
+    printf("(5) Dynamic layout\n\n");
+
+    printf("(0) Exit\n");
     printf("--------------------------------\n");
 }
 
@@ -49,11 +48,17 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     
     case 3:
         clear_terminal();
+        random_target(layout, target);
+        *shelf_selected = 0;
+        return 0;
+    
+    case 4:
+        clear_terminal();
         init_array(layout);
         *layout_selected = 1;
         return 0;
     
-    case 4:
+    case 5:
         /*
         TODO: TILFØJ DYNAMISK LAYOUT EDITOR
         */

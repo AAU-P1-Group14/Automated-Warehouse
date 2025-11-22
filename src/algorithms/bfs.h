@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "../utility/types.h"
+#include "../utility/misc.h"
 
 bool isValid(int grid[HEIGHT][WIDTH], node current, node target);
 int bfs(int grid[HEIGHT][WIDTH],node target_t,node current,int* tiles,node path[HEIGHT * WIDTH]);
