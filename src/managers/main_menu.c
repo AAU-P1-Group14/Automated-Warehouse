@@ -6,14 +6,12 @@
 #include "input_manager.h"
 
 
-void print_menu(int layout_selected, int shelf_selection) {
-    if (layout_selected == 1) printf("Default layout selected\n");
-    else if (layout_selected) printf("Layout selected\n");
-    else printf("No layout selected\n");
+void print_menu(int layout_selected, int shelf_selection, node target) {
+    if (shelf_selection) printf("> Shelf: Custom (%d, %d)\n", target.y, target.x);
+    else printf("> Shelf: Random\n");
 
-    if (shelf_selection == 0) printf("Random shelf selected\n");
-    else if (shelf_selection == 1) printf("Custom shelf selected\n");
-    else printf("No layout selected\n");
+    if (layout_selected) printf("> Layout: Predefined\n");
+    else printf("> Layout: Dynamic\n");
 
     printf("\n--------------------------------\n");
     printf("(1) Start simulation\n");
@@ -24,7 +22,7 @@ void print_menu(int layout_selected, int shelf_selection) {
     printf("--------------------------------\n");
 }
 
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, node* target) {
+int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target) {
     int chosen;
     printf("\n\nChoose: ");
     scanf(" %d", &chosen);
@@ -45,7 +43,9 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, node* target) {
         clear_terminal();
         print_array(layout,true);
         input_target(layout, target);
-        break;
+        clear_terminal();
+        *shelf_selected = 1;
+        return 0;
     
     case 3:
         clear_terminal();
@@ -54,8 +54,11 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, node* target) {
         return 0;
     
     case 4:
-    // Lav dynamisk setup
+        /*
+        TODO: TILFØJ DYNAMISK LAYOUT EDITOR
+        */
         clear_terminal();
+        *layout_selected = 0;
         return 0;
     
     case 0:

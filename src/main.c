@@ -15,10 +15,10 @@ int main(void) {
 
     int break_loop = 0;
 
-    // Setting default layout to 1
+    // Setting layout (1: pre determined, 0: dynamic) 
     int layout_selected = 1;
 
-    // Set shelf_selection for random shelf
+    // Set shelf_selection (0: Random, 1: Custom)
     int shelf_selection = 0;
 
     // Creating target point
@@ -31,8 +31,8 @@ int main(void) {
     // Start menu
     clear_terminal();
     while (!break_loop) {
-        print_menu(layout_selected, shelf_selection);
-        break_loop = select(layout, &layout_selected, &target_t);
+        print_menu(layout_selected, shelf_selection, target_t);
+        break_loop = select(layout, &layout_selected, &shelf_selection, &target_t);
     }
     clear_terminal();
 
