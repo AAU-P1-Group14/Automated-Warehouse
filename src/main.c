@@ -3,10 +3,14 @@
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
 #include "managers/main_menu.h"
+#include <time.h>
+#include <stdlib.h>
 
 int debug = 0;
 
 int main(void) {
+    // Initialising randomness for random target selection
+    srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout

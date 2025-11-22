@@ -3,7 +3,6 @@
 #include "../utility/misc.h"
 #include <stdbool.h>
 #include <stdlib.h>
-#include <time.h>
 
 void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
@@ -47,7 +46,6 @@ void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target)
 {
     char input;
     bool validInput = 0;
-    srand(time(NULL));
 
     while (validInput == 0)
     {
