@@ -11,9 +11,9 @@ add_executable(Automated-Warehouse src/main.c
         src/managers/input_manager.h
         src/managers/array_manager.c
         src/managers/array_manager.h
-        src/utility/Types.h
-        src/dynamic_warehouse_designer.c
-        src/dynamic_warehouse_designer.h)
         src/managers/main_menu.c
         src/managers/main_menu.h
-        src/utility/Types.h)
+        src/utility/Types.h
+        "src/layout designer/dynamic_warehouse_designer.c"
+        "src/layout designer/dynamic_warehouse_designer.h")
+

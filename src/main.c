@@ -7,7 +7,7 @@
 int debug = 0;
 
 int main(void) {
-  
+
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
