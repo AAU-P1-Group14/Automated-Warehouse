@@ -9,7 +9,6 @@
 
 
 
-//delete this
 
 
 bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target)
