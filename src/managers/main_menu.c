@@ -1,12 +1,13 @@
 #include "main_menu.h"
 
 
-void print_menu(int layout_selected, int shelf_selection, node target) {
+void print_menu(int layout_selected, int shelf_selection, node target, int bench) {
     if (shelf_selection) printf("> Target shelf: Custom (%d, %d)\n", target.y, target.x);
     else printf("> Target shelf: Random\n");
 
     if (layout_selected) printf("> Layout: Predefined\n");
     else printf("> Layout: Dynamic\n");
+    printf("> Benches: %d\n", bench);
 
     printf("\n--------------------------------\n");
     printf("(1) Start simulation\n\n");
@@ -17,11 +18,13 @@ void print_menu(int layout_selected, int shelf_selection, node target) {
     printf("(4) Predefined layout\n");
     printf("(5) Dynamic layout\n\n");
 
+    printf("(6) Select benches\n\n");
+
     printf("(0) Exit\n");
     printf("--------------------------------\n");
 }
 
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target) {
+int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench) {
     int chosen;
     printf("\n\nChoose: ");
     scanf(" %d", &chosen);
@@ -64,6 +67,11 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         */
         clear_terminal();
         *layout_selected = 0;
+        return false;
+
+    case 6:
+        clear_terminal();
+        select_bench(bench);
         return false;
     
     case 0:
