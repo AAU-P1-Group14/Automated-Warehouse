@@ -101,7 +101,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
-
+            }
             case 1:
                 int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
                 if (!dfs_valid) {
@@ -140,7 +140,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-
+            }
             default:
                 break;
         }
