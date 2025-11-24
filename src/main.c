@@ -54,6 +54,7 @@ int main(void) {
 
         switch (i) {
             case 0:
+            {
                 // BFS Path finding algorithm, adding the path from charging station to target
                 int valid_bfs_1 = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
                 if (!valid_bfs_1) {
@@ -75,8 +76,9 @@ int main(void) {
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
-
+            }
             case 1:
+            {
                 // DFS Path finding algorithm, adding the path from charging station to target
                 int valid_dfs_1 = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
                 if (!valid_dfs_1) {
@@ -100,7 +102,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-
+            }
             default:
                 break;
         }
@@ -120,6 +122,7 @@ int main(void) {
     }
   
     // When running in external console, the program only closes after enter is pressed
+    getchar();
     getchar();
 
     return 0;
