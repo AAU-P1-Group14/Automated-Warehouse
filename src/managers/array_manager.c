@@ -2,26 +2,26 @@
 #include <stdbool.h>
 
 void horizontal_num() {
-    bool first = true;
-    for (int i = 0; i < WIDTH; i++) {
-        if (i % 5 == 0) {
+    bool first = true;  // we make a bool
+    for (int i = 0; i < WIDTH; i++) { // Looping through all the coloumns in the layout array
+        if (i % 5 == 0) { //we only want every 5 number, because there wouldn't be room.
             if (first) {
                 printf("  %d         ", i);
-                first = false;
+                first = false;     //we use the bool here to format the first number ie 0 properly
             } else {
-                if (i > 9)
-                    printf(" %d       ", i);
+                if (i > 9)     // then every other number will be printed differently depending on
+                    printf(" %d       ", i); // whether they are above or below 9
                 else
                     printf("%d        ", i);
                 }
             }
         }
-    printf("\n");
+    printf("\n");  //also make a new line that the numbers can actually be on
 }
 
-void vertical_num(const int y_row) {
-    if (y_row < 10) {
-        printf("%d ", y_row);
+void vertical_num(const int y_row) {  // the vertical numbers are far more simple. we have y_row as parameter
+    if (y_row < 10) {            // then for each time we go down we print the next number
+        printf("%d ", y_row);  //if its below 10 we add a space for formatting
     } else {
         printf("%d", y_row);
     }
