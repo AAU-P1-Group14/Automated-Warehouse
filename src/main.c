@@ -121,6 +121,8 @@ int main(void) {
   
     // When running in external console, the program only closes after enter is pressed
     getchar();
+    getchar();
+
 
     return 0;
 }
