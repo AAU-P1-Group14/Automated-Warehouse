@@ -51,7 +51,7 @@ int main(void) {
 
     printf("TARGET SHELF: (%d, %d)\n", target_t.y, target_t.x);
     printf("BENCHES: (%d)\n\n", bench);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
 
         // Input target in layout array
         layout[target_t.y][target_t.x] = target;
@@ -66,14 +66,24 @@ int main(void) {
         switch (i) {
             case 0:
             {
+                clock_gettime(CLOCK_REALTIME, &timestamp1);
                 // Worst case algorithm (random movement)
                 tiles_worst_case = worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+
+                clock_gettime(CLOCK_REALTIME, &timestamp2);
+                long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+                long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+                long long passtime = passed - current;
 
                 // Print out the result from worst case
                 printf("Worst case algorithm:\n");
                 print_array(layout, false);
                 if (tiles_worst_case > 0) printf("\nFinal route for worst case was %d tiles\n\n\n", tiles_worst_case);
                 else printf("\nWorst case never reached target or drop-off\n\n\n");
+
+                printf("Total benches for worst case took %lld micros\n", passtime);
+                printf("Average route for worst case took %lld micros\n\n\n", passtime/bench);
 
                 //Clears the path from the layout array
                 force_clear_path(layout);
@@ -83,7 +93,7 @@ int main(void) {
             case 1:
             {
                 // BFS Path finding algorithm, adding the path from charging station to target
-                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
+                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, true);
                 if (!bfs_valid) continue;
 
                 bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, true);
@@ -116,7 +126,9 @@ int main(void) {
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
-            case 1:
+            }
+            case 2:
+            {
                 int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, true);
                 if (!dfs_valid) continue;
 
@@ -134,10 +146,10 @@ int main(void) {
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
-                current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
-                passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+                long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+                long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
-                passtime = passed - current;
+                long long passtime = passed - current;
 
                 // Print out the result from BFS
                 printf("DFS algorithm:\n");
@@ -150,7 +162,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-
+            }
             default:
                 break;
         }
