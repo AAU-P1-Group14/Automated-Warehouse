@@ -5,7 +5,7 @@
 #define MAX_BRANCHES 100
 
 
-bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
+bool bfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
 {
     // If cell lies out of bounds
     if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
@@ -27,16 +27,15 @@ bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
     return true;
 }
 
-
 // Function to perform the BFS traversal
 int bfs(
     int grid[HEIGHT][WIDTH],
     node target_t,
     node current,
     int* tiles,
-    node path[HEIGHT * WIDTH])
+    node path[HEIGHT * WIDTH],
+    bool addtiles)
 {
-
     // Simple queue implementation using arrays
     node queue[HEIGHT * WIDTH];
     int front = 0, back = 0;
@@ -64,7 +63,6 @@ int bfs(
     // BFS
     int found = false;
     while (front < back) {
-
         node yx = queue[front];
         front++;
 
@@ -77,7 +75,7 @@ int bfs(
 
             node adj = {yx.y + dRow[i], yx.x + dCol[i]};
 
-            if (isValid(grid, adj, target_t)) {
+            if (bfs_is_valid(grid, adj, target_t)) {
                 queue[back] = adj;
                 back++;
 
@@ -125,14 +123,15 @@ int bfs(
         }
     }
 
-    *tiles += path_len;
+    if (addtiles) {
+        *tiles += path_len;
+    }
 
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {
             vis[i][j] = 0;
         }
     }
-
     return true;
 }
 
