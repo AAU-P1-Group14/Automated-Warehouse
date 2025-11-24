@@ -4,7 +4,7 @@
 #define HEIGHT 19
 #define MAX_BRANCHES 100
 
-bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target)
+bool dfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
 {
    // If cell lies out of bounds
    if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
@@ -85,7 +85,7 @@ int dfs(
            node adj = {yx.y + dRow[i], yx.x + dCol[i]};
            //loops through all possible directions
 
-           if (isdfsValid(grid, adj, target)) {
+           if (dfs_is_valid(grid, adj, target)) {
                stack[++top] = adj;
                // if a cell is valid we push it onto the stack
 
@@ -143,8 +143,7 @@ int dfs(
            vis[i][j] = 0;
        }
    }
-
-   return true;
+    return true;
 }
 
 

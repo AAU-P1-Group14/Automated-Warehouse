@@ -60,9 +60,6 @@ int main(void) {
 
         switch (i) {
             case 0:
-                int valid_bfs_1;
-                int valid_bfs_2;
-
                 //Get the current time in micros
                 struct timespec timestamp1;
                 struct timespec timestamp2;
@@ -71,11 +68,10 @@ int main(void) {
 
                 for (int i = 0; i < bench; i++) {
                     // BFS Path finding algorithm, adding the path from charging station to target
-                    valid_bfs_1 = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
+                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
 
                     // BFS Path finding algorithm, adding the path from target station to drop-off
-
-                    valid_bfs_2 = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path);
+                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -83,11 +79,6 @@ int main(void) {
                 long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
                 long long passtime = passed - current;
-
-                if (!valid_bfs_1 && !valid_bfs_2) {
-                    printf("\nUnknown error in BFS to drop-off\n");
-                    continue;
-                }
 
                 // Print out the result from BFS
                 printf("BFS algorithm:\n");
@@ -102,17 +93,14 @@ int main(void) {
                 break;
 
             case 1:
-                int valid_dfs_1;
-                int valid_dfs_2;
-
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                 for (int i = 0; i < bench; i++) {
                     // DFS Path finding algorithm, adding the path from charging station to target
-                    valid_dfs_1 = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
+                    dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
 
                     // DFS Path finding algorithm, adding the path from target station to drop-off
-                    valid_dfs_2 = dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
+                    dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -120,11 +108,6 @@ int main(void) {
                 passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
                 passtime = passed - current;
-
-                if (!valid_dfs_1 && !valid_dfs_2) {
-                    printf("\nUnknown error in DFS to drop-off\n");
-                    continue;
-                }
 
                 // Print out the result from BFS
                 printf("DFS algorithm:\n");
