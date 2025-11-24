@@ -3,6 +3,7 @@
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
 #include "managers/main_menu.h"
+#include "layout designer/dynamic_warehouse_designer.h"
 
 int debug = 0;
 
