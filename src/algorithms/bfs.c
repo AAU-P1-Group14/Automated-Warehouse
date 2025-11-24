@@ -1,5 +1,4 @@
 #include "bfs.h"
-#include "../utility/misc.h"
 
 #define WIDTH 36
 #define HEIGHT 19
@@ -32,9 +31,10 @@ bool isValid(int grid[HEIGHT][WIDTH], node current, node target)
 // Function to perform the BFS traversal
 int bfs(
     int grid[HEIGHT][WIDTH],
-    node target,
+    node target_t,
     node current,
-    int* tiles)
+    int* tiles,
+    node path[HEIGHT * WIDTH])
 {
 
     // Simple queue implementation using arrays
@@ -45,7 +45,7 @@ int bfs(
     int dRow[] = { -1, 0, 1, 0 };
     int dCol[] = { 0, 1, 0, -1 };
 
-    // Forældre-arrays til backtracking
+    // Parent-array for backtracking
     node parent[HEIGHT][WIDTH];
 
     // Init parents til -1 (ingen forælder)
@@ -61,28 +61,23 @@ int bfs(
     back++;
     vis[current.y][current.x] = 1;
 
-    // (valgfrit) markér start i grid, hvis du vil
-    // grid[row][col] = visited;
-
     // BFS
-    int found = 0;
+    int found = false;
     while (front < back) {
 
         node yx = queue[front];
         front++;
 
-        // Hvis vi har ramt målet, kan vi stoppe
-        if (cmp_node(yx, target)) {
-            found = 1;
-            break;
-        }
+        // If target was hit, stop the loop
+        found = cmp_node(yx, target_t);
+        if (found) break;
 
         // Go to the adjacent cells
         for (int i = 0; i < 4; i++) {
 
             node adj = {yx.y + dRow[i], yx.x + dCol[i]};
 
-            if (isValid(grid, adj, target)) {
+            if (isValid(grid, adj, target_t)) {
                 queue[back] = adj;
                 back++;
 
@@ -97,52 +92,47 @@ int bfs(
     }
 
     if (!found) {
-        printf("Ingen vej fundet til (%d, %d)\n", target.y, target.x);
-        return 0;
+        printf("Ingen vej fundet til (%d, %d)\n", target_t.y, target_t.x);
+        return false;
     }
 
-    // Backtrack ruten fra target til start
-    node path[HEIGHT * WIDTH];
+    // Backtrack the path from target to start
     int path_len = 0;
 
-    node child = target;
+    node child = target_t;
 
     while (!cmp_node(child, current)) {
-        path[path_len] = child;
+        path[*tiles+path_len] = child;
         path_len++;
 
-        // Safety check hvis noget går galt
+        // Safety check if something goes wrong
         if (parent[child.y][child.x].y == -1 && parent[child.y][child.x].x == -1) {
             printf("Fejl under backtracking\n");
-            return 0;
+            return false;
         }
-
-
         child = parent[child.y][child.x];
     }
 
-    // Til sidst også startcellen
-    path[path_len] = current;
+    // At the end, also the start position
+    path[*tiles + path_len] = current;
     path_len++;
 
-    // Print ruten fra start → target
+    // Add the path in the warehouse layout
     for (int i = path_len - 1; i >= 0; i--) {
         // printf("(%d, %d) ", path_row[i], path_col[i]);
-        if (!cmp_node(path[i], current) && !cmp_node(path[i], target)) {
-            grid[path[i].y][path[i].x] = path_enum;
+        if (!cmp_node(path[*tiles+i], current) && !cmp_node(path[*tiles+i], target_t)) {
+            grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
         }
     }
-    printf("\n");
 
-    *tiles = path_len;
+    *tiles += path_len;
 
     for (int i = 0; i < HEIGHT; i++) {
-
         for (int j = 0; j < WIDTH; j++) {
             vis[i][j] = 0;
         }
     }
 
-    return 1;
+    return true;
 }
 

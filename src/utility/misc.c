@@ -1,7 +1,4 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "types.h"
+#include "misc.h"
 
 //Get array length, return the number of elements in a static array.
 #define LEN(arr) (sizeof(arr) / sizeof((arr)[0]))

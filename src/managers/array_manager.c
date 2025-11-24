@@ -1,27 +1,26 @@
 #include "array_manager.h"
-#include <stdbool.h>
 
 void horizontal_num() {
-    bool first = true;
-    for (int i = 0; i < WIDTH; i++) {
-        if (i % 5 == 0) {
+    bool first = true;  // we make a bool
+    for (int i = 0; i < WIDTH; i++) { // Looping through all the coloumns in the layout array
+        if (i % 5 == 0) { //we only want every 5 number, because there wouldn't be room.
             if (first) {
                 printf("  %d         ", i);
-                first = false;
+                first = false;     //we use the bool here to format the first number ie 0 properly
             } else {
-                if (i > 9)
-                    printf(" %d       ", i);
+                if (i > 9)     // then every other number will be printed differently depending on
+                    printf(" %d       ", i); // whether they are above or below 9
                 else
                     printf("%d        ", i);
                 }
             }
         }
-    printf("\n");
+    printf("\n");  //also make a new line that the numbers can actually be on
 }
 
-void vertical_num(const int y_row) {
-    if (y_row < 10) {
-        printf("%d ", y_row);
+void vertical_num(const int y_row) {  // the vertical numbers are far more simple. we have y_row as parameter
+    if (y_row < 10) {            // then for each time we go down we print the next number
+        printf("%d ", y_row);  //if its below 10 we add a space for formatting
     } else {
         printf("%d", y_row);
     }
@@ -62,62 +61,64 @@ void init_array(int layout[HEIGHT][WIDTH]) {
     layout[16][31] = drop_off; // Charging station is hardcoded to be at this spot
 }
 
-void print_array(int layout[HEIGHT][WIDTH]) {
+void print_array(int layout[HEIGHT][WIDTH], bool print_num) {
+
+    if (print_num)
+        horizontal_num();
+
     for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
     {
+        if (print_num)
+            vertical_num(y_row);
+
         for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (layout[y_row][x_col])
             {
                 case vacant: printf("  "); break; // If the element is vacant, print a blank space " "
 
-                case v_line: printf("| "); break; // If the element is v_line , print a vertical line "|"
+                case v_line: printf("| "); break; // If the element is v_line, print a vertical line "|"
 
-                case h_line: printf("--"); break; // If the element is h_line , print a  horizontal line "-"
+                case h_line: printf("--"); break; // If the element is h_line, print a  horizontal line "-"
 
-                case robot: printf("O "); break; // If the element is robot , print a "O"
+                case robot: printf("O "); break; // If the element is robot, print a "O"
 
-                case shelf: printf("X "); break; // If the element is shelf , print a "X"
+                case shelf: printf("X "); break; // If the element is shelf, print a "X"
 
-                case drop_off: printf("D "); break; // If the element is drop_off , print a "D"
+                case drop_off: printf("D "); break; // If the element is drop_off, print a "D"
 
-                case charging: printf("C "); break; // If the element is charging , print a "C"
+                case charging: printf("C "); break; // If the element is charging, print a "C"
 
-                case path_enum: printf("* "); break;
+                case path_enum: printf("* "); break; // If the element is on the path, print a "*"
+
+                case target: printf("T "); break; // If the element is a target, print a "T"
+
+                default: printf("? "); break; // If the element is undefined, print a "?"
             }
         }
         printf("\n"); // Go to the next row with a new-line
     }
 }
 
-void print_num_array(int layout[HEIGHT][WIDTH]) {
-    horizontal_num();
 
-    for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
+void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int* tiles, node target_t) {
+
+    // Reset layout array
+    // Clear path in layout array and clear path node array
+    for (int i = 0; i < *tiles; ++i)
     {
-        vertical_num(y_row);
-
-        for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
-        {
-            switch (layout[y_row][x_col])
-            {
-                case vacant: printf("  "); break; // If the element is vacant, print a blank space " "
-
-                case v_line: printf("| "); break; // If the element is v_line , print a vertical line "|"
-
-                case h_line: printf("--"); break; // If the element is h_line , print a  horizontal line "-"
-
-                case robot: printf("O "); break; // If the element is robot , print a "O"
-
-                case shelf: printf("X "); break; // If the element is shelf , print a "X"
-
-                case drop_off: printf("D "); break; // If the element is drop_off , print a "D"
-
-                case charging: printf("C "); break; // If the element is charging , print a "C"
-
-                case path_enum: printf("* "); break;
-            }
+        //printf("i: %d\n", i);
+        //printf("Layout plads (y,x): %d\n", layout[path[i].y][path[i].x]);
+        //printf("path[i].y, path[i].x: %d,%d\n", path[i].y, path[i].x);
+        if (layout[path[i].y][path[i].x] != charging && layout[path[i].y][path[i].x] != drop_off) {
+            layout[path[i].y][path[i].x] = vacant;
+            path[i].y = 0;
+            path[i].x = 0;
         }
-        printf("\n"); // Go to the next row with a new-line
     }
+
+    layout[target_t.y][target_t.x] = shelf;
+
+    *tiles = 0;
+
 }
