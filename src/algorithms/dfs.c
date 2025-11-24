@@ -36,7 +36,7 @@ int dfs(
    node target, // Target shelf
    node current, // Current position (start position)
    int* tiles, // Amount of files traveled
-   bool addtiles) // Should we count tiles
+   bool firstcase) // Should we count tiles
 {
 
    // We make an array for stack instead of queue.
@@ -133,11 +133,11 @@ int dfs(
    for (int i = path_len - 1; i >= 0; i--) {
        // printf("(%d, %d) ", path_row[i], path_col[i]);
        if (!cmp_node(path[i], current) && !cmp_node(path[i], target)) {
-           grid[path[i].y][path[i].x] = path_enum;
+           if (firstcase) grid[path[i].y][path[i].x] = path_enum;
        }
    }
 
-    if (addtiles) {
+    if (firstcase) {
         *tiles += path_len;
     }
 

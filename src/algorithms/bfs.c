@@ -34,7 +34,7 @@ int bfs(
     node current,
     int* tiles,
     node path[HEIGHT * WIDTH],
-    bool addtiles)
+    bool firstcase)
 {
     // Simple queue implementation using arrays
     node queue[HEIGHT * WIDTH];
@@ -119,11 +119,11 @@ int bfs(
     for (int i = path_len - 1; i >= 0; i--) {
         // printf("(%d, %d) ", path_row[i], path_col[i]);
         if (!cmp_node(path[*tiles+i], current) && !cmp_node(path[*tiles+i], target_t)) {
-            grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
+            if (firstcase) grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
         }
     }
 
-    if (addtiles) {
+    if (firstcase) {
         *tiles += path_len;
     }
 

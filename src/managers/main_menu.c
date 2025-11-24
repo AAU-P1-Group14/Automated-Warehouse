@@ -1,12 +1,14 @@
 #include "main_menu.h"
 
 
-void print_menu(int layout_selected, int shelf_selection, node target, int bench) {
-    if (shelf_selection) printf("> Target shelf: Custom (%d, %d)\n", target.y, target.x);
+void print_menu(int layout_selected, int shelf_selection, node target, int bench, bool procedural) {
+    if (procedural) printf("> Target shelf: Procedural\n");
+    else if (shelf_selection) printf("> Target shelf: Custom (%d, %d)\n", target.y, target.x);
     else printf("> Target shelf: Random\n");
 
     if (layout_selected) printf("> Layout: Predefined\n");
     else printf("> Layout: Dynamic\n");
+
     printf("> Benches: %d\n", bench);
 
     printf("\n--------------------------------\n");
@@ -24,7 +26,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench) {
+int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
     int chosen;
     printf("\n\nChoose: ");
     scanf(" %d", &chosen);
@@ -51,7 +53,9 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     
     case 3:
         clear_terminal();
-        random_target(layout, target);
+        prompt_procedural(procedural);
+        clear_terminal();
+        if (!procedural) *target = random_target(layout);
         *shelf_selected = 0;
         return false;
     

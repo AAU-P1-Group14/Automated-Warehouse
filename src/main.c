@@ -26,7 +26,7 @@ int main(void) {
 
     init_array(layout);
 
-    random_target(layout, &target_t);
+    target_t = random_target(layout);
 
     // Boolean var to define when to break the main menu
     int break_main_menu = false;
@@ -36,19 +36,22 @@ int main(void) {
     int shelf_selection = 0;
     //Number of benches
     int bench = 1;
+    //Should the targets be procedurally generated
+    bool procedural = 1;
 
     // Start menu
     clear_terminal();
     while (!break_main_menu) {
-        print_menu(layout_selected, shelf_selection, target_t, bench);
-        break_main_menu = select(layout, &layout_selected, &shelf_selection, &target_t, &bench);
+        print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
+        break_main_menu = select(layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
     }
     clear_terminal();
 
     // Creating array that contains coordinates of the robot path
     static node path[HEIGHT * WIDTH];
 
-    printf("TARGET SHELF: (%d, %d)\n", target_t.y, target_t.x);
+    if (!procedural) printf("TARGET SHELF: (%d, %d)\n", target_t.y, target_t.x);
+    else printf("TARGET SHELF: PROCEDURAL\n");
     printf("BENCHES: (%d)\n\n", bench);
     for (int i = 0; i < 2; i++) {
 
@@ -73,14 +76,32 @@ int main(void) {
                     continue;
                 }
 
-                clock_gettime(CLOCK_REALTIME, &timestamp1);
+                if (procedural) {
+                    node targets[bench];
 
-                for (int i = 0; i < bench; i++) {
-                    // BFS Path finding algorithm, adding the path from charging station to target
-                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, false);
+                    for (int i = 0; i < bench; i++) {
+                        targets[i] = random_target(layout);
+                    }
 
-                    // BFS Path finding algorithm, adding the path from target station to drop-off
-                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, false);
+                    clock_gettime(CLOCK_REALTIME, &timestamp1);
+
+                    for (int i = 0; i < bench; i++) {
+                        // BFS Path finding algorithm, adding the path from charging station to target
+                        bfs(layout, targets[i], (node){16, 4}, &tiles_bfs, path, false);
+
+                        // BFS Path finding algorithm, adding the path from target station to drop-off
+                        bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, path, false);
+                    }
+                } else {
+                    clock_gettime(CLOCK_REALTIME, &timestamp1);
+
+                    for (int i = 0; i < bench; i++) {
+                        // BFS Path finding algorithm, adding the path from charging station to target
+                        bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, false);
+
+                        // BFS Path finding algorithm, adding the path from target station to drop-off
+                        bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, false);
+                    }
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -111,14 +132,32 @@ int main(void) {
                     continue;
                 }
 
-                clock_gettime(CLOCK_REALTIME, &timestamp1);
+                if (procedural) {
+                    node targets[bench];
 
-                for (int i = 0; i < bench; i++) {
-                    // DFS Path finding algorithm, adding the path from charging station to target
-                    dfs(layout, target_t, (node){16, 4}, &tiles_dfs, false);
+                    for (int i = 0; i < bench; i++) {
+                        targets[i] = random_target(layout);
+                    }
 
-                    // DFS Path finding algorithm, adding the path from target station to drop-off
-                    dfs(layout, (node){16, 31}, target_t, &tiles_dfs, false);
+                    clock_gettime(CLOCK_REALTIME, &timestamp1);
+
+                    for (int i = 0; i < bench; i++) {
+                        // DFS Path finding algorithm, adding the path from charging station to target
+                        dfs(layout, targets[i], (node){16, 4}, &tiles_dfs, false);
+
+                        // DFS Path finding algorithm, adding the path from target station to drop-off
+                        dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, false);
+                    }
+                } else {
+                    clock_gettime(CLOCK_REALTIME, &timestamp1);
+
+                    for (int i = 0; i < bench-1; i++) {
+                        // DFS Path finding algorithm, adding the path from charging station to target
+                        dfs(layout, target_t, (node){16, 4}, &tiles_dfs, false);
+
+                        // DFS Path finding algorithm, adding the path from target station to drop-off
+                        dfs(layout, (node){16, 31}, target_t, &tiles_dfs, false);
+                    }
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
