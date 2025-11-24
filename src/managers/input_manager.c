@@ -35,7 +35,7 @@ int input_validation(int layout[HEIGHT][WIDTH], node target){
         return false;
     }
     
-    return false;
+    return true;
 }
 
 void random_target(int layout[HEIGHT][WIDTH], node* target) {

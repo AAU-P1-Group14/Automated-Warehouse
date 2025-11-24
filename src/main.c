@@ -71,16 +71,19 @@ int main(void) {
                 print_array(layout, false);
                 printf("\nFinal route for BFS was %d tiles\n\n\n", tiles_bfs);
 
+                //Clears the path from the layout array
+                clear_path(layout, path, &tiles_bfs, target_t);
+
                 break;
 
             case 1:
                 // DFS Path finding algorithm, adding the path from charging station to target
                 int valid_dfs_1 = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
-                
                 if (!valid_dfs_1) {
                     printf("\nUnknown error in DFS to target\n");
                     continue;
                 }
+
                 // DFS Path finding algorithm, adding the path from target station to drop-off
                 int valid_dfs_2 = dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
                 if (!valid_dfs_2) {
@@ -93,13 +96,14 @@ int main(void) {
                 print_array(layout, false);
                 printf("\nFinal route for DFS was %d tiles\n", tiles_dfs);
 
+                //Clears the path from the layout array
+                clear_path(layout, path, &tiles_dfs, target_t);
+
                 break;
 
             default:
                 break;
         }
-        //Clears the path from the layout array
-        clear_path(layout, path, &tiles_bfs, target_t);
     }
     
     // Output for debug
