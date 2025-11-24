@@ -88,8 +88,8 @@ int main(void) {
                 // Print out the result from worst case
                 printf("Worst case algorithm:\n");
                 print_array(layout, false);
-                if (tiles_worst_case_average > 0) printf("\nFinal route for worst case was average %d tiles\n\n\n", tiles_worst_case_average);
-                else printf("\nWorst case never reached target or drop-off\n\n\n");
+                if (tiles_worst_case_average > 0) printf("\nFinal route for worst case was average %d tiles\n\n", tiles_worst_case_average);
+                else printf("\nWorst case never reached target or drop-off\n\n");
 
                 printf("Total benches for worst case took %lld micros\n", passtime);
                 printf("Average route for worst case took %lld micros\n\n\n", passtime/bench);
