@@ -60,6 +60,16 @@ int main(void) {
 
         switch (i) {
             case 0:
+                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
+                if (!bfs_valid) {
+                    continue;
+                }
+
+                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path);
+                if (!bfs_valid) {
+                    continue;
+                }
+
                 //Get the current time in micros
                 struct timespec timestamp1;
                 struct timespec timestamp2;
@@ -93,6 +103,16 @@ int main(void) {
                 break;
 
             case 1:
+                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
+                if (!dfs_valid) {
+                    continue;
+                }
+
+                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
+                if (!dfs_valid) {
+                    continue;
+                }
+
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                 for (int i = 0; i < bench; i++) {
