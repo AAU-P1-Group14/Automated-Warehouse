@@ -91,7 +91,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
-
+            }
             case 1:
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
 
@@ -120,7 +120,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-
+            }
             default:
                 break;
         }
