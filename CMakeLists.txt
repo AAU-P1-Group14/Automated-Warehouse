@@ -15,4 +15,6 @@ add_executable(Automated-Warehouse src/main.c
         src/managers/main_menu.h
         src/utility/Types.h
         src/algorithms/dfs.c
-        src/algorithms/dfs.h)
+        src/algorithms/dfs.h
+        src/algorithms/worst_case.c
+        src/algorithms/worst_case.h)

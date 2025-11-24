@@ -1,35 +1,68 @@
 #include "worst_case.h"
 
-int worst_case(int layout[HEIGHT][WIDTH], node target, node position) {
+int worst_case(int layout[HEIGHT][WIDTH], node target, node dropoff, node position) {
     enum momentum {up, down, left, right};
     int found_target = 0;
     int found_dropoff = 0;
-    int momentum = left;
     int iterations = 0;
+    int tiles = 0;
 
-    while (iterations < 1000 || (found_dropoff && found_target)) {
+    while (iterations < 100000 && !(found_dropoff && found_target)) {
         iterations++;
-        if (momentum == left) {
-            if (layout[position.y][position.x - 1] != h_line && layout[position.y][position.x - 1] != shelf) {
-                position.x--;
-                update_and_check(layout, target, position, &found_target, &found_dropoff);
-            }
-            else {
-                if (layout[position.y + 1][position.x] != v_line && layout[position.y + 1][position.x] != shelf) {
-                    position.y++;
-                    momentum = up;
-                    update_and_check(layout, target, position, &found_target, &found_dropoff);
-                }
-            }
-        }
+        //printf("Iteration: %d\n", iterations);
+        //printf("Tiles: %d\n", tiles);
+        move_position(layout, &position, &tiles);
+        update_and_check(layout, target, dropoff, position, &found_target, &found_dropoff);
     }
-
-    return found_target && found_dropoff;
+    if (found_target && found_dropoff) return tiles;
+    else return 0;
 }
 
-void update_and_check(int layout[HEIGHT][WIDTH], node target, node position, int* found_target, int* found_dropoff) {
-    if (position.y != target.y && position.x != target.x){
-        layout[position.y][position.x] = path_enum;
+void move_position(int layout[HEIGHT][WIDTH], node* position, int* tiles) {
+    int random_direction = rand() % 4;
+
+    switch (random_direction) {
+    case 0:
+        if (layout[position->y][position->x - 1] != v_line &&
+            layout[position->y][position->x - 1] != shelf) {
+            position->x--;
+            (*tiles)++;
+        }
+        break;
+
+    case 1:
+        if (layout[position->y + 1][position->x] != h_line &&
+            layout[position->y + 1][position->x] != shelf) {
+            position->y++;
+            (*tiles)++;
+        }
+        break;
+
+    case 2:
+        if (layout[position->y - 1][position->x] != h_line &&
+            layout[position->y - 1][position->x] != shelf) {
+            position->y--;
+            (*tiles)++;
+        }
+        break;
+
+    case 3:
+        if (layout[position->y][position->x + 1] != v_line &&
+            layout[position->y][position->x + 1] != shelf) {
+            position->x++;
+            (*tiles)++;
+        }
+        break;
+    }
+}
+
+void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node position, int* found_target, int* found_dropoff) {
+    if (position.y != target.y || position.x != target.x){
+        if (position.y != dropoff.y || position.x != dropoff.x) {
+            if (position.y != 16 || position.x != 4){
+                layout[position.y][position.x] = path_enum;
+            }
+        }
     }
 
     if (!(*found_target)) {
@@ -37,7 +70,7 @@ void update_and_check(int layout[HEIGHT][WIDTH], node target, node position, int
     }
 
     if (*found_target && !(*found_dropoff)) {
-        check_if_dropoff(layout, target, position, found_dropoff);
+        check_if_dropoff(layout, dropoff, position, found_dropoff);
     }
 
 }

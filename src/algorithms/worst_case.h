@@ -9,8 +9,9 @@
 #include "../utility/misc.h"
 
 
-int worst_case(int layout[HEIGHT][WIDTH], node target, node position);
-void update_and_check(int layout[HEIGHT][WIDTH], node target, node position, int* found_target, int* found_dropoff);
+int worst_case(int layout[HEIGHT][WIDTH], node target, node dropoff, node position);
+void move_position(int layout[HEIGHT][WIDTH], node* position, int* tiles);
+void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node position, int* found_target, int* found_dropoff);
 void check_if_target(int layout[HEIGHT][WIDTH], node target, node position, int* found_target);
 void check_if_dropoff(int layout[HEIGHT][WIDTH], node dropoff, node position, int* found_dropoff);
 

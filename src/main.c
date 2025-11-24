@@ -1,5 +1,6 @@
 #include "algorithms/bfs.h"
 #include "algorithms/dfs.h"
+#include "algorithms/worst_case.h"
 #include "utility/misc.h"
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
@@ -44,7 +45,7 @@ int main(void) {
     static node path[HEIGHT * WIDTH];
 
     printf("TARGET SHELF: (%d, %d)\n\n", target_t.y, target_t.x);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 3; i++) {
 
         // Input target in layout array
         layout[target_t.y][target_t.x] = target;
@@ -54,6 +55,22 @@ int main(void) {
 
         switch (i) {
             case 0:
+            {
+                // Worst case algorithm
+                int tiles_worst_case = worst_case(layout, target_t, (node){16, 31}, (node){16, 4});
+
+                // Print out the result from worst case
+                printf("Worst case algorithm:\n");
+                print_array(layout, false);
+                if (tiles_worst_case > 0) printf("\nFinal route for worst case was %d tiles\n\n\n", tiles_worst_case);
+                else printf("\nWorst case never reached target or drop-off\n\n\n");
+
+                //Clears the path from the layout array
+                force_clear_path(layout);
+
+                break;
+            }
+            case 1:
             {
                 // BFS Path finding algorithm, adding the path from charging station to target
                 int valid_bfs_1 = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
@@ -77,7 +94,7 @@ int main(void) {
 
                 break;
             }
-            case 1:
+            case 2:
             {
                 // DFS Path finding algorithm, adding the path from charging station to target
                 int valid_dfs_1 = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
