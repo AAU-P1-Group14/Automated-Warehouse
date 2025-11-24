@@ -4,7 +4,7 @@
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
 #include "managers/main_menu.h"
-#include "layout designer/dynamic_warehouse_designer.h"
+#include "layout-designer/dynamic_warehouse_designer.h"
 #include <time.h>
 #include <stdlib.h>
 
@@ -12,7 +12,6 @@
 int debug = false;
 
 int main(void) {
-
     // Initialising randomness for random target selection
     srand(time(NULL));
   
