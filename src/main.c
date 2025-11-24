@@ -52,12 +52,13 @@ int main(void) {
 
         int tiles_bfs = 0;
         int tiles_dfs = 0;
+        int tiles_worst_case = 0;
 
         switch (i) {
             case 0:
             {
-                // Worst case algorithm
-                int tiles_worst_case = worst_case(layout, target_t, (node){16, 31}, (node){16, 4});
+                // Worst case algorithm (random movement)
+                tiles_worst_case = worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                 // Print out the result from worst case
                 printf("Worst case algorithm:\n");
