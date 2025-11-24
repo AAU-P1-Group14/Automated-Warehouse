@@ -4,7 +4,6 @@
 #define HEIGHT 19
 #define MAX_BRANCHES 100
 
-
 bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target)
 {
    // If cell lies out of bounds
