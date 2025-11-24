@@ -1,5 +1,4 @@
 #include "array_manager.h"
-#include <stdbool.h>
 
 void horizontal_num() {
     bool first = true;  // we make a bool
