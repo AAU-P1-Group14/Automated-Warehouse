@@ -61,14 +61,21 @@ int main(void) {
 
         int tiles_bfs = 0;
         int tiles_dfs = 0;
-        int tiles_worst_case = 0;
+        int tiles_worst_case_total = 0;
 
         switch (i) {
             case 0:
             {
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
                 // Worst case algorithm (random movement)
-                tiles_worst_case = worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                for (int i = 0; i < bench-1; i++) {
+                    tiles_worst_case_total += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                }
+                // One last run to store the path
+                force_clear_path(layout);
+                tiles_worst_case_total += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+
+                int tiles_worst_case_average = tiles_worst_case_total / bench;
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
                 long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
@@ -79,7 +86,7 @@ int main(void) {
                 // Print out the result from worst case
                 printf("Worst case algorithm:\n");
                 print_array(layout, false);
-                if (tiles_worst_case > 0) printf("\nFinal route for worst case was %d tiles\n\n\n", tiles_worst_case);
+                if (tiles_worst_case_average > 0) printf("\nFinal route for worst case was average %d tiles\n\n\n", tiles_worst_case_average);
                 else printf("\nWorst case never reached target or drop-off\n\n\n");
 
                 printf("Total benches for worst case took %lld micros\n", passtime);
