@@ -34,7 +34,8 @@ int dfs(
    int grid[HEIGHT][WIDTH], // The warehouse layout
    node target, // Target shelf
    node current, // Current position (start position)
-   int* tiles) // Amount of files traveled
+   int* tiles, // Amount of files traveled
+   bool addtiles) // Should we count tiles
 {
 
    // We make an array for stack instead of queue.
@@ -134,7 +135,7 @@ int dfs(
        }
    }
 
-    if (*tiles == 0) {
+    if (addtiles) {
         *tiles += path_len;
     }
 

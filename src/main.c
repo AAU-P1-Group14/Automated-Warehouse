@@ -55,33 +55,32 @@ int main(void) {
         // Input target in layout array
         layout[target_t.y][target_t.x] = target;
 
+        struct timespec timestamp1;
+        struct timespec timestamp2;
+
         int tiles_bfs = 0;
         int tiles_dfs = 0;
 
         switch (i) {
             case 0:
-                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
+                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, true);
                 if (!bfs_valid) {
                     continue;
                 }
 
-                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path);
+                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, true);
                 if (!bfs_valid) {
                     continue;
                 }
-
-                //Get the current time in micros
-                struct timespec timestamp1;
-                struct timespec timestamp2;
 
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                 for (int i = 0; i < bench; i++) {
                     // BFS Path finding algorithm, adding the path from charging station to target
-                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path);
+                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, false);
 
                     // BFS Path finding algorithm, adding the path from target station to drop-off
-                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path);
+                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, false);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -101,14 +100,13 @@ int main(void) {
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
-            }
             case 1:
-                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
+                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, true);
                 if (!dfs_valid) {
                     continue;
                 }
 
-                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
+                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs, true);
                 if (!dfs_valid) {
                     continue;
                 }
@@ -117,10 +115,10 @@ int main(void) {
 
                 for (int i = 0; i < bench; i++) {
                     // DFS Path finding algorithm, adding the path from charging station to target
-                    dfs(layout, target_t, (node){16, 4}, &tiles_dfs);
+                    dfs(layout, target_t, (node){16, 4}, &tiles_dfs, false);
 
                     // DFS Path finding algorithm, adding the path from target station to drop-off
-                    dfs(layout, (node){16, 31}, target_t, &tiles_dfs);
+                    dfs(layout, (node){16, 31}, target_t, &tiles_dfs, false);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -140,7 +138,7 @@ int main(void) {
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-            }
+
             default:
                 break;
         }

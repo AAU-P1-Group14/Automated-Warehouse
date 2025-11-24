@@ -33,7 +33,8 @@ int bfs(
     node target_t,
     node current,
     int* tiles,
-    node path[HEIGHT * WIDTH])
+    node path[HEIGHT * WIDTH],
+    bool addtiles)
 {
     // Simple queue implementation using arrays
     node queue[HEIGHT * WIDTH];
@@ -122,7 +123,7 @@ int bfs(
         }
     }
 
-    if (*tiles == 0) {
+    if (addtiles) {
         *tiles += path_len;
     }
 
