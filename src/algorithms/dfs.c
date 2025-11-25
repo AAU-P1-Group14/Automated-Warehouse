@@ -37,7 +37,7 @@ int dfs(
    node target, // Target shelf
    node current, // Current position (start position)
    int* tiles, // Amount of files traveled
-   int* total_tiles,
+   long long* total_tiles,
    bool firstcase) // Should we count tiles
 {
 

@@ -33,7 +33,7 @@ int bfs(
     node target_t,
     node current,
     int* tiles,
-    int* total_tiles,
+    long long* total_tiles,
     node path[HEIGHT * WIDTH],
     bool firstcase)
 {

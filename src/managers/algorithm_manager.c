@@ -4,9 +4,20 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
     // Creating array that contains coordinates of the robot path
     static node path[HEIGHT * WIDTH];
 
+    //node targets[bench];
+    node *targets = malloc(sizeof(node) * bench);
+    if (targets == NULL) printf("ERROR: malloc failed\n");
+
+    if (procedural) {
+        for (int i = 0; i < bench; i++) {
+            targets[i] = random_target(layout);
+        }
+    }
+
     if (!procedural) printf("TARGET SHELF: (%d, %d)\n", target_t.y, target_t.x);
     else printf("TARGET SHELF: PROCEDURAL\n");
     printf("BENCHES: (%d)\n\n", bench);
+
     for (int i = 0; i < 3; i++) {
 
         // Input target in layout array
@@ -17,14 +28,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
         int tiles_bfs = 0;
         int tiles_dfs = 0;
-        int total_tiles = 0;
-
-        node targets[bench];
-        if (procedural) {
-            for (int i = 0; i < bench; i++) {
-                targets[i] = random_target(layout);
-            }
-        }
+        long long total_tiles = 0;
 
         switch (i) {
             case 0:
@@ -32,7 +36,14 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 // Worst case algorithm (random movement)
                 for (int i = 0; i < bench; i++) {
                     total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+
+                    if (i % (bench / 10) == 0) {
+                        int progress = i * 100 / bench;
+                        printf("\rPROGRESS: %d%%", progress);
+                    }
                 }
+                printf("\r");
+
                 // One last run to store the path
                 force_clear_path(layout);
                 total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
@@ -76,7 +87,13 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, &total_tiles, path, false);
+
+                        if (i % (bench / 10) == 0) {
+                            int progress = i * 100 / bench;
+                            printf("\rPROGRESS: %d%%", progress);
+                        }
                     }
+                    printf("\r");
 
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -125,7 +142,13 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, &total_tiles, false);
+
+                        if (i % (bench / 10) == 0) {
+                            int progress = i * 100 / bench;
+                            printf("\rPROGRESS: %d%%", progress);
+                        }
                     }
+                    printf("\r");
 
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -163,6 +186,8 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 break;
         }
     }
+
+    free(targets);
 
     // Output for debug
     if (debug)
