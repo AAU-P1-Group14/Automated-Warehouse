@@ -1,5 +1,35 @@
 #include "input_manager.h"
 
+void prompt_procedural(bool* procedural) {
+    while (1) {
+        printf("Should the target be procedurally generated? (y/n) ");
+
+        char yn;
+
+        //We check how many inputs was successfully read from the input buffer.
+        int buffer = scanf(" %c", &yn);
+
+        //Magic that clears the scanf buffer, so that the inout doesn't stay.
+        //It does this by reading the charecters from stdin buffer until the new line.
+        while (getchar() != '\n');
+
+        if (buffer != 1) {
+            printf("INVALID INPUT.\n");
+            continue;
+        }
+
+        if (!(yn == 'y' || yn == 'n')) {
+            printf("INVALID INPUT -> MUST BE (y/n).\n");
+            continue;
+        }
+
+        if (yn == 'y') *procedural = true;
+        else *procedural = false;
+
+        break;
+    }
+}
+
 void select_bench(int* bench) {
     while (1) {
         printf("Enter benches (number): ");
@@ -57,7 +87,7 @@ int input_validation(int layout[HEIGHT][WIDTH], node target){
     return true;
 }
 
-void random_target(int layout[HEIGHT][WIDTH], node* target) {
+node random_target(int layout[HEIGHT][WIDTH]) {
     // 2D array to store the coordinates of all shelves
     node shelf_arr[HEIGHT * WIDTH];
 
@@ -82,12 +112,15 @@ void random_target(int layout[HEIGHT][WIDTH], node* target) {
 
     if (shelf_counter == 0) {
         printf("ERROR: No shelves was found!\n");
-        return;
+        return (node){-1, -1};
     }
 
     // Random number to choose a target
-    int random_target = rand() % (shelf_counter + 1);
+    int random_target = rand() % shelf_counter;
+
+    //Debugging
+    //printf("%d", layout[shelf_arr[random_target].y][shelf_arr[random_target].x]);
 
     // Choosing a random shelf (row and column)
-    *target = shelf_arr[random_target];
+    return shelf_arr[random_target];
 }

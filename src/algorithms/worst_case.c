@@ -14,7 +14,7 @@ int worst_case(int layout[HEIGHT][WIDTH], node target, node dropoff, node chargi
         update_and_check(layout, target, dropoff, charging, position, &found_target, &found_dropoff);
     }
     if (found_target && found_dropoff) return tiles;
-    else return 0;
+    return 0;
 }
 
 void move_position(int layout[HEIGHT][WIDTH], node* position, int* tiles) {
