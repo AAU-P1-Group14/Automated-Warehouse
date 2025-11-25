@@ -16,20 +16,20 @@
 int debug = false;
 
 int main(void) {
+
+    int height = 19;
+    int width = 36;
+
     // Initialising randomness for random target selection
     srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
-    static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
+    int layout[height][width]; // Creating an empty static 2D array to store the warehouse layout
 
     // Creating target point
     node target_t = {0,0};
-
-    init_array(layout);
-
-    random_target(layout, &target_t);
 
     // Boolean var to define when to break the main menu
     int break_main_menu = false;
@@ -44,12 +44,12 @@ int main(void) {
     clear_terminal();
     while (!break_main_menu) {
         print_menu(layout_selected, shelf_selection, target_t, bench);
-        break_main_menu = select(layout, &layout_selected, &shelf_selection, &target_t, &bench);
+        break_main_menu = select(height, width, layout, &layout_selected, &shelf_selection, &target_t, &bench);
     }
     clear_terminal();
 
     // Creating array that contains coordinates of the robot path
-    static node path[HEIGHT * WIDTH];
+    node path[height * width];
 
     printf("TARGET SHELF: (%d, %d)\n", target_t.y, target_t.x);
     printf("BENCHES: %d\n\n", bench);
@@ -74,7 +74,7 @@ int main(void) {
                     tiles_worst_case_total += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
                 }
                 // One last run to store the path
-                force_clear_path(layout);
+                force_clear_path(width, height, layout);
                 tiles_worst_case_total += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                 // Calculate the average tiles in each run
@@ -89,7 +89,7 @@ int main(void) {
 
                 // Print out the result from worst case
                 printf("Worst case algorithm:\n");
-                print_array(layout, false);
+                print_array(width, height, layout, false);
                 if (tiles_worst_case_average > 0) printf("\nFinal route for worst case was average %d tiles\n\n", tiles_worst_case_average);
                 else printf("\nWorst case never reached target or drop-off\n\n");
 
@@ -97,7 +97,7 @@ int main(void) {
                 printf("Average route for worst case took %lld micros\n\n\n", passtime/bench);
 
                 //Clears the path from the layout array
-                force_clear_path(layout);
+                force_clear_path(width, height, layout);
 
                 break;
             }
@@ -128,13 +128,13 @@ int main(void) {
 
                 // Print out the result from BFS
                 printf("BFS algorithm:\n");
-                print_array(layout, false);
+                print_array(width, height, layout, false);
                 printf("\nFinal route for BFS was %d tiles\n\n", tiles_bfs);
                 printf("Total benches for BFS took %lld micros\n", passtime);
                 printf("Average route for BFS took %lld micros\n\n\n", passtime/bench);
 
                 //Clears the path from the layout array
-                clear_path(layout, path, &tiles_bfs, target_t);
+                clear_path(width, height, layout, path, &tiles_bfs, target_t);
 
                 break;
             }
@@ -164,13 +164,13 @@ int main(void) {
 
                 // Print out the result from BFS
                 printf("DFS algorithm:\n");
-                print_array(layout, false);
+                print_array(width, height, layout, false);
                 printf("\nFinal route for DFS was %d tiles\n\n", tiles_dfs);
                 printf("Total benches for DFS took %lld micros\n", passtime);
                 printf("Average route for DFS took %lld micros\n\n\n", passtime/bench);
 
                 //Clears the path from the layout array
-                clear_path(layout, path, &tiles_dfs, target_t);
+                clear_path(width, height, layout, path, &tiles_dfs, target_t);
 
                 break;
             }

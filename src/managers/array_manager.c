@@ -1,8 +1,8 @@
 #include "array_manager.h"
 
-void horizontal_num() {
+void horizontal_num(int width) {
     bool first = true;  // we make a bool
-    for (int i = 0; i < WIDTH; i++) { // Looping through all the coloumns in the layout array
+    for (int i = 0; i < width; i++) { // Looping through all the coloumns in the layout array
         if (i % 5 == 0) { //we only want every 5 number, because there wouldn't be room.
             if (first) {
                 printf("  %d         ", i);
@@ -26,11 +26,18 @@ void vertical_num(const int y_row) {  // the vertical numbers are far more simpl
     }
 }
 
-void init_array(int layout[HEIGHT][WIDTH]) {
+void init_array(int layout[19][36]) {
+    const int height = 19;
+    const int width = 36;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            layout[i][j] = vacant;
+        }
+    }
 
-    for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
+    for (int y_row = 0; y_row < height; ++y_row) // Looping through all the rows in the layout array
     {
-        for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
+        for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (y_row)
             {
@@ -47,12 +54,12 @@ void init_array(int layout[HEIGHT][WIDTH]) {
                 }
                 break;
 
-            case 0: case HEIGHT-1: // At the first and last row, place horizontal lines at every coloum
+            case 0: case height-1: // At the first and last row, place horizontal lines at every coloum
                 layout[y_row][x_col] = h_line;
             }
             switch (x_col)
             {
-                case 0: case WIDTH-1: // At the first and last coloum, place vertical lines at every row
+                case 0: case width-1: // At the first and last coloum, place vertical lines at every row
                 layout[y_row][x_col] = v_line;
             }
         }
@@ -61,17 +68,17 @@ void init_array(int layout[HEIGHT][WIDTH]) {
     layout[16][31] = drop_off; // Charging station is hardcoded to be at this spot
 }
 
-void print_array(int layout[HEIGHT][WIDTH], bool print_num) {
+void print_array(int width, int height, int layout[height][width], bool print_num) {
 
     if (print_num)
-        horizontal_num();
+        horizontal_num(width);
 
-    for (int y_row = 0; y_row < HEIGHT; ++y_row) // Looping through all the rows in the layout array
+    for (int y_row = 0; y_row < height; ++y_row) // Looping through all the rows in the layout array
     {
         if (print_num)
             vertical_num(y_row);
 
-        for (int x_col = 0; x_col < WIDTH; ++x_col) // Looping through all the coloumns in the layout array
+        for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (layout[y_row][x_col])
             {
@@ -101,7 +108,7 @@ void print_array(int layout[HEIGHT][WIDTH], bool print_num) {
 }
 
 
-void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int* tiles, node target_t) {
+void clear_path(int width, int height, int layout[height][width], node path[height * width], int* tiles, node target_t) {
 
     // Reset layout array
     // Clear path in layout array and clear path node array
@@ -123,9 +130,9 @@ void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int* tiles
 
 }
 
-void force_clear_path(int layout[HEIGHT][WIDTH]) {
-    for (int row = 0; row < HEIGHT; row++) {
-        for (int col = 0; col < WIDTH; col++) {
+void force_clear_path(int height, int width, int layout[height][width]) {
+    for (int row = 0; row < height; row++) {
+        for (int col = 0; col < width; col++) {
             if (layout[row][col] == path_enum) layout[row][col] = vacant;
         }
     }

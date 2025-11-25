@@ -24,11 +24,13 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench) {
+int select(int height, int width, int layout[height][width], int* layout_selected, int* shelf_selected, node* target, int* bench) {
     int chosen;
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
+    init_array(layout);
 
+    random_target(layout, target);
     switch (chosen)
     {
     case 1:
@@ -43,7 +45,7 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
         clear_terminal();
-        print_array(layout,true);
+        print_array(width, height, layout,true);
         input_target(layout, target);
         clear_terminal();
         *shelf_selected = 1;
@@ -63,10 +65,7 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     
     case 5:
         clear_terminal();
-        dynamicWarehouseDesign();
-        extern int* mDimensions;
-        extern char* mLayout;
-
+        layout = dynamicWarehouseDesign(&height, &width);
         clear_terminal();
         *layout_selected = 0;
         return false;

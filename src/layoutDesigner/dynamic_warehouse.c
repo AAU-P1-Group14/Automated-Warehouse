@@ -10,7 +10,7 @@
 char* mLayout = NULL;
 int* mDimensions = NULL;
 
-int dynamicWarehouseDesign() {
+int* dynamicWarehouseDesign(int* height, int* width) {
     int yShelfSections, xShelfSections, xShelfWidth, xShelfDivider, yShelfDivider;
 
     do {
@@ -43,19 +43,23 @@ int dynamicWarehouseDesign() {
     // Creates memory for the warehouse and fills all of it with dots
     mLayout = malloc(rows * cols * sizeof(char)); // Assigns memory to store the memory in
     for (int i = 0; i < (rows * cols); i++) {
-        mLayout[i] = ' ';
+        mLayout[i] = vacant;
     }
     // Creates memory and assigns rows and cols within it
     mDimensions = malloc(2 * sizeof(int));
     mDimensions[0] = rows;
     mDimensions[1] = cols;
 
+    *height = rows;
+    *width = cols;
+
+
 
     // Creates an array for the layout to be stored in.
     char layoutArr[rows][cols];
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
-            layoutArr[row][col] = ' ';
+            layoutArr[row][col] = vacant;
         }
     }
 
@@ -66,8 +70,8 @@ int dynamicWarehouseDesign() {
     for (int height = 0; height < yShelfSections; height++) {
         for (int row = 0; row < yShelfDivider; row++, currentRow++) { // Creates x empty rows of walking space
             for (int col = 0; col < cols; col++) {
-                mLayout[currentRow * cols + col] = ' ';
-                layoutArr[currentRow][col] = ' ';
+                mLayout[currentRow * cols + col] = vacant;
+                layoutArr[currentRow][col] = vacant;
             }
         }
         // Creates 2 rows with shelves and x cols of divider space
@@ -76,12 +80,12 @@ int dynamicWarehouseDesign() {
 
             for (int col = 1; col < cols-1; col++) {
                 if (currentLength < xShelfWidth) { // If currentLength in less then the length of a shelf section it places a shelf
-                        mLayout[currentRow * cols + col] = 'x';
-                        layoutArr[currentRow][col] = 'x';
+                        mLayout[currentRow * cols + col] = shelf;
+                        layoutArr[currentRow][col] = shelf;
 
                 } else {
-                    mLayout[currentRow * cols + col] = ' '; // If it's larger that xShelfWidth it will place a space
-                    layoutArr[currentRow][col] = ' ';
+                    mLayout[currentRow * cols + col] = vacant; // If it's larger that xShelfWidth it will place a space
+                    layoutArr[currentRow][col] = vacant;
 
                 }
                 currentLength++;
@@ -96,16 +100,16 @@ int dynamicWarehouseDesign() {
         for (int col = 0; col < cols; col++) {
             if (row == 0 || row == rows-1) {
                 if (col == 0 || col == cols-1) {
-                    layoutArr[row][col] = '|';
-                    mLayout[row * cols + col] = '|';
+                    layoutArr[row][col] = v_line;
+                    mLayout[row * cols + col] = v_line;
                 } else {
-                    layoutArr[row][col] = '-';
-                    mLayout[row * cols + col] = '-';
+                    layoutArr[row][col] = h_line;
+                    mLayout[row * cols + col] = h_line;
                 }
             }
             if (col == 0 || col == cols-1) {
-                layoutArr[row][col] = '|';
-                mLayout[row * cols + col] = '|';
+                layoutArr[row][col] = v_line;
+                mLayout[row * cols + col] = v_line;
 
             }
         }
@@ -113,46 +117,40 @@ int dynamicWarehouseDesign() {
 
 
     int stationRow = rows - 3;
-    layoutArr[stationRow][4] = 'C';
-    mLayout[stationRow * cols + 4] = 'C';
+    layoutArr[stationRow][4] = charging;
+    mLayout[stationRow * cols + 4] = charging;
 
-    layoutArr[stationRow][cols - 5] = 'D';
-    mLayout[stationRow * cols + (cols - 5)] = 'D';
+    layoutArr[stationRow][cols - 5] = drop_off;
+    mLayout[stationRow * cols + (cols - 5)] = drop_off;
 
 
     //Create 2D array from 1D array in malloc
 
-    char newarraytest[rows][cols];
+    int layout[rows][cols];
     int rowCounter = 0;
     int colCounter = 0;
     for (int i = 0; i < rows * cols; i++) {
         if (colCounter == cols-1) {
-            newarraytest[rowCounter][colCounter] = mLayout[rowCounter * cols + colCounter];
+            layout[rowCounter][colCounter] = mLayout[rowCounter * cols + colCounter];
             colCounter = 0;
             rowCounter++;
         } else {
-            newarraytest[rowCounter][colCounter] = mLayout[rowCounter * cols + colCounter];
+            layout[rowCounter][colCounter] = mLayout[rowCounter * cols + colCounter];
             colCounter++;
         }
     }
-
-    for (int row = 0; row < rows; row++) {
-        for (int col = 0; col < cols; col++) {
-            printf("%c", newarraytest[row][col]);
-        }
-        printf("\n");
-    }
+    //printf("Height - %i\nWidth - %i", rows, cols);
+    //print_array(*width, *height, layout, false);
 
 
- /*
-    // Prints the layout from memory
-    int colCounter = 0;
+    // Prints the layout from malloc
+   /* int colCcounter = 0;
     for (int i = 0; i < rows * cols; i++) {
-        if (colCounter == cols) {
-            colCounter = 0;
+        if (colCcounter == cols) {
+            colCcounter = 0;
             printf("\n");
             printf("%c", mLayout[i]);
-            colCounter++;
+            colCcounter++;
         } else {
             printf("%c", mLayout[i]);
             colCounter++;
@@ -177,4 +175,5 @@ int dynamicWarehouseDesign() {
         }
         printf("\n");
     } */
+    return layout;
 }
