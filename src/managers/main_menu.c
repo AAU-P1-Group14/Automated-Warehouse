@@ -28,7 +28,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
 
 int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
     int chosen;
-    printf("\n\nChoose: ");
+    printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
 
     switch (chosen)

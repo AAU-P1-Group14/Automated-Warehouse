@@ -2,6 +2,7 @@
 
 #include "algorithms/bfs.h"
 #include "algorithms/dfs.h"
+#include "algorithms/worst_case.h"
 #include "utility/misc.h"
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
