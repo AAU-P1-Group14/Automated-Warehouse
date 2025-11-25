@@ -10,8 +10,8 @@
 
 
 // Check if a node is valid to visit
-bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target);
-int dfs(int grid[HEIGHT][WIDTH],node target,node current,int* tiles,bool addtiles);
+bool dfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target);
+int dfs(int grid[HEIGHT][WIDTH],node target,node current,int* tiles,long long* total_tiles,bool firstcase);
 
 
 

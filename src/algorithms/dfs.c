@@ -11,6 +11,7 @@ bool dfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
    if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
         return false;
 
+    if (cmp_node(current, target)) return true;
 
     // If cell is already visited
     if (vis[current.y][current.x])
@@ -39,7 +40,8 @@ int dfs(
    node target, // Target shelf
    node current, // Current position (start position)
    int* tiles, // Amount of files traveled
-   bool addtiles) // Should we count tiles
+   long long* total_tiles,
+   bool firstcase) // Should we count tiles
 {
     int target_orig = grid[target.y][target.x];
 
@@ -138,15 +140,13 @@ int dfs(
        // printf("(%d, %d) ", path_row[i], path_col[i]);
        if (!cmp_node(path[i], current) && !cmp_node(path[i], target)) {
            if (grid[path[i].y][path[i].x] == vacant) {
-               grid[path[i].y][path[i].x] = path_enum;
+               if (firstcase) grid[path[i].y][path[i].x] = path_enum;
            }
        }
    }
 
-
-    if (addtiles) {
-        *tiles += path_len;
-    }
+    if (firstcase) *tiles += path_len;
+    else *total_tiles += path_len;
 
    for (int i = 0; i < HEIGHT; i++) {
        for (int j = 0; j < WIDTH; j++) {
