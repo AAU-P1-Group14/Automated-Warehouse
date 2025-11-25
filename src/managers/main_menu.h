@@ -7,6 +7,7 @@
 #include "../utility/misc.h"
 #include "array_manager.h"
 #include "input_manager.h"
+#include "../layoutDesigner/dynamic_warehouse.h"
 
 void print_menu(int layout_selected, int shelf_selection, node target);
 int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target);

@@ -1,6 +1,5 @@
 #include "main_menu.h"
 
-
 void print_menu(int layout_selected, int shelf_selection, node target) {
     if (shelf_selection) printf("> Target shelf: Custom (%d, %d)\n", target.y, target.x);
     else printf("> Target shelf: Random\n");
@@ -59,9 +58,11 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         return false;
     
     case 5:
-        /*
-        TODO: TILFØJ DYNAMISK LAYOUT EDITOR
-        */
+        clear_terminal();
+        dynamicWarehouseDesign();
+        extern int* mDimensions;
+        extern char* mLayout;
+
         clear_terminal();
         *layout_selected = 0;
         return false;

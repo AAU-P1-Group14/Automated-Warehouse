@@ -4,7 +4,7 @@
 #include "managers/array_manager.h"
 #include "managers/input_manager.h"
 #include "managers/main_menu.h"
-#include "layout-designer/dynamic_warehouse_designer.h"
+#include "layoutDesigner/dynamic_warehouse.h"
 #include <time.h>
 #include <stdlib.h>
 
