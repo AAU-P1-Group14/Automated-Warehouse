@@ -8,5 +8,6 @@
 void init_array(int layout[HEIGHT][WIDTH]); // prototype of initArray
 void print_array(int layout[HEIGHT][WIDTH], bool print_num); // prototype of printArray
 void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int* tiles, node target_t);
+void force_clear_path(int layout[HEIGHT][WIDTH]);
 
 #endif //AUTOMATED_WAREHOUSE_ARRAYMANAGEMENT_H

@@ -122,3 +122,11 @@ void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int* tiles
     *tiles = 0;
 
 }
+
+void force_clear_path(int layout[HEIGHT][WIDTH]) {
+    for (int row = 0; row < HEIGHT; row++) {
+        for (int col = 0; col < WIDTH; col++) {
+            if (layout[row][col] == path_enum) layout[row][col] = vacant;
+        }
+    }
+}
