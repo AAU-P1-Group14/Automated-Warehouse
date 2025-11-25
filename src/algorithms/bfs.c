@@ -33,6 +33,7 @@ int bfs(
     node target_t,
     node current,
     int* tiles,
+    int* total_tiles,
     node path[HEIGHT * WIDTH],
     bool firstcase)
 {
@@ -90,7 +91,7 @@ int bfs(
     }
 
     if (!found) {
-        printf("Ingen vej fundet til (%d, %d)\n", target_t.y, target_t.x);
+        printf("No path found to target: (%d, %d)\n", target_t.y, target_t.x);
         return false;
     }
 
@@ -105,7 +106,7 @@ int bfs(
 
         // Safety check if something goes wrong
         if (parent[child.y][child.x].y == -1 && parent[child.y][child.x].x == -1) {
-            printf("Fejl under backtracking\n");
+            printf("Error in backtracking\n");
             return false;
         }
         child = parent[child.y][child.x];
@@ -123,9 +124,8 @@ int bfs(
         }
     }
 
-    if (firstcase) {
-        *tiles += path_len;
-    }
+    if (firstcase) *tiles += path_len;
+    else *total_tiles += path_len;
 
     for (int i = 0; i < HEIGHT; i++) {
         for (int j = 0; j < WIDTH; j++) {

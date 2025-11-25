@@ -17,6 +17,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
         int tiles_bfs = 0;
         int tiles_dfs = 0;
+        int total_tiles = 0;
 
         node targets[bench];
         if (procedural) {
@@ -27,12 +28,12 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
         switch (i) {
             case 0:
-                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, true);
+                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) {
                     continue;
                 }
 
-                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, true);
+                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) {
                     continue;
                 }
@@ -42,10 +43,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                     for (int i = 0; i < bench; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(layout, targets[i], (node){16, 4}, &tiles_bfs, path, false);
+                        bfs(layout, targets[i], (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, path, false);
+                        bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, &total_tiles, path, false);
                     }
 
                 } else {
@@ -53,10 +54,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                     for (int i = 0; i < bench; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, false);
+                        bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(layout, (node){16, 31}, target_t, &tiles_bfs, path, false);
+                        bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, false);
                     }
                 }
 
@@ -69,7 +70,8 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 // Print out the result from BFS
                 printf("BFS algorithm:\n");
                 print_array(layout, false);
-                printf("\nFinal route for BFS was %d tiles\n\n", tiles_bfs);
+                printf("\nTotal tiles traveled for BFS was %d tiles\n", total_tiles);
+                printf("Average route for BFS was %d tiles\n\n", total_tiles/bench);
                 printf("Total benches for BFS took %lld micros\n", passtime);
                 printf("Average route for BFS took %lld micros\n\n\n", passtime/bench);
 
@@ -79,12 +81,12 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                 break;
             case 1:
-                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, true);
+                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) {
                     continue;
                 }
 
-                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs, true);
+                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) {
                     continue;
                 }
@@ -94,10 +96,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                     for (int i = 0; i < bench; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(layout, targets[i], (node){16, 4}, &tiles_dfs, false);
+                        dfs(layout, targets[i], (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, false);
+                        dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, &total_tiles, false);
                     }
 
                 } else {
@@ -105,10 +107,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                     for (int i = 0; i < bench; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(layout, target_t, (node){16, 4}, &tiles_dfs, false);
+                        dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(layout, (node){16, 31}, target_t, &tiles_dfs, false);
+                        dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, false);
                     }
                 }
 
@@ -121,7 +123,8 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 // Print out the result from BFS
                 printf("DFS algorithm:\n");
                 print_array(layout, false);
-                printf("\nFinal route for DFS was %d tiles\n\n", tiles_dfs);
+                printf("\nTotal tiles traveled for DFS was %d tiles\n", total_tiles);
+                printf("Average route for DFS was %d tiles\n\n", total_tiles/bench);
                 printf("Total benches for DFS took %lld micros\n", passtime);
                 printf("Average route for DFS took %lld micros\n\n\n", passtime/bench);
 

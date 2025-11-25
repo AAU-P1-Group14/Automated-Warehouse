@@ -116,7 +116,10 @@ node random_target(int layout[HEIGHT][WIDTH]) {
     }
 
     // Random number to choose a target
-    int random_target = rand() % (shelf_counter + 1);
+    int random_target = rand() % shelf_counter;
+
+    //Debugging
+    //printf("%d", layout[shelf_arr[random_target].y][shelf_arr[random_target].x]);
 
     // Choosing a random shelf (row and column)
     return shelf_arr[random_target];
