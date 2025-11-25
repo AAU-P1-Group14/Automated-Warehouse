@@ -15,7 +15,8 @@ bool bfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
     if (vis[current.y][current.x])
         return false;
 
-    if (cmp_node(current, target)) return true;
+    if (cmp_node(current, target))
+        return true;
 
     //Cant walk through shelves or walls
     switch (grid[current.y][current.x]) {
