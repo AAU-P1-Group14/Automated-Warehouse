@@ -64,6 +64,13 @@ int main(void) {
         int tiles_bfs = 0;
         int tiles_dfs = 0;
 
+        node targets[bench];
+        if (procedural) {
+            for (int i = 0; i < bench; i++) {
+                targets[i] = random_target(layout);
+            }
+        }
+
         switch (i) {
             case 0:
                 int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, path, true);
@@ -77,12 +84,6 @@ int main(void) {
                 }
 
                 if (procedural) {
-                    node targets[bench];
-
-                    for (int i = 0; i < bench; i++) {
-                        targets[i] = random_target(layout);
-                    }
-
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                     for (int i = 0; i < bench; i++) {
@@ -92,6 +93,7 @@ int main(void) {
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, path, false);
                     }
+
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
@@ -118,6 +120,7 @@ int main(void) {
                 printf("Average route for BFS took %lld micros\n\n\n", passtime/bench);
 
                 //Clears the path from the layout array
+                if (procedural) clear_path(layout, path, &tiles_bfs, targets[0]);
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
@@ -133,12 +136,6 @@ int main(void) {
                 }
 
                 if (procedural) {
-                    node targets[bench];
-
-                    for (int i = 0; i < bench; i++) {
-                        targets[i] = random_target(layout);
-                    }
-
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                     for (int i = 0; i < bench; i++) {
@@ -148,10 +145,11 @@ int main(void) {
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, false);
                     }
+
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                    for (int i = 0; i < bench-1; i++) {
+                    for (int i = 0; i < bench; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(layout, target_t, (node){16, 4}, &tiles_dfs, false);
 
@@ -174,6 +172,7 @@ int main(void) {
                 printf("Average route for DFS took %lld micros\n\n\n", passtime/bench);
 
                 //Clears the path from the layout array
+                if (procedural) clear_path(layout, path, &tiles_dfs, targets[0]);
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;

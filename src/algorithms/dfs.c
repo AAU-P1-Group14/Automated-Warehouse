@@ -10,6 +10,7 @@ bool dfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
    if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
         return false;
 
+    if (cmp_node(current, target)) return true;
 
    //Cant walk through shelves or walls
    switch (grid[current.y][current.x]) {

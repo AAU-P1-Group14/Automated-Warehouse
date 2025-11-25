@@ -46,6 +46,7 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         // Prompt the user to use a custom or pre-defined shelf
         clear_terminal();
         print_array(layout,true);
+        *procedural = false;
         input_target(layout, target);
         clear_terminal();
         *shelf_selected = 1;
