@@ -37,7 +37,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 for (int i = 0; i < bench; i++) {
                     total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
-                    if (i % (bench / 10) == 0) {
+                    if (i % (bench / 100) == 0) {
                         int progress = i * 100 / bench;
                         printf("\rPROGRESS: %d%%", progress);
                     }
@@ -88,7 +88,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, &total_tiles, path, false);
 
-                        if (i % (bench / 10) == 0) {
+                        if (i % (bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
                         }
@@ -143,7 +143,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, &total_tiles, false);
 
-                        if (i % (bench / 10) == 0) {
+                        if (i % (bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
                         }
