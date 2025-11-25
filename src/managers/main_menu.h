@@ -9,8 +9,8 @@
 #include "input_manager.h"
 #include "../layoutDesigner/dynamic_warehouse.h"
 
-void print_menu(int layout_selected, int shelf_selection, node target);
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target);
+void print_menu(int layout_selected, int shelf_selection, node target, int bench);
+int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench);
 
 
 #endif //AUTOMATED_WAREHOUSE_MAIN_MENU_H

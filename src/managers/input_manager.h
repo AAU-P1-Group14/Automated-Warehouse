@@ -9,6 +9,7 @@
 #include "../utility/misc.h"
 
 
+void select_bench(int* bench);
 int input_validation(int layout[HEIGHT][WIDTH], node target);
 void input_target(int layout[HEIGHT][WIDTH], node *target_row);
 void promptCustomShelf(int layout[HEIGHT][WIDTH], node* target_row);

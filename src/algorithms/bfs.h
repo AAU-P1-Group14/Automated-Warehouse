@@ -7,6 +7,6 @@
 #include "../utility/misc.h"
 
 bool isValid(int grid[HEIGHT][WIDTH], node current, node target);
-int bfs(int grid[HEIGHT][WIDTH],node target_t,node current,int* tiles,node path[HEIGHT * WIDTH]);
+int bfs(int grid[HEIGHT][WIDTH],node target_t,node current,int* tiles,node path[HEIGHT * WIDTH],bool addtiles);
 
 #endif //AUTOMATED_WAREHOUSE_BFS_H

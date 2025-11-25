@@ -4,25 +4,26 @@
 #define HEIGHT 19
 #define MAX_BRANCHES 100
 
-bool isdfsValid(int grid[HEIGHT][WIDTH], node current, node target)
+bool dfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
 {
    // If cell lies out of bounds
    if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
         return false;
 
-   // If cell is already visited
-   if (vis[current.y][current.x])
-        return false;
-
-   // Check if target is reached
-   if (cmp_node(current, target))
-        return true;
 
    //Cant walk through shelves or walls
    switch (grid[current.y][current.x]) {
        case v_line: case h_line: case shelf:
            return false;
    }
+
+    // If cell is already visited
+    if (vis[current.y][current.x])
+        return false;
+
+    // Check if target is reached
+    if (cmp_node(current, target))
+        return true;
 
    // Otherwise
    return true;
@@ -34,7 +35,8 @@ int dfs(
    int grid[HEIGHT][WIDTH], // The warehouse layout
    node target, // Target shelf
    node current, // Current position (start position)
-   int* tiles) // Amount of files traveled
+   int* tiles, // Amount of files traveled
+   bool addtiles) // Should we count tiles
 {
 
    // We make an array for stack instead of queue.
@@ -44,9 +46,9 @@ int dfs(
    // it makes it start out empty, top is the current "top" of the stock
    int top = -1;
 
-   // Direction vectors (Up, down, right, left)
-   int dRow[] = { -1, 0, 1, 0 };
-   int dCol[] = { 0, 1, 0, -1 };
+    // Direction vectors (up, right, down, left)
+    int dRow[] = { -1, 0, 1, 0 };
+    int dCol[] = {  0, 1, 0, -1 };
 
    // Parent-arrays for backtracking
    node parent[HEIGHT][WIDTH];
@@ -73,6 +75,9 @@ int dfs(
    while (top >= 0) {
         // yx = current cell being explored (pop from top).
        node yx = stack[top--];
+       vis[yx.y][yx.x] = 1;
+       //Mark visited → prevent loops.
+
        // DFS explores the most recently added cell first → depth-first.
 
        // Hvis vi har ramt målet, kan vi stoppe
@@ -85,12 +90,10 @@ int dfs(
            node adj = {yx.y + dRow[i], yx.x + dCol[i]};
            //loops through all possible directions
 
-           if (isdfsValid(grid, adj, target)) {
+           if (dfs_is_valid(grid, adj, target)) {
                stack[++top] = adj;
                // if a cell is valid we push it onto the stack
 
-               vis[adj.y][adj.x] = 1;
-               //Mark visited → prevent loops.
 
                parent[adj.y][adj.x] = yx;
                //Set parent → needed to trace path back after DFS.
@@ -134,15 +137,16 @@ int dfs(
        }
    }
 
-   *tiles += path_len;
+    if (addtiles) {
+        *tiles += path_len;
+    }
 
    for (int i = 0; i < HEIGHT; i++) {
        for (int j = 0; j < WIDTH; j++) {
            vis[i][j] = 0;
        }
    }
-
-   return true;
+    return true;
 }
 
 

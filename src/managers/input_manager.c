@@ -1,5 +1,24 @@
 #include "input_manager.h"
 
+void select_bench(int* bench) {
+    while (1) {
+        printf("Enter benches (number): ");
+
+        //We check how many inputs was successfully read from the input buffer.
+        int buffer = scanf(" %d", bench);
+
+        //Magic that clears the scanf buffer, so that the inout doesn't stay.
+        //It does this by reading the charecters from stdin buffer until the new line.
+        while (getchar() != '\n');
+
+        if (buffer != 1) {
+            printf("INVALID INPUT.\n");
+            continue;
+        }
+        break;
+    }
+}
+
 void input_target(int layout[HEIGHT][WIDTH], node* target){
     while (1) {
         printf("Enter target (row col): ");
