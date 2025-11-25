@@ -28,6 +28,39 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
         switch (i) {
             case 0:
+                clock_gettime(CLOCK_REALTIME, &timestamp1);
+                // Worst case algorithm (random movement)
+                for (int i = 0; i < bench-1; i++) {
+                    tiles_worst_case_total += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                }
+                // One last run to store the path
+                force_clear_path(layout);
+                tiles_worst_case_total += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+
+                // Calculate the average tiles in each run
+                int tiles_worst_case_average = tiles_worst_case_total / bench;
+
+                // Calculate the time it took
+                clock_gettime(CLOCK_REALTIME, &timestamp2);
+                long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+                long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+                long long passtime = passed - current;
+
+                // Print out the result from worst case
+                printf("Worst case algorithm:\n");
+                print_array(layout, false);
+                if (tiles_worst_case_average > 0) printf("\nFinal route for worst case was average %d tiles\n\n", tiles_worst_case_average);
+                else printf("\nWorst case never reached target or drop-off\n\n");
+
+                printf("Total benches for worst case took %lld micros\n", passtime);
+                printf("Average route for worst case took %lld micros\n\n\n", passtime/bench);
+
+                //Clears the path from the layout array
+                force_clear_path(layout);
+
+                break;
+            case 1:
                 int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) {
                     continue;
@@ -80,7 +113,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
-            case 1:
+            case 2:
                 int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) {
                     continue;
