@@ -62,14 +62,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 break;
             case 1:
                 int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
-                if (!bfs_valid) {
-                    continue;
-                }
+                if (!bfs_valid) continue;
 
                 bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
-                if (!bfs_valid) {
-                    continue;
-                }
+                if (!bfs_valid) continue;
 
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -115,14 +111,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 break;
             case 2:
                 int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
-                if (!dfs_valid) {
-                    continue;
-                }
+                if (!dfs_valid) continue;
 
                 dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, true);
-                if (!dfs_valid) {
-                    continue;
-                }
+                if (!dfs_valid) continue;
 
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -184,5 +176,4 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
             printf("\n");
         }
     }
-
 }
