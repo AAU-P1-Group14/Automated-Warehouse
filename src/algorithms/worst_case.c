@@ -61,9 +61,9 @@ void move_position(int layout[HEIGHT][WIDTH], node* position, int* tiles) {
 }
 
 void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node charging, node position, int* found_target, int* found_dropoff) {
-    if ((position.y != target.y && position.x != target.x) ||
-        (position.y != dropoff.y && position.x != dropoff.x) ||
-        (position.y != charging.y && position.x != charging.x)) {
+    if ((position.y != target.y || position.x != target.x) &&
+        (position.y != dropoff.y || position.x != dropoff.x) &&
+        (position.y != charging.y || position.x != charging.x)) {
         // Update layout if position is not target, dropoff or charging station
         layout[position.y][position.x] = path_enum;
     }
