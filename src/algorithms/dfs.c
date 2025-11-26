@@ -81,7 +81,6 @@ int dfs(
    while (top >= 0) {
         // yx = current cell being explored (pop from top).
        node yx = stack[top--];
-       vis[yx.y][yx.x] = 1;
        //Mark visited → prevent loops.
 
        // DFS explores the most recently added cell first → depth-first.
@@ -98,6 +97,7 @@ int dfs(
 
            if (dfs_is_valid(grid, adj, target)) {
                stack[++top] = adj;
+               vis[adj.y][adj.x] = 1;
                // if a cell is valid we push it onto the stack
 
 
