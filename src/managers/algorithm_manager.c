@@ -17,7 +17,6 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
     //node targets[bench];
     node *targets = malloc(sizeof(node) * bench);
-    if (targets == NULL) printf("ERROR: malloc failed\n"); free(targets); return;
 
     if (procedural) {
         for (int i = 0; i < bench; i++) {
@@ -44,6 +43,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
         switch (i) {
             case 0:
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
+
                 // Worst case algorithm (random movement)
                 for (int i = 0; i < bench; i++) {
                     total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
