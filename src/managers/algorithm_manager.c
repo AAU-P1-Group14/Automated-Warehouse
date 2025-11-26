@@ -31,7 +31,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
     for (int i = 0; i < 3; i++) {
 
         // Input target in layout array
-        layout[target_t.y][target_t.x] = target;
+        if (!procedural) layout[target_t.y][target_t.x] = target;
 
         struct timespec timestamp1;
         struct timespec timestamp2;
@@ -70,7 +70,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                 // One last run to store the path
                 force_clear_path(layout);
-                if (procedural) total_tiles += worst_case(layout, targets[bench], (node){16, 31}, (node){16, 4}, (node){16, 4});
+                if (procedural) {
+                    total_tiles += worst_case(layout, targets[bench-1], (node){16, 31}, (node){16, 4}, (node){16, 4});
+                    layout[targets[bench-1].y][targets[bench-1].x] = target;
+                }
                 else total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                 // Calculate the time it took
