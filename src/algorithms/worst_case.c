@@ -70,37 +70,24 @@ void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node
 
     // If target is not found, check if target is here
     if (!(*found_target)) {
-        check_if_target(layout, target, position, found_target);
+        check_for_adjecent(layout, target, position, found_target);
     }
 
     // If target is found but drop-off is not found, check if drop-off is here
     if (*found_target && !(*found_dropoff)) {
-        check_if_dropoff(layout, dropoff, position, found_dropoff);
+        check_for_adjecent(layout, dropoff, position, found_dropoff);
     }
 
 }
 
-void check_if_target(int layout[HEIGHT][WIDTH], node target, node position, int* found_target) {
-    // Check adjecent cells if target is here
-    int dRow[] = { -1, 0, 1, 0 };
-    int dCol[] = { 0, 1, 0, -1 };
-    for (int i = 0; i < 4; i++) {
-        node adj = {position.y + dRow[i], position.x + dCol[i]};
-        if (adj.y == target.y && adj.x == target.x) {
-            *found_target = true;
-        }
-    }
-
-}
-
-void check_if_dropoff(int layout[HEIGHT][WIDTH], node dropoff, node position, int* found_dropoff) {
+void check_for_adjecent(int layout[HEIGHT][WIDTH], node check_cell, node position, int* boolean_argument) {
     // Check adjecent cells if drop-off is here
     int dRow[] = { -1, 0, 1, 0 };
     int dCol[] = { 0, 1, 0, -1 };
     for (int i = 0; i < 4; i++) {
         node adj = {position.y + dRow[i], position.x + dCol[i]};
-        if (adj.y == dropoff.y && adj.x == dropoff.x) {
-            *found_dropoff = true;
+        if (adj.y == check_cell.y && adj.x == check_cell.x) {
+            *boolean_argument = true;
         }
     }
 }
