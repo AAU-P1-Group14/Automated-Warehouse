@@ -33,26 +33,30 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
         switch (i) {
             case 0:
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
-                // Worst case algorithm (random movement)
-                for (int i = 0; i < bench; i++) {
+
+                for (int i = 0; i < bench-1; i++) {
+                    if (procedural) {
+                        target_t = targets[i];
+                    }
                     total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                     if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                         int progress = i * 100 / bench;
                         printf("\rPROGRESS: %d%%", progress);
-                    }
+                    }   
                 }
+
                 printf("\r");
 
                 // One last run to store the path
                 force_clear_path(layout);
-                total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                if (procedural) total_tiles += worst_case(layout, targets[bench], (node){16, 31}, (node){16, 4}, (node){16, 4});
+                else total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                 // Calculate the time it took
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
                 long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
                 long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
-
                 long long passtime = passed - current;
 
                 // Print out the result from worst case
@@ -72,40 +76,24 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                 break;
             case 1:
-                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
-                if (!bfs_valid) continue;
+                clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
-                if (!bfs_valid) continue;
-
-                if (procedural) {
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
-
-                    for (int i = 0; i < bench; i++) {
-                        // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(layout, targets[i], (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
-
-                        // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(layout, (node){16, 31}, targets[i], &tiles_bfs, &total_tiles, path, false);
-
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
-                        }
+                for (int i = 0; i < bench; i++) {
+                    if (procedural) {
+                        target_t = targets[i];
                     }
-                    printf("\r");
+                    // BFS Path finding algorithm, adding the path from charging station to target
+                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
-                } else {
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
+                    // BFS Path finding algorithm, adding the path from target station to drop-off
+                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, false);
 
-                    for (int i = 0; i < bench; i++) {
-                        // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
-
-                        // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, false);
+                    if (i % (bench < 100 ? 1 : bench / 100) == 0) {
+                        int progress = i * 100 / bench;
+                        printf("\rPROGRESS: %d%%", progress);
                     }
                 }
+                printf("\r");
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
                 current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
@@ -127,40 +115,24 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                 break;
             case 2:
-                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
-                if (!dfs_valid) continue;
+                clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, true);
-                if (!dfs_valid) continue;
-
-                if (procedural) {
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
-
-                    for (int i = 0; i < bench; i++) {
-                        // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(layout, targets[i], (node){16, 4}, &tiles_dfs, &total_tiles, false);
-
-                        // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(layout, (node){16, 31}, targets[i], &tiles_dfs, &total_tiles, false);
-
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
-                        }
+                for (int i = 0; i < bench; i++) {
+                    if (procedural) {
+                        target_t = targets[i];
                     }
-                    printf("\r");
+                    // DFS Path finding algorithm, adding the path from charging station to target
+                    dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
-                } else {
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
+                    // DFS Path finding algorithm, adding the path from target station to drop-off
+                    dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, false);
 
-                    for (int i = 0; i < bench; i++) {
-                        // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, false);
-
-                        // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, false);
+                    if (i % (bench < 100 ? 1 : bench / 100) == 0) {
+                        int progress = i * 100 / bench;
+                        printf("\rPROGRESS: %d%%", progress);
                     }
                 }
+                printf("\r");
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
                 current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
