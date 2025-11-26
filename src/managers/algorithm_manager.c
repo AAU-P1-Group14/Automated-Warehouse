@@ -1,12 +1,22 @@
 #include "algorithm_manager.h"
 
+void print_stats(int layout[HEIGHT][WIDTH], long long total_tiles, int bench, long long passtime, char* name) {
+    printf("%s algorithm:\n", name);
+    print_array(layout, false);
+    if (total_tiles/bench > 0) {
+        printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
+        printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
+    } else printf("\n%s never reached target or drop-off\n\n", name);
+    printf("Total benches for %s took %lld micros\n", name, passtime);
+    printf("Average route for %s took %lld micros\n\n\n", name, passtime/bench);
+}
+
 void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool procedural, bool debug) {
     // Creating array that contains coordinates of the robot path
     static node path[HEIGHT * WIDTH];
 
     //node targets[bench];
     node *targets = malloc(sizeof(node) * bench);
-    if (targets == NULL) printf("ERROR: malloc failed\n");
 
     if (procedural) {
         for (int i = 0; i < bench; i++) {
@@ -60,16 +70,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 long long passtime = passed - current;
 
                 // Print out the result from worst case
-                printf("Worst case algorithm:\n");
-                print_array(layout, false);
-                if (total_tiles/bench > 0) {
-                    printf("\nTotal tiles traveled for worst case was %d tiles\n", total_tiles);
-                    printf("Average route for worst case was %d tiles\n\n", total_tiles/bench);
-                }
-                else printf("\nWorst case never reached target or drop-off\n\n");
-
-                printf("Total benches for worst case took %lld micros\n", passtime);
-                printf("Average route for worst case took %lld micros\n\n\n", passtime/bench);
+                print_stats(layout, total_tiles, bench, passtime, "Worst Case");
 
                 //Clears the path from the layout array
                 force_clear_path(layout);
@@ -102,12 +103,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 passtime = passed - current;
 
                 // Print out the result from BFS
-                printf("BFS algorithm:\n");
-                print_array(layout, false);
-                printf("\nTotal tiles traveled for BFS was %d tiles\n", total_tiles);
-                printf("Average route for BFS was %d tiles\n\n", total_tiles/bench);
-                printf("Total benches for BFS took %lld micros\n", passtime);
-                printf("Average route for BFS took %lld micros\n\n\n", passtime/bench);
+                print_stats(layout, total_tiles, bench, passtime, "BFS");
 
                 //Clears the path from the layout array
                 if (procedural) clear_path(layout, path, &tiles_bfs, targets[0]);
@@ -141,12 +137,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 passtime = passed - current;
 
                 // Print out the result from BFS
-                printf("DFS algorithm:\n");
-                print_array(layout, false);
-                printf("\nTotal tiles traveled for DFS was %d tiles\n", total_tiles);
-                printf("Average route for DFS was %d tiles\n\n", total_tiles/bench);
-                printf("Total benches for DFS took %lld micros\n", passtime);
-                printf("Average route for DFS took %lld micros\n\n\n", passtime/bench);
+                print_stats(layout, total_tiles, bench, passtime, "DFS");
 
                 //Clears the path from the layout array
                 if (procedural) clear_path(layout, path, &tiles_dfs, targets[0]);
