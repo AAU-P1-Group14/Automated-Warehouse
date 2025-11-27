@@ -31,7 +31,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
     for (int i = 0; i < 3; i++) {
 
         // Input target in layout array
-        layout[target_t.y][target_t.x] = target;
+        if (!procedural) layout[target_t.y][target_t.x] = target;
 
         struct timespec timestamp1;
         struct timespec timestamp2;
@@ -45,19 +45,36 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                 // Worst case algorithm (random movement)
-                for (int i = 0; i < bench; i++) {
-                    total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                if (procedural) {
+                    for (int i = 0; i < bench-1; i++) {
+                        total_tiles += worst_case(layout, targets[i], (node){16, 31}, (node){16, 4}, (node){16, 4});
 
-                    if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                        int progress = i * 100 / bench;
-                        printf("\rPROGRESS: %d%%", progress);
+                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
+                            int progress = i * 100 / bench;
+                            printf("\rPROGRESS: %d%%", progress);
+                        }
+                    }
+                    printf("\r");
+                }
+
+                else {
+                    for (int i = 0; i < bench-1; i++) {
+                        total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+
+                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
+                            int progress = i * 100 / bench;
+                            printf("\rPROGRESS: %d%%", progress);
+                        }
                     }
                 }
-                printf("\r");
 
                 // One last run to store the path
                 force_clear_path(layout);
-                total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                if (procedural) {
+                    total_tiles += worst_case(layout, targets[bench-1], (node){16, 31}, (node){16, 4}, (node){16, 4});
+                    layout[targets[bench-1].y][targets[bench-1].x] = target;
+                }
+                else total_tiles += worst_case(layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                 // Calculate the time it took
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -74,6 +91,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                 break;
             case 1:
+                {
                 int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) continue;
 
@@ -123,7 +141,9 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
+                }
             case 2:
+                {
                 int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) continue;
 
@@ -173,7 +193,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-
+                }
             default:
                 break;
         }
