@@ -1,4 +1,5 @@
 #include "main_menu.h"
+#include "../dynamic_layout/dynamic_warehouse.h"
 
 
 void print_menu(int layout_selected, int shelf_selection, node target, int bench, bool procedural) {
@@ -26,7 +27,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int **height, int **width, int layout[**height][**width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
+int select(int *height, int *width, int layout[*height][*width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
     int chosen;
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
@@ -35,47 +36,47 @@ int select(int **height, int **width, int layout[**height][**width], int* layout
     {
     case 1:
         if (*layout_selected) {
-            clear_terminal();
+            //clear_terminal();
+            printf("10");
             return true;
         }
 
-        clear_terminal();
+        //clear_terminal();
+        printf("20");
         return false;
 
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
-        clear_terminal();
+        //clear_terminal();
         print_array(height, width, layout,true);
         *procedural = false;
-        input_target(height, &width, layout, target);
-        clear_terminal();
+        input_target(height, width, layout, target);
+        //clear_terminal();
         *shelf_selected = 1;
         return false;
     
     case 3:
-        clear_terminal();
+        //clear_terminal();
         prompt_procedural(procedural);
-        clear_terminal();
-        if (!procedural) *target = random_target(&height, &width, layout);
+        //clear_terminal();
+        if (!procedural) *target = random_target(height, width, layout);
         *shelf_selected = 0;
         return false;
     
     case 4:
-        clear_terminal();
-        init_array(&height, &width, layout);
+        //clear_terminal();
+        init_array(19, 36, layout);
         *layout_selected = 1;
         return false;
     
     case 5:
-        /*
-        TODO: TILFØJ DYNAMISK LAYOUT EDITOR
-        */
-        clear_terminal();
+        dynamicWarehouseDesign(height, width),
+        //clear_terminal();
         *layout_selected = 0;
         return false;
 
     case 6:
-        clear_terminal();
+        //clear_terminal();
         select_bench(bench);
         return false;
     

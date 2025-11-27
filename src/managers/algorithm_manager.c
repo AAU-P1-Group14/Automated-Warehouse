@@ -11,7 +11,7 @@ void print_stats(int *height, int *width, int layout[*height][*width], long long
     printf("Average route for %s took %lld micros\n\n\n", name, passtime/bench);
 }
 
-void run_algorithms(int * height, int* width, int layout[*height][*width], node target_t, int bench, bool procedural, bool debug) {
+void run_algorithms(int height, int width, int layout[height][width], node target_t, int bench, bool procedural, bool debug) {
     // Creating array that contains coordinates of the robot path
     static node path[1000][1000];
 
@@ -47,7 +47,7 @@ void run_algorithms(int * height, int* width, int layout[*height][*width], node 
                 // Worst case algorithm (random movement)
                 if (procedural) {
                     for (int i = 0; i < bench-1; i++) {
-                        total_tiles += worst_case(&height, &width, layout, targets[i], (node){16, 31}, (node){16, 4}, (node){16, 4});
+                        total_tiles += worst_case(height, width, layout, targets[i], (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
@@ -59,7 +59,7 @@ void run_algorithms(int * height, int* width, int layout[*height][*width], node 
 
                 else {
                     for (int i = 0; i < bench-1; i++) {
-                        total_tiles += worst_case(&height, &width, layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                        total_tiles += worst_case(height, width, layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
@@ -71,10 +71,10 @@ void run_algorithms(int * height, int* width, int layout[*height][*width], node 
                 // One last run to store the path
                 force_clear_path(&height, &width, layout);
                 if (procedural) {
-                    total_tiles += worst_case(&height, &width, layout, targets[bench-1], (node){16, 31}, (node){16, 4}, (node){16, 4});
+                    total_tiles += worst_case(height, width, layout, targets[bench-1], (node){16, 31}, (node){16, 4}, (node){16, 4});
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
-                else total_tiles += worst_case(&height, &width, layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
+                else total_tiles += worst_case(height, width, layout, target_t, (node){16, 31}, (node){16, 4}, (node){16, 4});
 
                 // Calculate the time it took
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -204,9 +204,9 @@ void run_algorithms(int * height, int* width, int layout[*height][*width], node 
     // Output for debug
     if (debug)
     {
-        for (int j = 0; j < *height; j++)
+        for (int j = 0; j < height; j++)
         {
-            for (int i = 0; i < *width; i++)
+            for (int i = 0; i < width; i++)
             {
                 printf("%d", vis[j][i]);
             }

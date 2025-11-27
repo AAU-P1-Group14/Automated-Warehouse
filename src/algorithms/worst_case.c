@@ -1,6 +1,6 @@
 #include "worst_case.h"
 
-int worst_case(int *height,int *width, int layout[*height][*width], node target, node dropoff, node charging, node position) {
+int worst_case(int height, int width, int layout[height][width], node target, node dropoff, node charging, node position) {
     int found_target = false;
     int found_dropoff = false;
     int iterations = 0;
@@ -9,7 +9,7 @@ int worst_case(int *height,int *width, int layout[*height][*width], node target,
     while (iterations < 100000 && !(found_dropoff && found_target)) {
         iterations++;
         // Move the robot
-        move_position(&height, &width, layout, &position, &tiles);
+        move_position(height, width, layout, &position, &tiles);
         // Update the layout and check if target or dropoff is found
         update_and_check(&height, &width, layout, target, dropoff, charging, position, &found_target, &found_dropoff);
     }
@@ -17,7 +17,7 @@ int worst_case(int *height,int *width, int layout[*height][*width], node target,
     return 0;
 }
 
-void move_position(int *height, int *width, int layout[*height][*width], node* position, int* tiles) {
+void move_position(int height, int width, int layout[height][width], node* position, int* tiles) {
     // Create a random number in interval [0, 1, 2, 3]
     int random_direction = rand() % 4;
 

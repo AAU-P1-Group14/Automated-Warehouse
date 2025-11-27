@@ -26,13 +26,13 @@ void vertical_num(const int y_row) {  // the vertical numbers are far more simpl
     }
 }
 
-void init_array(int *height, int *width, int layout[*height][*width]) {
+void init_array(int height, int width, int layout[height][width]) {
     const int height2 = 19;
     const int width2 = 36;
 
-    for (int y_row = 0; y_row < *height; ++y_row) // Looping through all the rows in the layout array
+    for (int y_row = 0; y_row < height; ++y_row) // Looping through all the rows in the layout array
     {
-        for (int x_col = 0; x_col < *width; ++x_col) // Looping through all the coloumns in the layout array
+        for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (y_row)
             {

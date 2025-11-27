@@ -9,7 +9,7 @@
 #include "input_manager.h"
 
 void print_menu(int layout_selected, int shelf_selection, node target, int bench, bool procedural);
-int select(int **height, int **width, int layout[**height][**width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural);
+int select(int *height, int *width, int layout[*height][*width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural);
 
 
 #endif //AUTOMATED_WAREHOUSE_MAIN_MENU_H

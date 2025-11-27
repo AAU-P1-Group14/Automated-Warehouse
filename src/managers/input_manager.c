@@ -49,7 +49,7 @@ void select_bench(int* bench) {
     }
 }
 
-void input_target(int height, int width, int layout[height][width], node* target){
+void input_target(int *height, int *width, int layout[*height][*width], node* target){
     while (1) {
         printf("Enter target (row col): ");
 
@@ -65,7 +65,7 @@ void input_target(int height, int width, int layout[height][width], node* target
             continue;
         }
 
-        int valid_target = input_validation(height, width, layout, *target);
+        int valid_target = input_validation(*height, *width, layout, *target);
 
         if (valid_target){
             break;
