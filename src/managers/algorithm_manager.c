@@ -30,9 +30,6 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
     for (int i = 0; i < 3; i++) {
 
-        // Input target in layout array
-        if (!procedural) layout[target_t.y][target_t.x] = target;
-
         struct timespec timestamp1;
         struct timespec timestamp2;
 
@@ -48,7 +45,6 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 if (procedural) {
                     for (int i = 0; i < bench-1; i++) {
                         total_tiles += worst_case(layout, targets[i], (node){16, 31}, (node){16, 4}, (node){16, 4});
-
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
@@ -92,16 +88,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 break;
             case 1:
                 {
-                int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
-                if (!bfs_valid) continue;
-
-                bfs_valid = bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
-                if (!bfs_valid) continue;
-
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                    for (int i = 0; i < bench; i++) {
+                    for (int i = 0; i < bench-1; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
                         bfs(layout, targets[i], (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
@@ -118,13 +108,24 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                    for (int i = 0; i < bench; i++) {
+                    for (int i = 0; i < bench-1; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
                         bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, false);
                     }
+                }
+
+                if (procedural) {
+                    layout[targets[bench-1].y][targets[bench-1].x] = target;
+                    bfs(layout, targets[bench-1], (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
+                    bfs(layout, (node){16, 31}, targets[bench-1], &tiles_bfs, &total_tiles, path, true);
+                }
+                else {
+                    layout[targets[bench-1].y][targets[bench-1].x] = target;
+                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
+                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
@@ -144,16 +145,10 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 }
             case 2:
                 {
-                int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
-                if (!dfs_valid) continue;
-
-                dfs_valid = dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, true);
-                if (!dfs_valid) continue;
-
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                    for (int i = 0; i < bench; i++) {
+                    for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(layout, targets[i], (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
@@ -170,13 +165,24 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                    for (int i = 0; i < bench; i++) {
+                    for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, false);
                     }
+                }
+
+                if (procedural) {
+                    layout[targets[bench-1].y][targets[bench-1].x] = target;
+                    dfs(layout, targets[bench-1], (node){16, 4}, &tiles_dfs, &total_tiles, true);
+                    dfs(layout, (node){16, 31}, targets[bench-1], &tiles_dfs, &total_tiles, true);
+                }
+                else {
+                    layout[target_t.y][target_t.x] = target;
+                    bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
+                    bfs(layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
