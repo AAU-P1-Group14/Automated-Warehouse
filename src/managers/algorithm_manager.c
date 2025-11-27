@@ -91,6 +91,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
 
                 break;
             case 1:
+                {
                 int bfs_valid = bfs(layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) continue;
 
@@ -140,7 +141,9 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 clear_path(layout, path, &tiles_bfs, target_t);
 
                 break;
+                }
             case 2:
+                {
                 int dfs_valid = dfs(layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) continue;
 
@@ -190,7 +193,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 clear_path(layout, path, &tiles_dfs, target_t);
 
                 break;
-
+                }
             default:
                 break;
         }
