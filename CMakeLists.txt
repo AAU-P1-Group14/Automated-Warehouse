@@ -19,4 +19,6 @@ add_executable(Automated-Warehouse src/main.c
         src/managers/algorithm_manager.c
         src/managers/algorithm_manager.h
         src/algorithms/worst_case.c
-        src/algorithms/worst_case.h)
+        src/algorithms/worst_case.h
+        src/dynamic_layout/dynamic_warehouse.c
+        src/dynamic_layout/dynamic_warehouse.h)

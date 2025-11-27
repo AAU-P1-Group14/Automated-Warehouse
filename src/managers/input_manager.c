@@ -49,7 +49,7 @@ void select_bench(int* bench) {
     }
 }
 
-void input_target(int layout[HEIGHT][WIDTH], node* target){
+void input_target(int height, int width, int layout[height][width], node* target){
     while (1) {
         printf("Enter target (row col): ");
 
@@ -65,7 +65,7 @@ void input_target(int layout[HEIGHT][WIDTH], node* target){
             continue;
         }
 
-        int valid_target = input_validation(layout, *target);
+        int valid_target = input_validation(height, width, layout, *target);
 
         if (valid_target){
             break;
@@ -73,8 +73,8 @@ void input_target(int layout[HEIGHT][WIDTH], node* target){
     }
 }
 
-int input_validation(int layout[HEIGHT][WIDTH], node target){
-    if (target.y > HEIGHT || target.y < 0 || target.x > WIDTH || target.x < 0) {
+int input_validation(int height, int width, int layout[height][width], node target){
+    if (target.y > height || target.y < 0 || target.x > width || target.x < 0) {
         printf("OUT OF BOUNDS\n");
         return false;
     }
@@ -87,18 +87,18 @@ int input_validation(int layout[HEIGHT][WIDTH], node target){
     return true;
 }
 
-node random_target(int layout[HEIGHT][WIDTH]) {
+node random_target(int *height, int *width, int layout[*height][*width]) {
     // 2D array to store the coordinates of all shelves
-    node shelf_arr[HEIGHT * WIDTH];
+    node shelf_arr[*height * *width];
 
     // Initialising shelf_counter to count the amount of shelves found in the layout;
     int shelf_counter = 0;
 
     // Looping through all columns
-    for (int row = 0; row < HEIGHT; row++)
+    for (int row = 0; row < *height; row++)
     {
         //Looping through all rows
-        for (int col = 0; col < WIDTH; col++)
+        for (int col = 0; col < *width; col++)
         {
             // If the coordinate is a shelf, assign that coordinate to
             // the shelf_arr and increase shelf_counter by 1;

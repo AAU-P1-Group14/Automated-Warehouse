@@ -16,19 +16,24 @@ int debug = false;
 
 int main(void) {
     // Initialising randomness for random target selection
+    int* height;
+    int* width;
+    *height = 19;
+    *width  = 36;
+
     srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
-    static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
+    int layout[*height][*width]; // Creating an empty static 2D array to store the warehouse layout
 
     // Creating target point
     node target_t = {0,0};
 
-    init_array(layout);
+    init_array(&height, &width, layout);
 
-    target_t = random_target(layout);
+    target_t = random_target(&height, &width, layout);
 
     // Boolean var to define when to break the main menu
     int break_main_menu = false;
@@ -42,14 +47,14 @@ int main(void) {
     bool procedural = 1;
 
     // Start menu
-    clear_terminal();
+    //clear_terminal();
     while (!break_main_menu) {
         print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
-        break_main_menu = select(layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
+        break_main_menu = select(&height, &width, layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
     }
     clear_terminal();
 
-    run_algorithms(layout, target_t, bench, procedural, debug);
+    run_algorithms(&height, &width, layout, target_t, bench, procedural, debug);
   
     // When running in external console, the program only closes after enter is pressed
     getchar();

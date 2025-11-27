@@ -26,7 +26,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
+int select(int **height, int **width, int layout[**height][**width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
     int chosen;
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
@@ -45,9 +45,9 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
         clear_terminal();
-        print_array(layout,true);
+        print_array(height, width, layout,true);
         *procedural = false;
-        input_target(layout, target);
+        input_target(height, &width, layout, target);
         clear_terminal();
         *shelf_selected = 1;
         return false;
@@ -56,13 +56,13 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         clear_terminal();
         prompt_procedural(procedural);
         clear_terminal();
-        if (!procedural) *target = random_target(layout);
+        if (!procedural) *target = random_target(&height, &width, layout);
         *shelf_selected = 0;
         return false;
     
     case 4:
         clear_terminal();
-        init_array(layout);
+        init_array(&height, &width, layout);
         *layout_selected = 1;
         return false;
     
