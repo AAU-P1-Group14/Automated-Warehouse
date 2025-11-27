@@ -11,12 +11,10 @@ bool dfs_is_valid(int grid[HEIGHT][WIDTH], node current, node target)
    if (current.x < 0 || current.y < 0 || current.y >= HEIGHT || current.x >= WIDTH)
         return false;
 
-    if (cmp_node(current, target)) return true;
 
     // If cell is already visited
     if (vis[current.y][current.x])
         return false;
-
 
 
     // Check if target is reached
