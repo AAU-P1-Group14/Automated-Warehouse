@@ -19,9 +19,6 @@ int main(void) {
     // Initialising randomness for random target selection
     const int height = 19;
     const int width  = 36;
-    //int* height = &h;
-    //int* width = &w;
-
 
     srand(time(NULL));
   
@@ -70,13 +67,9 @@ int main(void) {
         int height2;
         int width2;
 
-        printf("4");
-
-
         setHegihtWidtt(&height2, &width2, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
 
         int layout2[height2][width2];
-
 
         dynamicWarehouseDesign(height2, width2, layout2, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
 
