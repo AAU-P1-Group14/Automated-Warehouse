@@ -92,6 +92,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 break;
             case 1:
                 {
+                total_tiles = 0;
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
@@ -148,6 +149,7 @@ void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool pr
                 }
             case 2:
                 {
+                total_tiles = 0;
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
