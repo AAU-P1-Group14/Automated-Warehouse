@@ -143,8 +143,7 @@ int dfs(
        }
    }
 
-    if (firstcase) *tiles += path_len;
-    else *total_tiles += path_len;
+    *total_tiles += path_len;
 
    for (int i = 0; i < HEIGHT; i++) {
        for (int j = 0; j < WIDTH; j++) {
