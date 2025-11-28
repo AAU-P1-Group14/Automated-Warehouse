@@ -27,13 +27,13 @@ void vertical_num(const int y_row) {  // the vertical numbers are far more simpl
 }
 
 void init_array(int height, int width, int layout[height][width]) {
-    const int height2 = 19;
-    const int width2 = 36;
 
     for (int y_row = 0; y_row < height; ++y_row) // Looping through all the rows in the layout array
     {
         for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
+            layout[y_row][x_col] = vacant;
+            
             switch (y_row)
             {
             case 3: case 4: case 7: case 8: case 11: case 12: // These rows should contain shelves
@@ -49,12 +49,12 @@ void init_array(int height, int width, int layout[height][width]) {
                 }
                 break;
 
-            case 0: case height2-1: // At the first and last row, place horizontal lines at every coloum
+            case 0: case 18: // At the first and last row, place horizontal lines at every coloum (18: end of layout)
                 layout[y_row][x_col] = h_line;
             }
             switch (x_col)
             {
-                case 0: case width2-1: // At the first and last coloum, place vertical lines at every row
+                case 0: case 35: // At the first and last coloum, place vertical lines at every row (35: end of layout)
                 layout[y_row][x_col] = v_line;
             }
         }
@@ -103,7 +103,7 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
 }
 
 
-void clear_path(int *height, int *width, int layout[*height][*width], node path[*height * *width], int* tiles, node target_t) {
+void clear_path(int height, int width, int layout[height][width], node path[height * width], int* tiles, node target_t) {
 
     // Reset layout array
     // Clear path in layout array and clear path node array
@@ -125,9 +125,9 @@ void clear_path(int *height, int *width, int layout[*height][*width], node path[
 
 }
 
-void force_clear_path(int *height, int *width, int layout[*height][*width]) {
-    for (int row = 0; row < *height; row++) {
-        for (int col = 0; col < *width; col++) {
+void force_clear_path(int height, int width, int layout[height][width]) {
+    for (int row = 0; row < height; row++) {
+        for (int col = 0; col < width; col++) {
             if (layout[row][col] == path_enum) layout[row][col] = vacant;
         }
     }

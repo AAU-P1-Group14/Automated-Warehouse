@@ -17,21 +17,23 @@ int debug = false;
 
 int main(void) {
     // Initialising randomness for random target selection
-    const int height = 19;
-    const int width  = 36;
+    int height = 19;
+    int width  = 36;
     //int* height = &h;
     //int* width = &w;
-
+    printf("kebab");
 
     srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
-    static int layout[height][width]; // Creating an empty static 2D array to store the warehouse layout
+    int layout[1000][1000]; // Creating an empty static 2D array to store the warehouse layout
 
     // Creating target point
-    node target_t = {0,0};
+    node target_t = (node){0,0};
+    node charging = (node){16, 4};
+    node dropoff = (node){16, 31};
 
     init_array(height, width, layout);
 
@@ -52,44 +54,11 @@ int main(void) {
     //clear_terminal();
     while (!break_main_menu) {
         print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
-        break_main_menu = select(&height, &width, layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
-    }
-    printf("1.5");
-    clear_terminal();
-    printf("2");
-    if (layout_selected == 1) {
-        printf("3");
-        run_algorithms(height, width, layout, target_t, bench, procedural, debug);
-
-    } else {
-
-        int yShelfSections;
-        int yShelfDivider;
-        int xShelfWidth;
-        int sectionWidth;
-        int height2;
-        int width2;
-
-        printf("4");
-
-
-        setHegihtWidtt(&height2, &width2, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
-
-        int layout2[height2][width2];
-
-
-        dynamicWarehouseDesign(height2, width2, layout2, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
-
-        //int layout2[mDimensions[0]][mDimensions[1]];
-
-        print_array(height2, width2, layout2, false);
-        //const int height2 = mDimensions[0];
-        //const int width2  = mDimensions[1];
-        run_algorithms(height2, width2, layout2, target_t, bench, procedural, debug);
-
+        break_main_menu = select(&height, &width, &charging, &dropoff, layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
     }
 
-  
+    run_algorithms(height, width, layout, charging, dropoff, target_t, bench, procedural, debug);
+
     // When running in external console, the program only closes after enter is pressed
     getchar();
     getchar();

@@ -27,7 +27,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int *height, int *width, int layout[*height][*width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
+int select(int *height, int *width, node* charging, node* dropoff, int layout[*height][*width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
     int chosen;
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
@@ -63,15 +63,24 @@ int select(int *height, int *width, int layout[*height][*width], int* layout_sel
     
     case 4:
         //clear_terminal();
+        *charging = (node){16, 4};
+        *dropoff = (node){16, 31};
         init_array(19, 36, layout);
         *layout_selected = 1;
         return false;
     
-    case 5:
-        //clear_terminal();
+    case 5:{
+        int yShelfSections;
+        int yShelfDivider;
+        int xShelfWidth;
+        int sectionWidth;
 
+        clear_terminal();
+        setHegihtWidtt(height, width, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
+        dynamicWarehouseDesign(*height, *width, layout, charging, dropoff, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
         *layout_selected = 0;
         return false;
+    }
 
     case 6:
         //clear_terminal();

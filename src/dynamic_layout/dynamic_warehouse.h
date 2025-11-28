@@ -9,7 +9,7 @@
 extern char* mLayout;
 extern int* mDimensions;
 
-void dynamicWarehouseDesign(int height, int width, int layout[height][width], int yShelfSections, int yShelfDivider, int xShelfWidth, int sectionWidth);
+void dynamicWarehouseDesign(int height, int width, int layout[height][width], node* charging_station, node* dropoff_point, int yShelfSections, int yShelfDivider, int xShelfWidth, int sectionWidth);
 
 void setHegihtWidtt(int* height, int* width, int* yShelfSections, int* yShelfDivider, int* xShelfWidth, int* sectionWidth);
 

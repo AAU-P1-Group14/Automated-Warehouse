@@ -49,47 +49,18 @@ void setHegihtWidtt(int* height, int* width, int* yShelfSections, int* yShelfDiv
 }
 
 
-void dynamicWarehouseDesign(int height, int width, int layout[height][width], int yShelfSections, int yShelfDivider, int xShelfWidth, int sectionWidth) {
-
-
-    /*int yShelfSections, xShelfSections, xShelfWidth, xShelfDivider, yShelfDivider;
-
-    do {
-        printf("Enter the following:\n"
-               " - Shelf sections (y-axis).\n"
-               " - Space between vertical sections (y axis).\n"
-               " - Shelf sections (x-axis).\n"
-               " - Shelf width (x-axis).\n"
-               " - Space between horizontal sections (x axis).\n"
-               "Give 5 inputs and separate each by a space ' '. \n"
-               "User Inputs: ");
-
-        scanf("%i %i %i %i %i", &yShelfSections, &yShelfDivider, &xShelfSections, &xShelfWidth, &xShelfDivider);
-
-        if (yShelfSections < 0 || xShelfSections < 0 || xShelfSections * (xShelfWidth + xShelfDivider) <= 10) {
-                printf(ANSI_COLOR_RED "The combined length of ---> x-sections * (shelf width + shelf between sections), should be greater than 10 (9 if counting from 0)" ANSI_COLOR_RESET"\n");
-            };
-
-    } while (yShelfSections < 0 || xShelfSections < 0 || (xShelfSections * (xShelfWidth + xShelfDivider)) <= 10); // has ot have 1 section on y-axis and if x-axis is less than 10
-
-    // Calculates warehouse dimensions
-    const int sectionWidth = (xShelfWidth + xShelfDivider); // sectionWidth is the width of one shelf + the walking space between that and the next shelf
-    const int warehouseWidth = (xShelfWidth + xShelfDivider) * xShelfSections - xShelfDivider; // Total Width of the warehouse minus one xShelfDivider to ensure shelves leve no walking space against the warehouse wall.
-    const int warehouseHeight = (yShelfSections * (2 + yShelfDivider)); // Total Height of the warehouse. Each section is defined of 2 shelve rows and x empty rows.
-
-    int rows = warehouseHeight + 4 + 2; // 5 for bottom lines (where docking and packing station is and end wall)
-    int cols = warehouseWidth + 2;
-*/
-
+void dynamicWarehouseDesign(int height, int width, int layout[height][width], node* charging_station, node* dropoff_point, int yShelfSections, int yShelfDivider, int xShelfWidth, int sectionWidth) {
+    
     // Creates memory for the warehouse and fills all of it with dots
-    mLayout = malloc(height * width * sizeof(char)); // Assigns memory to store the memory in
+    int mLayout[height*width]; // Assigns memory to store the memory in
+    
     for (int i = 0; i < (height * width); i++) {
         mLayout[i] = vacant;
     }
     // Creates memory and assigns rows and cols within it
-    mDimensions = malloc(2 * sizeof(int));
-    mDimensions[0] = height;
-    mDimensions[1] = width;
+    // mDimensions = malloc(2 * sizeof(int));
+    //mDimensions[0] = height;
+    //mDimensions[1] = width;
 
 
     // Creates an array for the layout to be stored in.
@@ -157,8 +128,12 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], in
     layoutArr[stationRow][4] = charging;
     mLayout[stationRow * height + 4] = charging;
 
+    *charging_station = (node){stationRow, 4};
+
     layoutArr[stationRow][width - 5] = drop_off;
     mLayout[stationRow * width + (width - 5)] = drop_off;
+
+    *dropoff_point = (node){stationRow, width - 5};
 
 
     //Create 2D array from 1D array in malloc

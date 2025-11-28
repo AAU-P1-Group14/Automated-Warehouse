@@ -70,12 +70,12 @@ void update_and_check(int *height, int *width, int layout[*height][*width], node
 
     // If target is not found, check if target is here
     if (!(*found_target)) {
-        check_for_adjecent(&height, &width, layout, target, position, found_target);
+        check_for_adjecent(height, width, layout, target, position, found_target);
     }
 
     // If target is found but drop-off is not found, check if drop-off is here
     if (*found_target && !(*found_dropoff)) {
-        check_for_adjecent(&height, &width, layout, dropoff, position, found_dropoff);
+        check_for_adjecent(height, width, layout, dropoff, position, found_dropoff);
     }
 
 }
