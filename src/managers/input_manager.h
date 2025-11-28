@@ -11,9 +11,8 @@
 void prompt_procedural(bool* procedural);
 void select_bench(int* bench);
 int input_validation(int height, int width, int layout[height][width], node target);
-void input_target(int *height, int *width, int layout[*height][*width], node *target_row);
-void promptCustomShelf(int *height, int *width, int layout[*height][*width], node* target_row);
-node random_target(int *height, int *width, int layout[*height][*width]);
+void input_target(int height, int width, int layout[height][width], node *target);
+node random_target(int height, int width, int layout[height][width]);
 
 
 #endif //AUTOMATED_WAREHOUSE_INPUT_MANAGEMENT_H

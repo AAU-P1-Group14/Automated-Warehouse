@@ -20,14 +20,13 @@ int main(void) {
     int width  = 36;
     //int* height = &h;
     //int* width = &w;
-    printf("kebab");
 
     srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
-    int layout[1000][1000]; // Creating an empty static 2D array to store the warehouse layout
+    int layout[200][200]; // Creating an empty static 2D array to store the warehouse layout
 
     // Creating target point
     node target_t = (node){0,0};
@@ -36,7 +35,7 @@ int main(void) {
 
     init_array(height, width, layout);
 
-    target_t = random_target(&height, &width, layout);
+    target_t = random_target(height, width, layout);
 
     // Boolean var to define when to break the main menu
     int break_main_menu = false;
@@ -48,9 +47,8 @@ int main(void) {
     int bench = 1;
     //Should the targets be procedurally generated
     bool procedural = 1;
-    printf("1");
     // Start menu
-    //clear_terminal();
+    clear_terminal();
     while (!break_main_menu) {
         print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
         break_main_menu = select(&height, &width, &charging, &dropoff, layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);

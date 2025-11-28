@@ -127,8 +127,7 @@ int bfs(
         }
     }
 
-    if (firstcase) *tiles += path_len;
-    else *total_tiles += path_len;
+    *total_tiles += path_len;
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {

@@ -64,7 +64,7 @@ void init_array(int height, int width, int layout[height][width]) {
 }
 
 void print_array(int height, int width, int layout[height][width], bool print_num) {
-
+    node kebab;
     if (print_num)
         horizontal_num(width);
 
@@ -89,7 +89,10 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
 
                 case drop_off: printf("D "); break; // If the element is drop_off, print a "D"
 
-                case charging: printf("C "); break; // If the element is charging, print a "C"
+                case charging: printf("C ");{
+                    kebab = (node){y_row, x_col};
+                    break; // If the element is charging, print a "C"
+                }
 
                 case path_enum: printf("* "); break; // If the element is on the path, print a "*"
 
@@ -100,6 +103,7 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
         }
         printf("\n"); // Go to the next row with a new-line
     }
+    printf("PRINT_ARRAY CHARGING: (%d, %d)\n", kebab.y, kebab.x);
 }
 
 

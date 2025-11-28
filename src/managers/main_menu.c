@@ -48,7 +48,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         //clear_terminal();
         print_array(*height, *width, layout,true);
         *procedural = false;
-        input_target(height, width, layout, target);
+        input_target(*height, *width, layout, target);
         //clear_terminal();
         *shelf_selected = 1;
         return false;
@@ -57,7 +57,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         //clear_terminal();
         prompt_procedural(procedural);
         //clear_terminal();
-        if (!procedural) *target = random_target(height, width, layout);
+        if (!procedural) *target = random_target(*height, *width, layout);
         *shelf_selected = 0;
         return false;
     
@@ -78,6 +78,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         clear_terminal();
         setHegihtWidtt(height, width, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
         dynamicWarehouseDesign(*height, *width, layout, charging, dropoff, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
+        print_array(*height, *width, layout, false);
         *layout_selected = 0;
         return false;
     }

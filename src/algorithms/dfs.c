@@ -38,7 +38,8 @@ bool dfs_is_valid(int height,int width, int grid[height][width], node current, n
 int dfs(
     int height,
     int width,
-   int grid[height][width], // The warehouse layout
+   int grid[height][width],
+   node path[height * width], // The warehouse layout
    node target, // Target shelf
    node current, // Current position (start position)
    int* tiles, // Amount of files traveled
@@ -115,7 +116,6 @@ int dfs(
    }
 
    // Backtrack the path from target to start position
-   node path[height * width];
    int path_len = 0;
 
    node child = target;
@@ -147,8 +147,7 @@ int dfs(
        }
    }
 
-    if (firstcase) *tiles += path_len;
-    else *total_tiles += path_len;
+    *total_tiles += path_len;
 
    for (int i = 0; i < height; i++) {
        for (int j = 0; j < width; j++) {
