@@ -81,7 +81,7 @@ void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node
 }
 
 void check_for_adjecent(int layout[HEIGHT][WIDTH], node check_cell, node position, int* boolean_argument) {
-    // Check adjecent cells if drop-off is here
+    // Check adjecent cells if check_cell is here, and set boolean_argument to true, if check_cell was found
     int dRow[] = { -1, 0, 1, 0 };
     int dCol[] = { 0, 1, 0, -1 };
     for (int i = 0; i < 4; i++) {
