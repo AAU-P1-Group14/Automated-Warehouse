@@ -13,9 +13,8 @@
 #include <stdlib.h>
 #include <sys/timeb.h>
 
-int debug = false;
-
 int main(void) {
+    int debug = false;
     // Initialising randomness for random target selection
     int height = 19;
     int width  = 36;
