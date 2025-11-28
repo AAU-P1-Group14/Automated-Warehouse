@@ -45,26 +45,28 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
-        //clear_terminal();
+        clear_terminal();
         print_array(*height, *width, layout,true);
         *procedural = false;
         input_target(*height, *width, layout, target);
-        //clear_terminal();
+        clear_terminal();
         *shelf_selected = 1;
         return false;
     
     case 3:
-        //clear_terminal();
+        clear_terminal();
         prompt_procedural(procedural);
-        //clear_terminal();
+        clear_terminal();
         if (!procedural) *target = random_target(*height, *width, layout);
         *shelf_selected = 0;
         return false;
     
     case 4:
-        //clear_terminal();
+        clear_terminal();
         *charging = (node){16, 4};
         *dropoff = (node){16, 31};
+        *height = 19;
+        *width  = 36;
         init_array(19, 36, layout);
         *target = random_target(*height, *width, layout);
         *layout_selected = 1;
@@ -86,7 +88,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
     }
 
     case 6:
-        //clear_terminal();
+        clear_terminal();
         select_bench(bench);
         return false;
     

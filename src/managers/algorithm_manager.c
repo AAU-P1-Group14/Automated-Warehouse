@@ -1,8 +1,8 @@
 #include "algorithm_manager.h"
 
-void print_stats(int *height, int *width, int layout[*height][*width], long long total_tiles, int bench, long long passtime, char* name) {
+void print_stats(int height, int width, int layout[height][width], long long total_tiles, int bench, long long passtime, char* name) {
     printf("%s algorithm:\n", name);
-    print_array(*height, *width, layout, false);
+    print_array(height, width, layout, false);
     if (total_tiles/bench > 0) {
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
         printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
@@ -88,7 +88,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 long long passtime = passed - current;
 
                 // Print out the result from worst case
-                print_stats(&height, &width, layout, total_tiles, bench, passtime, "Worst Case");
+                print_stats(height, width, layout, total_tiles, bench, passtime, "Worst Case");
 
                 //Clears the path from the layout array
                 force_clear_path(height, width, layout);
@@ -142,7 +142,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 passtime = passed - current;
 
                 // Print out the result from BFS
-                print_stats(&height, &width, layout, total_tiles, bench, passtime, "BFS");
+                print_stats(height, width, layout, total_tiles, bench, passtime, "BFS");
 
                 //Clears the path from the layout array
                 if (procedural) clear_path(height, width, layout, path, &tiles_bfs, targets[0]);
@@ -158,9 +158,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(height, width, layout, path, targets[i], charging, &tiles_dfs, &total_tiles, false);
-
-                        printf("TARGET: (%d, %d)\n", targets[i].y, targets[i].x);
-                        printf("CHARGING: (%d, %d)\n", charging.y, charging.x);
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, path, dropoff, targets[i], &tiles_dfs, &total_tiles, false);
@@ -178,8 +175,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(height, width, layout, path, target_t, charging, &tiles_dfs, &total_tiles, false);
-                        printf("TARGET: (%d, %d)\n", target_t.y, target_t.x);
-                        printf("CHARGING: (%d, %d)\n", charging.y, charging.x);
+                        
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, path, dropoff, target_t, &tiles_dfs, &total_tiles, false);
                     }
@@ -202,7 +198,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 passtime = passed - current;
 
                 // Print out the result from BFS
-                print_stats(&height, &width, layout, total_tiles, bench, passtime, "DFS");
+                print_stats(height, width, layout, total_tiles, bench, passtime, "DFS");
 
                 //Clears the path from the layout array
                 if (procedural) clear_path(height, width, layout, path, &tiles_dfs, targets[0]);

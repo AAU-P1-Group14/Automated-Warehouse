@@ -6,7 +6,7 @@ int worst_case(int height, int width, int layout[height][width], node target, no
     int iterations = 0;
     int tiles = 0;
 
-    while (iterations < 100000 && !(found_dropoff && found_target)) {
+    while (iterations < 250000 && !(found_dropoff && found_target)) {
         iterations++;
         // Move the robot
         move_position(height, width, layout, &position, &tiles);
