@@ -11,7 +11,7 @@
 char* mLayout = NULL;
 int* mDimensions = NULL;
 
-void setHegihtWidtt(int* height, int* width, int* yShelfSections, int* yShelfDivider, int* xShelfWidth, int* sectionWidth) {
+void setHegihtWidth(int* height, int* width, int* yShelfSections, int* yShelfDivider, int* xShelfWidth, int* sectionWidth) {
 
     //int yShelfSections, xShelfSections, xShelfWidth, xShelfDivider, yShelfDivider;
 
@@ -126,7 +126,7 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
 
     int stationRow = height - 3;
     layoutArr[stationRow][4] = charging;
-    mLayout[stationRow * height + 4] = charging;
+    mLayout[stationRow * width + 4] = charging;
 
     *charging_station = (node){stationRow, 4};
 
@@ -135,7 +135,7 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
 
     *dropoff_point = (node){stationRow, width - 5};
 
-
+    printf("%d \n \n \n", mLayout[38 * width + 4]);
     //Create 2D array from 1D array in malloc
 
     //int layout[height][width];
@@ -151,6 +151,12 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
             colCounter++;
         }
     }
+
+    printf("%d \n \n \n", mLayout[38 * width + 4]);
+    printf("%d \n \n \n", layout[38][4]);
+
+
+
     //printf("Height - %i\nWidth - %i", rows, cols);
     //print_array(*width, *height, layout, false);
 

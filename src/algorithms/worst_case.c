@@ -11,7 +11,7 @@ int worst_case(int height, int width, int layout[height][width], node target, no
         // Move the robot
         move_position(height, width, layout, &position, &tiles);
         // Update the layout and check if target or dropoff is found
-        update_and_check(&height, &width, layout, target, dropoff, charging, position, &found_target, &found_dropoff);
+        update_and_check(height, width, layout, target, dropoff, charging, position, &found_target, &found_dropoff);
     }
     if (found_target && found_dropoff) return tiles;
     return 0;
@@ -60,7 +60,7 @@ void move_position(int height, int width, int layout[height][width], node* posit
         }
 }
 
-void update_and_check(int *height, int *width, int layout[*height][*width], node target, node dropoff, node charging, node position, int* found_target, int* found_dropoff) {
+void update_and_check(int height, int width, int layout[height][width], node target, node dropoff, node charging, node position, int* found_target, int* found_dropoff) {
     if ((position.y != target.y || position.x != target.x) &&
         (position.y != dropoff.y || position.x != dropoff.x) &&
         (position.y != charging.y || position.x != charging.x)) {
@@ -80,7 +80,7 @@ void update_and_check(int *height, int *width, int layout[*height][*width], node
 
 }
 
-void check_for_adjecent(int *height, int *width, int layout[*height][*width], node check_cell, node position, int* boolean_argument) {
+void check_for_adjecent(int height, int width, int layout[height][width], node check_cell, node position, int* boolean_argument) {
     // Check adjecent cells if drop-off is here
     int dRow[] = { -1, 0, 1, 0 };
     int dCol[] = { 0, 1, 0, -1 };

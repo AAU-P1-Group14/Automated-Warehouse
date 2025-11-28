@@ -29,13 +29,12 @@ int main(void) {
     int layout[200][200]; // Creating an empty static 2D array to store the warehouse layout
 
     // Creating target point
-    node target_t = (node){0,0};
     node charging = (node){16, 4};
     node dropoff = (node){16, 31};
 
     init_array(height, width, layout);
 
-    target_t = random_target(height, width, layout);
+    node target_t = random_target(height, width, layout);
 
     // Boolean var to define when to break the main menu
     int break_main_menu = false;
