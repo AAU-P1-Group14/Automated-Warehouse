@@ -5,10 +5,10 @@
 #define MAX_BRANCHES 100
 
 
-bool bfs_is_valid(int *height, int *width, int grid[*height][*width], node current, node target)
+bool bfs_is_valid(int height, int width, int grid[height][width], node current, node target)
 {
     // If cell lies out of bounds
-    if (current.x < 0 || current.y < 0 || current.y >= *height || current.x >= *width)
+    if (current.x < 0 || current.y < 0 || current.y >= height || current.x >= width)
         return false;
 
     // If cell is already visited
@@ -30,18 +30,18 @@ bool bfs_is_valid(int *height, int *width, int grid[*height][*width], node curre
 
 // Function to perform the BFS traversal
 int bfs(
-    int *height,
-    int *width,
-    int grid[*height][*width],
+    int height,
+    int width,
+    int grid[height][width],
     node target_t,
     node current,
     int* tiles,
     long long* total_tiles,
-    node path[*height * *width],
+    node path[height * width],
     bool firstcase)
 {
     // Simple queue implementation using arrays
-    node queue[*height * *width];
+    node queue[height * width];
     int front = 0, back = 0;
 
     // Direction vectors (op, højre, ned, venstre)
@@ -49,11 +49,11 @@ int bfs(
     int dCol[] = { 0, 1, 0, -1 };
 
     // Parent-array for backtracking
-    node parent[*height][*width];
+    node parent[height][width];
 
     // Init parents til -1 (ingen forælder)
-    for (int r = 0; r < *height; r++) {
-        for (int c = 0; c < *width; c++) {
+    for (int r = 0; r < height; r++) {
+        for (int c = 0; c < width; c++) {
             parent[r][c] = (node){-1, -1};
         }
     }
@@ -79,7 +79,7 @@ int bfs(
 
             node adj = {yx.y + dRow[i], yx.x + dCol[i]};
 
-            if (bfs_is_valid(&height, &width, grid, adj, target_t)) {
+            if (bfs_is_valid(height, width, grid, adj, target_t)) {
                 queue[back] = adj;
                 back++;
 
@@ -130,8 +130,8 @@ int bfs(
     if (firstcase) *tiles += path_len;
     else *total_tiles += path_len;
 
-    for (int i = 0; i < *height; i++) {
-        for (int j = 0; j < *width; j++) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
             vis[i][j] = 0;
         }
     }

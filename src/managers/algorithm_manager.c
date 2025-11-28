@@ -2,7 +2,7 @@
 
 void print_stats(int *height, int *width, int layout[*height][*width], long long total_tiles, int bench, long long passtime, char* name) {
     printf("%s algorithm:\n", name);
-    print_array(&height, &width, layout, false);
+    print_array(*height, *width, layout, false);
     if (total_tiles/bench > 0) {
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
         printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
@@ -92,10 +92,10 @@ void run_algorithms(int height, int width, int layout[height][width], node targe
                 break;
             case 1:
                 {
-                int bfs_valid = bfs(&height, &width, layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
+                int bfs_valid = bfs(height, width, layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) continue;
 
-                bfs_valid = bfs(&height, &width, layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
+                bfs_valid = bfs(height, width, layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, true);
                 if (!bfs_valid) continue;
 
                 if (procedural) {
@@ -103,10 +103,10 @@ void run_algorithms(int height, int width, int layout[height][width], node targe
 
                     for (int i = 0; i < bench; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(&height, &width, layout, targets[i], (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
+                        bfs(height, width, layout, targets[i], (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(&height, &width, layout, (node){16, 31}, targets[i], &tiles_bfs, &total_tiles, path, false);
+                        bfs(height, width, layout, (node){16, 31}, targets[i], &tiles_bfs, &total_tiles, path, false);
 
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
@@ -120,10 +120,10 @@ void run_algorithms(int height, int width, int layout[height][width], node targe
 
                     for (int i = 0; i < bench; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(&height, &width, layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
+                        bfs(height, width, layout, target_t, (node){16, 4}, &tiles_bfs, &total_tiles, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(&height, &width, layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, false);
+                        bfs(height, width, layout, (node){16, 31}, target_t, &tiles_bfs, &total_tiles, path, false);
                     }
                 }
 
@@ -144,10 +144,10 @@ void run_algorithms(int height, int width, int layout[height][width], node targe
                 }
             case 2:
                 {
-                int dfs_valid = dfs(&height, &width, layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
+                int dfs_valid = dfs(height, width, layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) continue;
 
-                dfs_valid = dfs(&height, &width, layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, true);
+                dfs_valid = dfs(height, width, layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, true);
                 if (!dfs_valid) continue;
 
                 if (procedural) {
@@ -155,10 +155,10 @@ void run_algorithms(int height, int width, int layout[height][width], node targe
 
                     for (int i = 0; i < bench; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(&height, &width, layout, targets[i], (node){16, 4}, &tiles_dfs, &total_tiles, false);
+                        dfs(height, width, layout, targets[i], (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(&height, &width, layout, (node){16, 31}, targets[i], &tiles_dfs, &total_tiles, false);
+                        dfs(height, width, layout, (node){16, 31}, targets[i], &tiles_dfs, &total_tiles, false);
 
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
@@ -172,10 +172,10 @@ void run_algorithms(int height, int width, int layout[height][width], node targe
 
                     for (int i = 0; i < bench; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(&height, &width, layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, false);
+                        dfs(height, width, layout, target_t, (node){16, 4}, &tiles_dfs, &total_tiles, false);
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(&height, &width, layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, false);
+                        dfs(height, width, layout, (node){16, 31}, target_t, &tiles_dfs, &total_tiles, false);
                     }
                 }
 

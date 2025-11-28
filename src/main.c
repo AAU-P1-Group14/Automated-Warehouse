@@ -62,10 +62,29 @@ int main(void) {
         run_algorithms(height, width, layout, target_t, bench, procedural, debug);
 
     } else {
+
+        int yShelfSections;
+        int yShelfDivider;
+        int xShelfWidth;
+        int sectionWidth;
+        int height2;
+        int width2;
+
         printf("4");
-        int layout2[mDimensions[0]][mDimensions[1]];
-        const int height2 = mDimensions[0];
-        const int width2  = mDimensions[1];
+
+
+        setHegihtWidtt(&height2, &width2, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
+
+        int layout2[height2][width2];
+
+
+        dynamicWarehouseDesign(height2, width2, layout2, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
+
+        //int layout2[mDimensions[0]][mDimensions[1]];
+
+        print_array(height2, width2, layout2, false);
+        //const int height2 = mDimensions[0];
+        //const int width2  = mDimensions[1];
         run_algorithms(height2, width2, layout2, target_t, bench, procedural, debug);
 
     }

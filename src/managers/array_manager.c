@@ -1,8 +1,8 @@
 #include "array_manager.h"
 
-void horizontal_num(int **width) {
+void horizontal_num(int width) {
     bool first = true;  // we make a bool
-    for (int i = 0; i < **width; i++) { // Looping through all the coloumns in the layout array
+    for (int i = 0; i < width; i++) { // Looping through all the coloumns in the layout array
         if (i % 5 == 0) { //we only want every 5 number, because there wouldn't be room.
             if (first) {
                 printf("  %d         ", i);
@@ -63,17 +63,17 @@ void init_array(int height, int width, int layout[height][width]) {
     layout[16][31] = drop_off; // Charging station is hardcoded to be at this spot
 }
 
-void print_array(int *height, int *width, int layout[*height][*width], bool print_num) {
+void print_array(int height, int width, int layout[height][width], bool print_num) {
 
     if (print_num)
-        horizontal_num(&width);
+        horizontal_num(width);
 
-    for (int y_row = 0; y_row < *height; ++y_row) // Looping through all the rows in the layout array
+    for (int y_row = 0; y_row < height; ++y_row) // Looping through all the rows in the layout array
     {
         if (print_num)
             vertical_num(y_row);
 
-        for (int x_col = 0; x_col < *width; ++x_col) // Looping through all the coloumns in the layout array
+        for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
             switch (layout[y_row][x_col])
             {

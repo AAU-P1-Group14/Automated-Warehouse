@@ -35,20 +35,18 @@ int select(int *height, int *width, int layout[*height][*width], int* layout_sel
     switch (chosen)
     {
     case 1:
-        if (*layout_selected) {
-            //clear_terminal();
-            printf("10");
-            return true;
+        if (*layout_selected != 1 && *layout_selected != 0) {
+            clear_terminal();
+            return false;
         }
 
-        //clear_terminal();
-        printf("20");
-        return false;
+        clear_terminal();
+        return true;
 
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
         //clear_terminal();
-        print_array(height, width, layout,true);
+        print_array(*height, *width, layout,true);
         *procedural = false;
         input_target(height, width, layout, target);
         //clear_terminal();
@@ -70,8 +68,8 @@ int select(int *height, int *width, int layout[*height][*width], int* layout_sel
         return false;
     
     case 5:
-        dynamicWarehouseDesign(height, width),
         //clear_terminal();
+
         *layout_selected = 0;
         return false;
 

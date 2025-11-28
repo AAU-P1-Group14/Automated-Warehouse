@@ -4,11 +4,11 @@
 #define HEIGHT 19
 #define MAX_BRANCHES 100
 
-bool dfs_is_valid(int *height,int *width, int grid[*height][*width], node current, node target)
+bool dfs_is_valid(int height,int width, int grid[height][width], node current, node target)
 {
 
    // If cell lies out of bounds
-   if (current.x < 0 || current.y < 0 || current.y >= *height || current.x >= *width)
+   if (current.x < 0 || current.y < 0 || current.y >= height || current.x >= width)
         return false;
 
     if (cmp_node(current, target)) return true;
@@ -36,9 +36,9 @@ bool dfs_is_valid(int *height,int *width, int grid[*height][*width], node curren
 
 // Function to perform the DFS traversal
 int dfs(
-    int* height,
-    int* width,
-   int grid[*height][*width], // The warehouse layout
+    int height,
+    int width,
+   int grid[height][width], // The warehouse layout
    node target, // Target shelf
    node current, // Current position (start position)
    int* tiles, // Amount of files traveled
@@ -49,7 +49,7 @@ int dfs(
 
    // We make an array for stack instead of queue.
    // stack is an array that will hold all nodes we might visit.
-   node stack[*height * *width];
+   node stack[height * width];
    // top = index of the top cell in the stack. ie the first one to check.
    // it makes it start out empty, top is the current "top" of the stock
    int top = -1;
@@ -59,11 +59,11 @@ int dfs(
     int dCol[] = {  0, 1, 0, -1 };
 
    // Parent-arrays for backtracking
-   node parent[*height][*width];
+   node parent[height][width];
 
    // Init parents to -1 (no parents)
-   for (int r = 0; r < *height; r++) {
-       for (int c = 0; c < *width; c++) {
+   for (int r = 0; r < height; r++) {
+       for (int c = 0; c < width; c++) {
            parent[r][c] = (node){-1, -1};
        }
    }
@@ -97,7 +97,7 @@ int dfs(
            node adj = {yx.y + dRow[i], yx.x + dCol[i]};
            //loops through all possible directions
 
-           if (dfs_is_valid(&height, &width, grid, adj, target)) {
+           if (dfs_is_valid(height, width, grid, adj, target)) {
                stack[++top] = adj;
                vis[adj.y][adj.x] = 1;
                // if a cell is valid we push it onto the stack
@@ -115,7 +115,7 @@ int dfs(
    }
 
    // Backtrack the path from target to start position
-   node path[*height * *width];
+   node path[height * width];
    int path_len = 0;
 
    node child = target;
@@ -150,8 +150,8 @@ int dfs(
     if (firstcase) *tiles += path_len;
     else *total_tiles += path_len;
 
-   for (int i = 0; i < *height; i++) {
-       for (int j = 0; j < *width; j++) {
+   for (int i = 0; i < height; i++) {
+       for (int j = 0; j < width; j++) {
            vis[i][j] = 0;
        }
    }
