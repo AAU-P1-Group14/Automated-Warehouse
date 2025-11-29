@@ -134,8 +134,7 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
     mLayout[stationRow * width + (width - 5)] = drop_off;
 
     *dropoff_point = (node){stationRow, width - 5};
-
-    printf("%d \n \n \n", mLayout[38 * width + 4]);
+    
     //Create 2D array from 1D array in malloc
 
     //int layout[height][width];
@@ -151,9 +150,6 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
             colCounter++;
         }
     }
-
-    printf("%d \n \n \n", mLayout[38 * width + 4]);
-    printf("%d \n \n \n", layout[38][4]);
 
 
 

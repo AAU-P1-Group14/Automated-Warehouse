@@ -96,6 +96,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 break;
             case 1:
                 {
+                total_tiles = 0;
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
@@ -152,6 +153,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 }
             case 2:
                 {
+                total_tiles = 0;
                 if (procedural) {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
 
@@ -175,7 +177,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(height, width, layout, path, target_t, charging, &tiles_dfs, &total_tiles, false);
-                        
+
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, path, dropoff, target_t, &tiles_dfs, &total_tiles, false);
                     }
