@@ -326,7 +326,7 @@ void compare_results(int bench, long tiles_worst_case, long tiles_bfs, long tile
         realistic_time_dfs, realistic_time_compare_dfs);
 
     // END
-    printf("-------------------------------------------------------------------");
+    printf("-------------------------------------------------------------------\n\n");
 
 }
 
