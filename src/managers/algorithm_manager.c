@@ -64,7 +64,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             printf("\rPROGRESS: %d%%", progress);
                         }
                     }
-                    printf("\r");
                 }
 
                 else {
@@ -77,6 +76,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         }
                     }
                 }
+                printf("\r");
 
                 // One last run to store the path
                 force_clear_path(width, height, layout);
@@ -116,13 +116,12 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[i], &tiles_bfs, &total_tiles_bfs, path, false);
-
+                        
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
                         }
                     }
-                    printf("\r");
 
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -133,8 +132,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t, &tiles_bfs, &total_tiles_bfs, path, false);
+                        
+                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
+                            int progress = i * 100 / bench;
+                            printf("\rPROGRESS: %d%%", progress);
+                        }
                     }
                 }
+                printf("\r");
 
                 if (procedural) {
                     bfs(height, width, layout, &direction_switches_bfs, targets[bench-1], charging, &tiles_bfs, &total_tiles_bfs, path, true);
@@ -182,7 +187,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             printf("\rPROGRESS: %d%%", progress);
                         }
                     }
-                    printf("\r");
 
                 } else {
                     clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -193,8 +197,15 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &tiles_dfs, &total_tiles_dfs, false);
+
+                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
+                            int progress = i * 100 / bench;
+                            printf("\rPROGRESS: %d%%", progress);
+                        }
                     }
                 }
+                printf("\r");
+                
 
                 if (procedural) {
                     dfs(height, width, layout, &direction_switches_dfs, path, targets[bench-1], charging, &tiles_dfs, &total_tiles_dfs, true);
