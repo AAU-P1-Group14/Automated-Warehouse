@@ -37,6 +37,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
     case 1:
         if (*layout_selected != 1 && *layout_selected != 0) {
             clear_terminal();
+            if (*shelf_selected == 0 && !(*procedural)) *target = random_target(*height, *width, layout);
             return false;
         }
 
@@ -57,7 +58,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         clear_terminal();
         prompt_procedural(procedural);
         clear_terminal();
-        if (!procedural) *target = random_target(*height, *width, layout);
         *shelf_selected = 0;
         return false;
     
@@ -70,6 +70,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         init_array(19, 36, layout);
         *target = random_target(*height, *width, layout);
         *layout_selected = 1;
+        *shelf_selected = 0;
         return false;
     
     case 5:{
@@ -84,6 +85,7 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         print_array(*height, *width, layout, false);
         *target = random_target(*height, *width, layout);
         *layout_selected = 0;
+        *shelf_selected = 0;
         return false;
     }
 
