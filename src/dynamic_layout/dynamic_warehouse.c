@@ -29,23 +29,26 @@ void setHegihtWidth(int* height, int* width, int* yShelfSections, int* yShelfDiv
 
         scanf("%i %i %i %i %i", yShelfSections, yShelfDivider, &xShelfSections, xShelfWidth, &xShelfDivider);
 
+
+        // Calculates warehouse dimensions
+        *sectionWidth = (*xShelfWidth + xShelfDivider); // sectionWidth is the width of one shelf + the walking space between that and the next shelf
+        const int warehouseWidth = (*xShelfWidth + xShelfDivider) * xShelfSections - xShelfDivider; // Total Width of the warehouse minus one xShelfDivider to ensure shelves leve no walking space against the warehouse wall.
+        const int warehouseHeight = (*yShelfSections * (2 + *yShelfDivider)); // Total Height of the warehouse. Each section is defined of 2 shelve rows and x empty rows.
+
+        *height = warehouseHeight + 4 + 2; // 5 for bottom lines (where docking and packing station is and end wall)
+        *width = warehouseWidth + 2;
+
+
         if (*yShelfSections < 0 || xShelfSections < 0 || xShelfSections * (*xShelfWidth + xShelfDivider) <= 10) {
             printf(ANSI_COLOR_RED "The combined length of ---> x-sections * (shelf width + shelf between sections), should be greater than 10 (9 if counting from 0)" ANSI_COLOR_RESET"\n");
         };
 
-    } while (*yShelfSections < 0 || xShelfSections < 0 || (xShelfSections * (*xShelfWidth + xShelfDivider)) <= 10); // has ot have 1 section on y-axis and if x-axis is less than 10
-
-    // Calculates warehouse dimensions
-    *sectionWidth = (*xShelfWidth + xShelfDivider); // sectionWidth is the width of one shelf + the walking space between that and the next shelf
-    const int warehouseWidth = (*xShelfWidth + xShelfDivider) * xShelfSections - xShelfDivider; // Total Width of the warehouse minus one xShelfDivider to ensure shelves leve no walking space against the warehouse wall.
-    const int warehouseHeight = (*yShelfSections * (2 + *yShelfDivider)); // Total Height of the warehouse. Each section is defined of 2 shelve rows and x empty rows.
-
-    *height = warehouseHeight + 4 + 2; // 5 for bottom lines (where docking and packing station is and end wall)
-    *width = warehouseWidth + 2;
+        if (*width >= 200 || *height >= 200) {
+            printf(ANSI_COLOR_RED "The combined Width and Height exceeds the max of 200x200" ANSI_COLOR_RESET"\n");
+        };
 
 
-
-
+    } while (*yShelfSections < 0 || xShelfSections < 0 || (xShelfSections * (*xShelfWidth + xShelfDivider)) <= 10 || *height >= 200 || *width >= 200); // has ot have 1 section on y-axis and if x-axis is less than 10
 }
 
 
