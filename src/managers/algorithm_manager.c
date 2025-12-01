@@ -279,7 +279,7 @@ void compare_results(int bench, long tiles_worst_case, long tiles_bfs, long tile
                      long direction_switches_worst_case, long direction_switches_bfs, long direction_switches_dfs,
                      bool found_worst_case, bool found_bfs, bool found_dfs) {
 
-    printf("\n\n\n---------------------- COMPARISON (averages) ----------------------\n\n");
+    printf("\n\n\n---------------------- COMPARISON TO WORST CASE (averages) ----------------------\n\n");
 
     long realistic_time_worst_case = calculate_realistic_time(tiles_worst_case, direction_switches_worst_case, found_worst_case);
 
@@ -297,7 +297,7 @@ void compare_results(int bench, long tiles_worst_case, long tiles_bfs, long tile
     long realistic_time_bfs = calculate_realistic_time(tiles_bfs, direction_switches_bfs, found_bfs);
     long realistic_time_compare_bfs = (realistic_time_bfs - realistic_time_worst_case) / bench;
 
-    print_comparison("Breadth First search (BFS)", found_bfs,
+    print_comparison("Breadth First search (BFS)", found_bfs, bench,
         tiles_bfs, tiles_compare_bfs,
         elapsed_bfs, elapsed_compare_bfs,
         direction_switches_bfs, direction_switches_compare_bfs,
@@ -319,15 +319,14 @@ void compare_results(int bench, long tiles_worst_case, long tiles_bfs, long tile
     long realistic_time_dfs = calculate_realistic_time(tiles_dfs, direction_switches_dfs, found_dfs);
     long realistic_time_compare_dfs = (realistic_time_dfs - realistic_time_worst_case) / bench;  
 
-    print_comparison("Depth First Search (DFS)", found_dfs,
+    print_comparison("Depth First Search (DFS)", found_dfs, bench,
         tiles_dfs, tiles_compare_dfs,
         elapsed_dfs, elapsed_compare_dfs,
         direction_switches_dfs, direction_switches_compare_dfs,
         realistic_time_dfs, realistic_time_compare_dfs);
 
     // END
-    printf("-------------------------------------------------------------------\n\n");
-
+    printf("---------------------------------------------------------------------------------\n\n");
 }
 
 
@@ -339,7 +338,7 @@ long calculate_realistic_time(long tiles, long direction_switches, bool found_ta
 }
 
 
-void print_comparison(char algo_name[40], bool found_target,
+void print_comparison(char algo_name[40], bool found_target, int bench,
     long tiles, long tiles_compare,
     long elapsed_time, long compare_elapsed_time,
     long direction_changes, long direction_changes_compare,
@@ -350,15 +349,15 @@ void print_comparison(char algo_name[40], bool found_target,
     if (found_target) printf("Target found: " GREEN "Yes" COLOR_RESET "\n");
     else printf("Target found: " RED "No" COLOR_RESET "\n");
 
-    if (direction_changes_compare < 0) printf("Direction switches: %ld (" GREEN "%+ld" COLOR_RESET ")\n", direction_changes, direction_changes_compare);
-    else printf("Direction switches: %ld (" RED "%+ld" COLOR_RESET ")\n", direction_changes, direction_changes_compare);
+    if (direction_changes_compare < 0) printf("Direction switches: %ld (" GREEN "%+ld" COLOR_RESET ")\n", direction_changes/bench, direction_changes_compare);
+    else printf("Direction switches: %ld (" RED "%+ld" COLOR_RESET ")\n", direction_changes/bench, direction_changes_compare);
 
-    if (tiles_compare < 0) printf("Tiles: %ld (" GREEN "%+ld" COLOR_RESET ")\n", tiles, tiles_compare);
-    else printf("Tiles: %ld (" RED "%+ld" COLOR_RESET ")\n", tiles, tiles_compare);
+    if (tiles_compare < 0) printf("Tiles: %ld (" GREEN "%+ld" COLOR_RESET ")\n", tiles/bench, tiles_compare);
+    else printf("Tiles: %ld (" RED "%+ld" COLOR_RESET ")\n", tiles/bench, tiles_compare);
 
-    if (compare_elapsed_time < 0) printf("Algorithm time: %ld micro sec (" GREEN "%+ld " COLOR_RESET "micro sec)\n", elapsed_time, compare_elapsed_time);
-    else printf("Algorithm time: %ld micro sec (" RED "%+ld micro sec " COLOR_RESET ")\n", elapsed_time, compare_elapsed_time);
+    if (compare_elapsed_time < 0) printf("Algorithm time: %ld micro sec (" GREEN "%+ld " COLOR_RESET "micro sec)\n", elapsed_time/bench, compare_elapsed_time);
+    else printf("Algorithm time: %ld micro sec (" RED "%+ld micro sec " COLOR_RESET ")\n", elapsed_time/bench, compare_elapsed_time);
 
-    if (realistic_time_compare < 0) printf("Realistic time: %ld sec (" GREEN "%+ld " COLOR_RESET "sec)\n\n", realistic_time, realistic_time_compare);
-    else printf("Realistic time: %ld sec (" RED "%+ld " COLOR_RESET "sec)\n\n", realistic_time, realistic_time_compare);
+    if (realistic_time_compare < 0) printf("Realistic time: %ld sec (" GREEN "%+ld " COLOR_RESET "sec)\n\n", realistic_time/bench, realistic_time_compare);
+    else printf("Realistic time: %ld sec (" RED "%+ld " COLOR_RESET "sec)\n\n", realistic_time/bench, realistic_time_compare/bench);
 }
