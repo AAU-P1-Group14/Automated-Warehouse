@@ -34,7 +34,7 @@ void setHegihtWidth(int* height, int* width, int* yShelfSections, int* yShelfDiv
         };
 
         if (*yShelfSections * *yShelfDivider >=200 || xShelfSections * (*xShelfWidth + xShelfDivider) >= 200) {
-            printf(ANSI_COLOR_RED "The combined Width and Height exceeds the max of 200x200" ANSI_COLOR_RESET"\n"ANSI_COLOR_RED "" ANSI_COLOR_RESET"\n");
+            printf(ANSI_COLOR_RED "The combined Width and Height exceeds the max of 200x200" ANSI_COLOR_RESET"\n");
         };
 
 
