@@ -12,10 +12,12 @@ void horizontal_num(int width) {
                 printf("  %d         ", i);
                 first = false;     //we use the bool here to format the first number ie 0 properly
             } else {
-                if (i > 9)     // then every other number will be printed differently depending on
+                if (i > 9 && i<100)     // then every other number will be printed differently depending on
                     printf(" %d       ", i); // whether they are above or below 9
-                else
+                else if (i < 9)
                     printf("%d        ", i);
+                } if (i>=100) {
+                    printf(" %d      ", i);
                 }
             }
         }
@@ -24,10 +26,13 @@ void horizontal_num(int width) {
 
 void vertical_num(const int y_row) {  // the vertical numbers are far more simple. we have y_row as parameter
     if (y_row < 10) {            // then for each time we go down we print the next number
-        printf("%d ", y_row);  //if its below 10 we add a space for formatting
-    } else {
-        printf("%d", y_row);
+        printf("%d  ", y_row);  //if its below 10 we add a space for formatting
+    } else if (y_row >= 10 && y_row < 100) {
+        printf("%d ", y_row);
+    } if (y_row >=100) {
+        printf("%d"  , y_row);
     }
+
 }
 
 void init_array(int height, int width, int layout[height][width]) {
