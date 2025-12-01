@@ -60,6 +60,8 @@ int main(void) {
 
         run_algorithms(height, width, layout, charging, dropoff, target_t, bench, procedural, debug);
 
+        printf("Press enter to return to main menu..\n");
+
         // When running in external console, the program only closes after enter is pressed
         getchar();
         getchar();
