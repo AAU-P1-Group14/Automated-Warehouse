@@ -1,23 +1,23 @@
 #include "worst_case.h"
 
-int worst_case(int layout[HEIGHT][WIDTH], node target, node dropoff, node charging, node position) {
+int worst_case(int height, int width, int layout[height][width], node target, node dropoff, node charging, node position) {
     int found_target = false;
     int found_dropoff = false;
     int iterations = 0;
     int tiles = 0;
 
-    while (iterations < 100000 && !(found_dropoff && found_target)) {
+    while (iterations < 250000 && !(found_dropoff && found_target)) {
         iterations++;
         // Move the robot
-        move_position(layout, &position, &tiles);
+        move_position(height, width, layout, &position, &tiles);
         // Update the layout and check if target or dropoff is found
-        update_and_check(layout, target, dropoff, charging, position, &found_target, &found_dropoff);
+        update_and_check(height, width, layout, target, dropoff, charging, position, &found_target, &found_dropoff);
     }
     if (found_target && found_dropoff) return tiles;
     return 0;
 }
 
-void move_position(int layout[HEIGHT][WIDTH], node* position, int* tiles) {
+void move_position(int height, int width, int layout[height][width], node* position, int* tiles) {
     // Create a random number in interval [0, 1, 2, 3]
     int random_direction = rand() % 4;
 
@@ -60,7 +60,7 @@ void move_position(int layout[HEIGHT][WIDTH], node* position, int* tiles) {
         }
 }
 
-void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node charging, node position, int* found_target, int* found_dropoff) {
+void update_and_check(int height, int width, int layout[height][width], node target, node dropoff, node charging, node position, int* found_target, int* found_dropoff) {
     if ((position.y != target.y || position.x != target.x) &&
         (position.y != dropoff.y || position.x != dropoff.x) &&
         (position.y != charging.y || position.x != charging.x)) {
@@ -70,18 +70,18 @@ void update_and_check(int layout[HEIGHT][WIDTH], node target, node dropoff, node
 
     // If target is not found, check if target is here
     if (!(*found_target)) {
-        check_for_adjecent(layout, target, position, found_target);
+        check_for_adjecent(height, width, layout, target, position, found_target);
     }
 
     // If target is found but drop-off is not found, check if drop-off is here
     if (*found_target && !(*found_dropoff)) {
-        check_for_adjecent(layout, dropoff, position, found_dropoff);
+        check_for_adjecent(height, width, layout, dropoff, position, found_dropoff);
     }
 
 }
 
-void check_for_adjecent(int layout[HEIGHT][WIDTH], node check_cell, node position, int* boolean_argument) {
-    // Check adjecent cells if check_cell is here, and set boolean_argument to true, if check_cell was found
+void check_for_adjecent(int height, int width, int layout[height][width], node check_cell, node position, int* boolean_argument) {
+    // Check adjecent cells if drop-off is here
     int dRow[] = { -1, 0, 1, 0 };
     int dCol[] = { 0, 1, 0, -1 };
     for (int i = 0; i < 4; i++) {

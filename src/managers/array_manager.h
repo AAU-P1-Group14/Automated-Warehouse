@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include "../utility/types.h"
 
-void init_array(int layout[HEIGHT][WIDTH]); // prototype of initArray
-void print_array(int layout[HEIGHT][WIDTH], bool print_num); // prototype of printArray
-void clear_path(int layout[HEIGHT][WIDTH], node path[HEIGHT * WIDTH], int* tiles, node target_t);
-void force_clear_path(int layout[HEIGHT][WIDTH]);
+void init_array(int height, int width, int layout[height][width]); // prototype of initArray
+void print_array(int height, int width, int layout[height][width], bool print_num); // prototype of printArray
+void clear_path(int height, int width, int layout[height][width], node path[height * width], int* tiles, node target_t);
+void force_clear_path(int height, int width, int layout[height][width]);
 
 #endif //AUTOMATED_WAREHOUSE_ARRAYMANAGEMENT_H

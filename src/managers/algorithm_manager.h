@@ -7,4 +7,4 @@
 #include "../algorithms/dfs.h"
 #include "../algorithms/worst_case.h"
 
-void run_algorithms(int layout[HEIGHT][WIDTH], node target_t, int bench, bool procedural, bool debug);
+void run_algorithms(int height, int width, int layout[height][width], node charging, node dropoff, node target_t, int bench, bool procedural, bool debug);

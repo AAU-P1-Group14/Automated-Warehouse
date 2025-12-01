@@ -1,4 +1,5 @@
 #include "main_menu.h"
+#include "../dynamic_layout/dynamic_warehouse.h"
 
 
 void print_menu(int layout_selected, int shelf_selection, node target, int bench, bool procedural) {
@@ -26,7 +27,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
+int select(int *height, int *width, node* charging, node* dropoff, int layout[*height][*width], int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
     int chosen;
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
@@ -34,20 +35,20 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
     switch (chosen)
     {
     case 1:
-        if (*layout_selected) {
+        if (*layout_selected != 1 && *layout_selected != 0) {
             clear_terminal();
-            return true;
+            return false;
         }
 
         clear_terminal();
-        return false;
+        return true;
 
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
         clear_terminal();
-        print_array(layout,true);
+        print_array(*height, *width, layout,true);
         *procedural = false;
-        input_target(layout, target);
+        input_target(*height, *width, layout, target);
         clear_terminal();
         *shelf_selected = 1;
         return false;
@@ -56,23 +57,35 @@ int select(int layout[HEIGHT][WIDTH], int* layout_selected, int* shelf_selected,
         clear_terminal();
         prompt_procedural(procedural);
         clear_terminal();
-        if (!procedural) *target = random_target(layout);
+        if (!procedural) *target = random_target(*height, *width, layout);
         *shelf_selected = 0;
         return false;
     
     case 4:
         clear_terminal();
-        init_array(layout);
+        *charging = (node){16, 4};
+        *dropoff = (node){16, 31};
+        *height = 19;
+        *width  = 36;
+        init_array(19, 36, layout);
+        *target = random_target(*height, *width, layout);
         *layout_selected = 1;
         return false;
     
-    case 5:
-        /*
-        TODO: TILFØJ DYNAMISK LAYOUT EDITOR
-        */
+    case 5:{
+        int yShelfSections;
+        int yShelfDivider;
+        int xShelfWidth;
+        int sectionWidth;
+
         clear_terminal();
+        setHegihtWidth(height, width, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
+        dynamicWarehouseDesign(*height, *width, layout, charging, dropoff, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
+        print_array(*height, *width, layout, false);
+        *target = random_target(*height, *width, layout);
         *layout_selected = 0;
         return false;
+    }
 
     case 6:
         clear_terminal();

@@ -8,30 +8,35 @@
 #include "managers/input_manager.h"
 #include "managers/main_menu.h"
 #include "managers/algorithm_manager.h"
+#include "dynamic_layout/dynamic_warehouse.h"
 #include <time.h>
 #include <stdlib.h>
 #include <sys/timeb.h>
 
-int debug = false;
-
 int main(void) {
+    int debug = false;
     // Initialising randomness for random target selection
+    int height = 19;
+    int width  = 36;
+    //int* height = &h;
+    //int* width = &w;
+
     srand(time(NULL));
   
     // Initialising arrays
     // Creating an empty static 2D array to store the warehouse layout
     // Static 0-initialises
-    static int layout[HEIGHT][WIDTH]; // Creating an empty static 2D array to store the warehouse layout
+    int layout[200][200]; // Creating an empty static 2D array to store the warehouse layout
 
     // Creating target point
-    node target_t = {0,0};
+    node charging = (node){16, 4};
+    node dropoff = (node){16, 31};
 
-    init_array(layout);
+    init_array(height, width, layout);
 
-    target_t = random_target(layout);
+    node target_t = random_target(height, width, layout);
 
-    // Boolean var to define when to break the main menu
-    int break_main_menu = false;
+
     // Setting layout (1: pre determined, 0: dynamic) 
     int layout_selected = 1;
     // Set shelf_selection (0: Random, 1: Custom)
@@ -40,20 +45,28 @@ int main(void) {
     int bench = 1;
     //Should the targets be procedurally generated
     bool procedural = 1;
-
     // Start menu
-    clear_terminal();
-    while (!break_main_menu) {
-        print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
-        break_main_menu = select(layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
-    }
-    clear_terminal();
 
-    run_algorithms(layout, target_t, bench, procedural, debug);
-  
-    // When running in external console, the program only closes after enter is pressed
-    getchar();
-    getchar();
+
+    do {
+        // Boolean var to define when to break the main menu
+        int break_main_menu = false;
+
+        clear_terminal();
+        while (!break_main_menu) {
+            print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
+            break_main_menu = select(&height, &width, &charging, &dropoff, layout, &layout_selected, &shelf_selection, &target_t, &bench, &procedural);
+        }
+
+        run_algorithms(height, width, layout, charging, dropoff, target_t, bench, procedural, debug);
+
+        printf("Press enter to return to main menu..\n");
+
+        // When running in external console, the program only closes after enter is pressed
+        getchar();
+        getchar();
+
+    } while(true);
 
     return 0;
 }
