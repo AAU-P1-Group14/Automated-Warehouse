@@ -138,6 +138,7 @@ void force_clear_path(int height, int width, int layout[height][width]) {
     for (int row = 0; row < height; row++) {
         for (int col = 0; col < width; col++) {
             if (layout[row][col] == path_enum) layout[row][col] = vacant;
+            if (layout[row][col] == target) layout[row][col] = shelf;
         }
     }
 }

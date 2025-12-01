@@ -39,11 +39,12 @@ int dfs(
     int height,
     int width,
    int grid[height][width],
+   long* direction_switches,
    node path[height * width], // The warehouse layout
    node target, // Target shelf
    node current, // Current position (start position)
    int* tiles, // Amount of files traveled
-   long long* total_tiles,
+   long* total_tiles,
    bool firstcase) // Should we count tiles
 {
     int target_orig = grid[target.y][target.x];
@@ -54,6 +55,8 @@ int dfs(
    // top = index of the top cell in the stack. ie the first one to check.
    // it makes it start out empty, top is the current "top" of the stock
    int top = -1;
+
+    int direction;
 
     // Direction vectors (up, right, down, left)
     int dRow[] = { -1, 0, 1, 0 };
@@ -130,8 +133,38 @@ int dfs(
            return false;
        }
 
+        if (parent[child.y][child.x].x < child.x) {
+            if (direction != left) {
+                (*direction_switches)++;
+                direction = left;
+            }
+        }
+
+        if (parent[child.y][child.x].x > child.x) {
+            if (direction != right) {
+                (*direction_switches)++;
+                direction = right;
+            }
+        }
+
+        if (parent[child.y][child.x].y < child.y) {
+            if (direction != down) {
+                (*direction_switches)++;
+                direction = down;
+            }
+        }
+
+        if (parent[child.y][child.x].y > child.y) {
+            if (direction != up) {
+                (*direction_switches)++;
+                direction = up;
+            }
+        }
+
        child = parent[child.y][child.x];
    }
+
+   if (*direction_switches > 0) (*direction_switches)--;
 
    // At the end, also the start position
    path[path_len] = current;

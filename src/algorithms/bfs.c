@@ -33,16 +33,19 @@ int bfs(
     int height,
     int width,
     int grid[height][width],
+    long* direction_switches,
     node target_t,
     node current,
     int* tiles,
-    long long* total_tiles,
+    long* total_tiles,
     node path[height * width],
     bool firstcase)
 {
     // Simple queue implementation using arrays
     node queue[height * width];
     int front = 0, back = 0;
+
+    int direction;
 
     // Direction vectors (op, højre, ned, venstre)
     int dRow[] = { -1, 0, 1, 0 };
@@ -112,8 +115,39 @@ int bfs(
             printf("Error in backtracking\n");
             return false;
         }
+
+        if (parent[child.y][child.x].x < child.x) {
+            if (direction != left) {
+                (*direction_switches)++;
+                direction = left;
+            }
+        }
+
+        if (parent[child.y][child.x].x > child.x) {
+            if (direction != right) {
+                (*direction_switches)++;
+                direction = right;
+            }
+        }
+
+        if (parent[child.y][child.x].y < child.y) {
+            if (direction != down) {
+                (*direction_switches)++;
+                direction = down;
+            }
+        }
+
+        if (parent[child.y][child.x].y > child.y) {
+            if (direction != up) {
+                (*direction_switches)++;
+                direction = up;
+            }
+        }
+
         child = parent[child.y][child.x];
     }
+
+    if (*direction_switches > 0) (*direction_switches)--;
 
     // At the end, also the start position
     path[*tiles + path_len] = current;

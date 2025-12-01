@@ -13,6 +13,8 @@ typedef struct {
 // Using enum for the warehouse layout to make the code more readable
 enum pos {vacant, v_line, h_line, robot, shelf, drop_off, charging, path_enum, target};
 
+enum direction_enum {up, left, right, down};
+
 static int vis[1000][1000];
 
 
