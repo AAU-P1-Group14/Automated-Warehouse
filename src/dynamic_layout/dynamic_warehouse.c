@@ -33,7 +33,12 @@ void setHegihtWidth(int* height, int* width, int* yShelfSections, int* yShelfDiv
             printf(ANSI_COLOR_RED "The combined length of ---> x-sections * (shelf width + shelf between sections), should be greater than 10 (9 if counting from 0)" ANSI_COLOR_RESET"\n");
         };
 
-    } while (*yShelfSections < 0 || xShelfSections < 0 || (xShelfSections * (*xShelfWidth + xShelfDivider)) <= 10); // has ot have 1 section on y-axis and if x-axis is less than 10
+        if (*yShelfSections * *yShelfDivider >=200 || xShelfSections * (*xShelfWidth + xShelfDivider) >= 200) {
+            printf(ANSI_COLOR_RED "The combined Width and Height exceeds the max of 200x200" ANSI_COLOR_RESET"\n"ANSI_COLOR_RED "" ANSI_COLOR_RESET"\n");
+        };
+
+
+    } while (*yShelfSections < 0 || xShelfSections < 0 || (xShelfSections * (*xShelfWidth + xShelfDivider)) <= 10 || *yShelfSections * *yShelfDivider >=200 || xShelfSections * (*xShelfWidth + xShelfDivider) >= 200); // has ot have 1 section on y-axis and if x-axis is less than 10
 
     // Calculates warehouse dimensions
     *sectionWidth = (*xShelfWidth + xShelfDivider); // sectionWidth is the width of one shelf + the walking space between that and the next shelf
