@@ -37,11 +37,11 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
     case 1:
         if (*layout_selected != 1 && *layout_selected != 0) {
             clear_terminal();
-            if (*shelf_selected == 0 && !(*procedural)) *target = random_target(*height, *width, layout);
             return false;
         }
 
         clear_terminal();
+        if (*shelf_selected == 0 && !(*procedural)) *target = random_target(*height, *width, layout);
         return true;
 
     case 2:

@@ -84,7 +84,10 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, targets[bench-1], dropoff, charging, charging);
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
-                else total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, target_t, dropoff, charging, charging);
+                else {
+                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, target_t, dropoff, charging, charging);
+                    layout[target_t.y][target_t.x] = target;
+                }
 
                 // Calculate the time it took
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
