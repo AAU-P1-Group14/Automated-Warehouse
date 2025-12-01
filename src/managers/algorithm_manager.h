@@ -21,8 +21,8 @@ void compare_results(int bench, long tiles_worst_case, long tiles_bfs, long tile
                      long direction_switches_worst_case, long direction_switches_bfs, long direction_switches_dfs,
                      bool found_worst_case, bool found_bfs, bool found_dfs);
 long calculate_realistic_time(long tiles, long direction_switches, bool found_target);
-void print_comparison(char algo_name[40], bool found_target,
-                     long tiles, long tiles_compare,
-                     long elapsed_time, long compare_elapsed_time,
-                     long direction_changes, long direction_changes_compare,
-                     long realistic_time, long realistic_time_compare);
+void print_comparison(char algo_name[40], bool found_target, int bench,
+    long tiles, long tiles_compare,
+    long elapsed_time, long compare_elapsed_time,
+    long direction_changes, long direction_changes_compare,
+    long realistic_time, long realistic_time_compare);
