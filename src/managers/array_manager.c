@@ -1,4 +1,8 @@
 #include "array_manager.h"
+#define RED     "\x1b[31m"
+#define GREEN   "\x1b[32m"
+#define BLUE    "\x1b[34m"
+#define COLOR_RESET   "\x1b[0m"
 
 void horizontal_num(int width) {
     bool first = true;  // we make a bool
@@ -8,10 +12,12 @@ void horizontal_num(int width) {
                 printf("  %d         ", i);
                 first = false;     //we use the bool here to format the first number ie 0 properly
             } else {
-                if (i > 9)     // then every other number will be printed differently depending on
+                if (i > 9 && i<100)     // then every other number will be printed differently depending on
                     printf(" %d       ", i); // whether they are above or below 9
-                else
+                else if (i<9)
                     printf("%d        ", i);
+                } if (i>=100) {
+                    printf(" %d      ", i);
                 }
             }
         }
@@ -33,7 +39,7 @@ void init_array(int height, int width, int layout[height][width]) {
         for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
             layout[y_row][x_col] = vacant;
-            
+
             switch (y_row)
             {
             case 3: case 4: case 7: case 8: case 11: case 12: // These rows should contain shelves
@@ -85,15 +91,15 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
 
                 case robot: printf("O "); break; // If the element is robot, print a "O"
 
-                case shelf: printf("X "); break; // If the element is shelf, print a "X"
+                case shelf: printf(BLUE "X " COLOR_RESET); break; // If the element is shelf, print a "X"
 
-                case drop_off: printf("D "); break; // If the element is drop_off, print a "D"
+                case drop_off: printf(GREEN "D " COLOR_RESET); break; // If the element is drop_off, print a "D"
 
-                case charging: printf("C "); break; // If the element is charging, print a "C"
+                case charging: printf(GREEN "C " COLOR_RESET); break; // If the element is charging, print a "C"
 
                 case path_enum: printf("* "); break; // If the element is on the path, print a "*"
 
-                case target: printf("T "); break; // If the element is a target, print a "T"
+                case target: printf(RED "T " COLOR_RESET); break; // If the element is a target, print a "T"
 
                 default: printf("? "); break; // If the element is undefined, print a "?"
             }
