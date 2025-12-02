@@ -11,8 +11,6 @@ bool dfs_is_valid(int height,int width, int grid[height][width], node current, n
    if (current.x < 0 || current.y < 0 || current.y >= height || current.x >= width)
         return false;
 
-    if (cmp_node(current, target)) return true;
-
     // If cell is already visited
     if (vis[current.y][current.x])
         return false;
@@ -36,14 +34,16 @@ int dfs(
    long* direction_switches,
    node path[height * width], // The warehouse layout
    node target, // Target shelf
-   node current, // Current position (start position)
+   node start, // Current position (start position)
    int* tiles, // Amount of files traveled
    long* total_tiles,
    bool firstcase) // Should we count tiles
 {
+
    // We make an array for stack instead of queue.
    // stack is an array that will hold all nodes we might visit.
    node stack[height * width];
+
    // top = index of the top cell in the stack. ie the first one to check.
    // it makes it start out empty, top is the current "top" of the stock
    int top = -1;
@@ -67,8 +67,8 @@ int dfs(
    //Needed to reconstruct the path after DFS finds the target.
 
    //++top → move top from -1 → 0, stack[0] = current → push start cell
-   stack[++top] = current;
-   vis[current.y][current.x] = 1;
+   stack[++top] = start;
+   vis[start.y][start.x] = 1;
    // Mark current as visited (vis[y][x] = 1)
    // DFS begins from here
 
@@ -115,7 +115,7 @@ int dfs(
 
    node child = target;
 
-   while (!cmp_node(child, current)) {
+   while (!cmp_node(child, start)) {
        path[path_len] = child;
        path_len++;
 
@@ -159,13 +159,13 @@ int dfs(
    if (*direction_switches > 0) (*direction_switches)--;
 
    // At the end, also the start position
-   path[path_len] = current;
+   path[path_len] = start;
    path_len++;
 
    // Add the path in the warehouse layout
    for (int i = path_len - 1; i >= 0; i--) {
        // printf("(%d, %d) ", path_row[i], path_col[i]);
-       if (!cmp_node(path[i], current) && !cmp_node(path[i], target)) {
+       if (!cmp_node(path[i], start) && !cmp_node(path[i], target)) {
            if (grid[path[i].y][path[i].x] == vacant) {
                if (firstcase) grid[path[i].y][path[i].x] = path_enum;
            }

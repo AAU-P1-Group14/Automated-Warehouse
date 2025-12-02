@@ -1,9 +1,12 @@
 #include "algorithm_manager.h"
 
-void run_algorithms(int height, int width, int layout[height][width], node charging, node dropoff, node target_t, int bench, bool procedural, bool debug) {
+void run_algorithms(int height, int width, int layout[height][width], node charging, node dropoff,
+                    node target_t, int bench, bool procedural, bool debug) {
+
     // Creating array that contains coordinates of the robot path
     node path[height*width];
 
+    // Clear path array
     for (int i = 0; i < height * width; i++) {
         path[i] = (node){0, 0};
     }
@@ -16,6 +19,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
         }
     }
 
+    // Context based print
     if (!procedural) printf("TARGET SHELF: (%d, %d)\n", target_t.y, target_t.x);
     else printf("TARGET SHELF: PROCEDURAL\n");
     printf("BENCHES: (%d)\n\n", bench);
@@ -42,6 +46,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
         // Input target in layout array
         if (!procedural) layout[target_t.y][target_t.x] = target;
 
+        // Start and stop timestamp
         struct timespec timestamp1;
         struct timespec timestamp2;
 
@@ -50,14 +55,20 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
         int tiles_dfs = 0;
 
         switch (i) {
+
+            // Worst case algorithm
             case 0:
+            // Setting start time to timestamp1
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
 
                 // Worst case algorithm (random movement)
+                // Procedural
                 if (procedural) {
                     for (int i = 0; i < bench-1; i++) {
-                        total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, targets[i], dropoff, charging, charging);
+                        total_tiles_worst_case += worst_case(height, width, layout,
+                            &direction_switches_worst_case, targets[i], dropoff, charging, charging);
 
+                        // Progress bar
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
@@ -65,31 +76,43 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     }
                 }
 
+                // For the same random target
                 else {
                     for (int i = 0; i < bench-1; i++) {
-                        total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, target_t, dropoff, charging, charging);
+                        total_tiles_worst_case += worst_case(height, width, layout,
+                            &direction_switches_worst_case, target_t, dropoff, charging, charging);
 
+                        // Progress bar
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
                         }
                     }
                 }
+                // Fjern indhold på linjen
                 printf("\r");
 
-                // One last run to store the path
+                // Systematicly run through the whole layout array to clear path
                 force_clear_path(width, height, layout);
+
+            // One last run to store the path
                 if (procedural) {
-                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, targets[bench-1], dropoff, charging, charging);
+                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case,
+                        targets[bench-1], dropoff, charging, charging);
+
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
                 else {
-                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case, target_t, dropoff, charging, charging);
+                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case,
+                        target_t, dropoff, charging, charging);
+
                     layout[target_t.y][target_t.x] = target;
                 }
 
                 // Calculate the time it took
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
+
+                // Convertion to micro seconds
                 long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
                 long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
@@ -98,23 +121,30 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                 found_target_worst_case = total_tiles_worst_case > 0;
                 // Print out the result from worst case
-                print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case, bench, passtime, "Worst Case");
+                print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
+                    bench, passtime, "Worst Case");
 
                 //Clears the path from the layout array
                 force_clear_path(height, width, layout);
 
                 break;
+
+            // BFS algorithm
             case 1:
                 {
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
                 if (procedural) {
                     for (int i = 0; i < bench-1; i++) {
+
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(height, width, layout, &direction_switches_bfs, targets[i], charging, &tiles_bfs, &total_tiles_bfs, path, false);
+                        bfs(height, width, layout, &direction_switches_bfs, targets[i], charging, &tiles_bfs,
+                            &total_tiles_bfs, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[i], &tiles_bfs, &total_tiles_bfs, path, false);
-                        
+                        bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[i], &tiles_bfs,
+                            &total_tiles_bfs, path, false);
+
+                        // Progress bar
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
@@ -126,11 +156,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 else {
                     for (int i = 0; i < bench-1; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(height, width, layout, &direction_switches_bfs, target_t, charging, &tiles_bfs, &total_tiles_bfs, path, false);
+                        bfs(height, width, layout, &direction_switches_bfs, target_t, charging,
+                            &tiles_bfs, &total_tiles_bfs, path, false);
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t, &tiles_bfs, &total_tiles_bfs, path, false);
-                        
+                        bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t,
+                            &tiles_bfs, &total_tiles_bfs, path, false);
+
+                        // Progress bar
                         if (i % (bench < 100 ? 1 : bench / 100) == 0) {
                             int progress = i * 100 / bench;
                             printf("\rPROGRESS: %d%%", progress);
@@ -139,17 +172,25 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 }
                 printf("\r");
 
+                    // Run a last time, adding the path to the layout array
                 if (procedural) {
-                    bfs(height, width, layout, &direction_switches_bfs, targets[bench-1], charging, &tiles_bfs, &total_tiles_bfs, path, true);
-                    bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[bench-1], &tiles_bfs, &total_tiles_bfs, path, true);
+                    bfs(height, width, layout, &direction_switches_bfs, targets[bench-1], charging,
+                        &tiles_bfs, &total_tiles_bfs, path, true);
+                    bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[bench-1],
+                        &tiles_bfs, &total_tiles_bfs, path, true);
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
                 else {
-                    bfs(height, width, layout, &direction_switches_bfs, target_t, charging, &tiles_bfs, &total_tiles_bfs, path, true);
-                    bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t, &tiles_bfs, &total_tiles_bfs, path, true);
+                    bfs(height, width, layout, &direction_switches_bfs, target_t, charging, &tiles_bfs,
+                        &total_tiles_bfs, path, true);
+                    bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t, &tiles_bfs,
+                        &total_tiles_bfs, path, true);
                 }
 
+                    // Set ending time
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
+
+                    // Convert to micro seconds
                 current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
                 passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
@@ -160,7 +201,8 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 found_target_bfs = total_tiles_bfs > 0;
 
                 // Print out the result from BFS
-                print_stats_individual(height, width, layout, direction_switches_bfs, total_tiles_bfs, bench, passtime, "BFS");
+                print_stats_individual(height, width, layout, direction_switches_bfs, total_tiles_bfs, bench,
+                    passtime, "BFS");
 
                 //Clears the path from the layout array
                 if (procedural) clear_path(height, width, layout, path, &tiles_bfs, targets[0]);
@@ -168,6 +210,8 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                 break;
                 }
+
+            // DFS
             case 2:
                 {
                 clock_gettime(CLOCK_REALTIME, &timestamp1);
@@ -258,7 +302,9 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 }
 
 
-void print_stats_individual(int height, int width, int layout[height][width], long direction_switches, long long total_tiles, int bench, long long passtime, char* name) {
+void print_stats_individual(int height, int width, int layout[height][width], long direction_switches,
+    long long total_tiles, int bench, long long passtime, char* name) {
+
     printf("%s algorithm:\n", name);
 
     long realistic_time = calculate_realistic_time(total_tiles, direction_switches, total_tiles/bench > 0);
@@ -269,6 +315,7 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
         printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
     }
+    // Target was not found
     else printf("\n%s never reached target or drop-off\n\n", name);
 
     printf("Total benches for %s took %lld micros\n", name, passtime);
@@ -358,15 +405,41 @@ void print_comparison(char algo_name[40], bool found_target, int bench,
     if (found_target) printf("Target found: " GREEN "Yes" COLOR_RESET "\n");
     else printf("Target found: " RED "No" COLOR_RESET "\n");
 
-    if (direction_changes_compare < 0) printf("Direction switches: %ld (" GREEN "%+ld" COLOR_RESET ")\n", direction_changes/bench, direction_changes_compare);
-    else printf("Direction switches: %ld (" RED "%+ld" COLOR_RESET ")\n", direction_changes/bench, direction_changes_compare);
+    if (direction_changes_compare < 0)
+    {
+        printf("Direction switches: %ld (" GREEN "%+ld" COLOR_RESET ")\n",
+               direction_changes / bench, direction_changes_compare);
+    }
+    else
+    {
+        printf("Direction switches: %ld (" RED "%+ld" COLOR_RESET ")\n",
+               direction_changes / bench, direction_changes_compare);
+    }
 
-    if (tiles_compare < 0) printf("Tiles: %ld (" GREEN "%+ld" COLOR_RESET ")\n", tiles/bench, tiles_compare);
-    else printf("Tiles: %ld (" RED "%+ld" COLOR_RESET ")\n", tiles/bench, tiles_compare);
 
-    if (compare_elapsed_time < 0) printf("Algorithm time: %ld micro sec (" GREEN "%+ld " COLOR_RESET "micro sec)\n", elapsed_time/bench, compare_elapsed_time);
-    else printf("Algorithm time: %ld micro sec (" RED "%+ld micro sec " COLOR_RESET ")\n", elapsed_time/bench, compare_elapsed_time);
+    if (tiles_compare < 0) printf("Tiles: %ld (" GREEN "%+ld" COLOR_RESET ")\n", tiles / bench, tiles_compare);
+    else printf("Tiles: %ld (" RED "%+ld" COLOR_RESET ")\n", tiles / bench, tiles_compare);
 
-    if (realistic_time_compare < 0) printf("Realistic time: %ld sec (" GREEN "%+ld " COLOR_RESET "sec)\n\n", realistic_time/bench, realistic_time_compare);
-    else printf("Realistic time: %ld sec (" RED "%+ld " COLOR_RESET "sec)\n\n", realistic_time/bench, realistic_time_compare/bench);
+    if (compare_elapsed_time < 0)
+    {
+        printf("Algorithm time: %ld micro sec (" GREEN "%+ld " COLOR_RESET "micro sec)\n",
+               elapsed_time / bench, compare_elapsed_time);
+    }
+    else
+    {
+        printf("Algorithm time: %ld micro sec (" RED "%+ld micro sec " COLOR_RESET ")\n",
+               elapsed_time / bench, compare_elapsed_time);
+    }
+
+    if (realistic_time_compare < 0)
+    {
+        printf("Realistic time: %ld sec (" GREEN "%+ld " COLOR_RESET "sec)\n\n",
+               realistic_time / bench, realistic_time_compare);
+    }
+    else
+    {
+        printf("Realistic time: %ld sec (" RED "%+ld " COLOR_RESET "sec)\n\n",
+               realistic_time / bench, realistic_time_compare / bench);
+    }
+
 }
