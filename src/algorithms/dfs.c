@@ -15,6 +15,10 @@ bool dfs_is_valid(int height,int width, int grid[height][width], node current, n
     if (vis[current.y][current.x])
         return false;
 
+    // If the shelf is the target, return true
+    if (cmp_node(current, target))
+        return true;
+
     //Cant walk through shelves or walls
     switch (grid[current.y][current.x]) {
         case v_line: case h_line: case shelf:
