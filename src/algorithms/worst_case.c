@@ -1,6 +1,8 @@
 #include "worst_case.h"
 
-int worst_case(int height, int width, int layout[height][width], long* direction_switches, node target, node dropoff, node charging, node position) {
+int worst_case(int height, int width, int layout[height][width], long* direction_switches, node target,
+    node dropoff, node charging, node position) {
+
     int found_target = false;
     int found_dropoff = false;
     int iterations = 0;
@@ -20,13 +22,17 @@ int worst_case(int height, int width, int layout[height][width], long* direction
     return 0;
 }
 
-void move_position(int height, int width, int* direction, long* direction_switches, int layout[height][width], node* position, int* tiles) {
+void move_position(int height, int width, int* direction, long* direction_switches,
+    int layout[height][width], node* position, int* tiles) {
+
     // Create a random number in interval [0, 1, 2, 3]
     int random_direction = rand() % 4;
 
     switch (random_direction) {
         // Move left
         case 0:
+
+            // Move left, if not running into a wall or shelf
             if (layout[position->y][position->x - 1] != v_line &&
                 layout[position->y][position->x - 1] != shelf) {
                 position->x--;
@@ -40,6 +46,8 @@ void move_position(int height, int width, int* direction, long* direction_switch
 
         // Move up
         case 1:
+
+        // Move up, if not running into a wall or shelf
             if (layout[position->y + 1][position->x] != h_line &&
                 layout[position->y + 1][position->x] != shelf) {
                 position->y++;
@@ -53,6 +61,8 @@ void move_position(int height, int width, int* direction, long* direction_switch
 
         // Move down
         case 2:
+
+        // Move down, if not running into a wall or shelf
             if (layout[position->y - 1][position->x] != h_line &&
                 layout[position->y - 1][position->x] != shelf) {
                 position->y--;
@@ -66,6 +76,8 @@ void move_position(int height, int width, int* direction, long* direction_switch
 
         // Move right
         case 3:
+
+        // Move right, if not running into a wall or shelf
             if (layout[position->y][position->x + 1] != v_line &&
                 layout[position->y][position->x + 1] != shelf) {
                 position->x++;
@@ -79,10 +91,13 @@ void move_position(int height, int width, int* direction, long* direction_switch
         }
 }
 
-void update_and_check(int height, int width, int layout[height][width], node target, node dropoff, node charging, node position, int* found_target, int* found_dropoff) {
+void update_and_check(int height, int width, int layout[height][width], node target, node dropoff,
+    node charging, node position, int* found_target, int* found_dropoff) {
+
     if ((position.y != target.y || position.x != target.x) &&
         (position.y != dropoff.y || position.x != dropoff.x) &&
         (position.y != charging.y || position.x != charging.x)) {
+
         // Update layout if position is not target, dropoff or charging station
         layout[position.y][position.x] = path_enum;
     }
@@ -96,10 +111,11 @@ void update_and_check(int height, int width, int layout[height][width], node tar
     if (*found_target && !(*found_dropoff)) {
         check_for_adjecent(height, width, layout, dropoff, position, found_dropoff);
     }
-
 }
 
-void check_for_adjecent(int height, int width, int layout[height][width], node check_cell, node position, int* boolean_argument) {
+void check_for_adjecent(int height, int width, int layout[height][width], node check_cell,
+    node position, int* boolean_argument) {
+
     // Check adjecent cells if drop-off is here
     int dRow[] = { -1, 0, 1, 0 };
     int dCol[] = { 0, 1, 0, -1 };
