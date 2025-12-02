@@ -40,7 +40,10 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
             return false;
         }
 
-        if (*shelf_selected == 0 && !(*procedural)) *target = random_target(*height, *width, layout);
+        if (*shelf_selected == 0 && !(*procedural)) {
+            *target = random_target(*height, *width, layout);
+        }
+
         return true;
 
     case 2:
