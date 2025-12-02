@@ -92,6 +92,7 @@ int input_validation(int height, int width, int layout[height][width], node targ
 }
 
 node random_target(int height, int width, int layout[height][width]) {
+
     // 2D array to store the coordinates of all shelves
     node shelf_arr[height * width];
 
@@ -114,6 +115,7 @@ node random_target(int height, int width, int layout[height][width]) {
         }
     }
 
+    // Error handling
     if (shelf_counter == 0) {
         printf("ERROR: No shelves was found!\n");
         return (node){-1, -1};
@@ -121,9 +123,6 @@ node random_target(int height, int width, int layout[height][width]) {
 
     // Random number to choose a target
     int random_target = rand() % shelf_counter;
-
-    //Debugging
-    //printf("%d", layout[shelf_arr[random_target].y][shelf_arr[random_target].x]);
 
     // Choosing a random shelf (row and column)
     return shelf_arr[random_target];

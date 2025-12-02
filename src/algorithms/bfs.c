@@ -35,16 +35,19 @@ int bfs(
     int grid[height][width],
     long* direction_switches,
     node target_t,
-    node current,
+    node start,
     int* tiles,
     long* total_tiles,
     node path[height * width],
-    bool firstcase)
+    bool lastcase)
 {
     // Simple queue implementation using arrays
     node queue[height * width];
+
+    // Front and back end of queue
     int front = 0, back = 0;
 
+    // Used for calculating direction change
     int direction;
 
     // Direction vectors (op, højre, ned, venstre)
@@ -63,9 +66,9 @@ int bfs(
 
     // Mark the starting cell as visited
     // and push it into the queue
-    queue[back] = current;
+    queue[back] = start;
     back++;
-    vis[current.y][current.x] = 1;
+    vis[start.y][start.x] = 1;
 
     // BFS
     int found = false;
@@ -86,12 +89,11 @@ int bfs(
                 queue[back] = adj;
                 back++;
 
+                // Marking valid adjecent points as visited
                 vis[adj.y][adj.x] = 1;
-                //grid[adjy][adjx] = visited;
 
                 //Makes sure that when searching for adjecent grids their value is the parent grid.
                 parent[adj.y][adj.x] = yx;
-
             }
         }
     }
@@ -106,7 +108,10 @@ int bfs(
 
     node child = target_t;
 
-    while (!cmp_node(child, current)) {
+    // Running while we haven't back-traced to the starting point
+    while (!cmp_node(child, start)) {
+
+        // Assigning current position to path array and handling multible BFS runs
         path[*tiles+path_len] = child;
         path_len++;
 
@@ -116,6 +121,7 @@ int bfs(
             return false;
         }
 
+        // Calculating direction changes
         if (parent[child.y][child.x].x < child.x) {
             if (direction != left) {
                 (*direction_switches)++;
@@ -144,25 +150,30 @@ int bfs(
             }
         }
 
+        // Progressing by setting parent as the new child
         child = parent[child.y][child.x];
     }
 
+    // Subtracting "starting direction change"
     if (*direction_switches > 0) (*direction_switches)--;
 
-    // At the end, also the start position
-    path[*tiles + path_len] = current;
+    // At the end, add the start position to the path
+    path[*tiles + path_len] = start;
     path_len++;
 
     // Add the path in the warehouse layout
     for (int i = path_len - 1; i >= 0; i--) {
-        // printf("(%d, %d) ", path_row[i], path_col[i]);
-        if (!cmp_node(path[*tiles+i], current) && !cmp_node(path[*tiles+i], target_t)) {
-            if (firstcase) grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
+
+        // Update layout array, if it is not the starting og end point
+        if (!cmp_node(path[*tiles+i], start) && !cmp_node(path[*tiles+i], target_t)) {
+            if (lastcase) grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
         }
     }
 
+    // Incrementing totalt tile length
     *total_tiles += path_len;
 
+    // Clearing visted array
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             vis[i][j] = 0;

@@ -48,6 +48,8 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         // Input validation on layout_selected
         if (*layout_selected != 1 && *layout_selected != 0) {
             clear_terminal();
+
+            // Go back to main menu
             return false;
         }
 
@@ -76,6 +78,8 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Setting shelf_selected as custom shelf
         *shelf_selected = 1;
+
+        // Go back to main menu
         return false;
 
         // Random target
@@ -88,6 +92,8 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Setting shelf_selected as random
         *shelf_selected = 0;
+
+        // Go back to main menu
         return false;
 
         // Predefined layout
@@ -109,6 +115,8 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Setting shelf_selected as random
         *shelf_selected = 0;
+
+        // Go back to main menu
         return false;
 
         // Custom layout
@@ -138,21 +146,35 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
             // Setting shelf_selected as random
             *shelf_selected = 0;
+
+            // Go back to main menu
             return false;
     }
 
+        // Change number of benchmarks
     case 6:
         clear_terminal();
+
+        // Changing bench with input validation
         select_bench(bench);
+
+        // Go back to main menu
         return false;
-    
+
+        // Exit program
     case 0:
+        // Shut down program
         exit(1);
-    
+
+        // Default must be an invalid input
     default:
         clear_terminal();
+
+        // Clear input buffer
         while (getchar() != '\n');
         printf("INVALID INPUT\n");
+
+        // Go back to main menu
         return false;
     }
 }
