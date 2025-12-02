@@ -52,8 +52,9 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         if (*shelf_selected == 0 && !(*procedural)) {
             *target = random_target(*height, *width, layout);
-            return true;
         }
+
+        return true;
 
         // Custom target
     case 2:
