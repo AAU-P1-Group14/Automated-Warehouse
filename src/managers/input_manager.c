@@ -6,10 +6,10 @@ void prompt_procedural(bool* procedural) {
 
         char yn;
 
-        //We check how many inputs was successfully read from the input buffer.
+        //We read the input and check how many inputs was successfully read from the input buffer.
         int buffer = scanf(" %c", &yn);
 
-        //Magic that clears the scanf buffer, so that the inout doesn't stay.
+        //Code that clears the scanf buffer, so that the inout doesn't stay.
         //It does this by reading the charecters from stdin buffer until the new line.
         while (getchar() != '\n');
 
@@ -34,10 +34,10 @@ void select_bench(int* bench) {
     while (1) {
         printf("Enter benches (number): ");
 
-        //We check how many inputs was successfully read from the input buffer.
+        //We read the input and check how many inputs was successfully read from the input buffer.
         int buffer = scanf(" %d", bench);
 
-        //Magic that clears the scanf buffer, so that the inout doesn't stay.
+        //Code that clears the scanf buffer, so that the inout doesn't stay.
         //It does this by reading the charecters from stdin buffer until the new line.
         while (getchar() != '\n');
 
@@ -53,11 +53,11 @@ void input_target(int height, int width, int layout[height][width], node* target
     while (1) {
         printf("Enter target (row col): ");
 
-        //We check how many inputs was successfully read from the input buffer.
+        //We read the input and check how many inputs was successfully read from the input buffer.
         int buffer = scanf(" %d %d", &target->y, &target->x);
 
-        //Magic that clears the scanf buffer, so that the inout doesn't stay.
-        //It does this by reading the charecters from stdin buffer until the new line.
+        //Code that clears the scanf buffer, so that the inout doesn't stay.
+        //It does this by reading the charecters from buffer until the new line.
         while (getchar() != '\n');
 
         if (buffer != 2) {
@@ -65,6 +65,7 @@ void input_target(int height, int width, int layout[height][width], node* target
             continue;
         }
 
+        // Checking if the target is valid
         int valid_target = input_validation(height, width, layout, *target);
 
         if (valid_target){
@@ -74,11 +75,14 @@ void input_target(int height, int width, int layout[height][width], node* target
 }
 
 int input_validation(int height, int width, int layout[height][width], node target){
+
+    // If target is out of bounds
     if (target.y > height || target.y < 0 || target.x > width || target.x < 0) {
         printf("OUT OF BOUNDS\n");
         return false;
     }
 
+    // If the target is not a shelf or drop-off
     if (layout[target.y][target.x] != shelf && layout[target.y][target.x] != drop_off) {
         printf("NOT A SHELF\n");
         return false;

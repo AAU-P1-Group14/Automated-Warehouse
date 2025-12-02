@@ -41,6 +41,7 @@ void init_array(int height, int width, int layout[height][width]) {
     {
         for (int x_col = 0; x_col < width; ++x_col) // Looping through all the coloumns in the layout array
         {
+            // Setting all positions to vacant
             layout[y_row][x_col] = vacant;
 
             switch (y_row)
