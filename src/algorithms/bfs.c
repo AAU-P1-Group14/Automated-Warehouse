@@ -15,9 +15,6 @@ bool bfs_is_valid(int height, int width, int grid[height][width], node current, 
     if (vis[current.y][current.x])
         return false;
 
-    if (cmp_node(current, target))
-        return true;
-
     //Cant walk through shelves or walls
     switch (grid[current.y][current.x]) {
         case v_line: case h_line: case shelf:
@@ -35,11 +32,11 @@ int bfs(
     int grid[height][width],
     long* direction_switches,
     node target_t,
-    node current,
+    node start_position,
     int* tiles,
     long* total_tiles,
     node path[height * width],
-    bool firstcase)
+    bool lastcase)
 {
     // Simple queue implementation using arrays
     node queue[height * width];
@@ -63,9 +60,9 @@ int bfs(
 
     // Mark the starting cell as visited
     // and push it into the queue
-    queue[back] = current;
+    queue[back] = start_position;
     back++;
-    vis[current.y][current.x] = 1;
+    vis[start_position.y][start_position.x] = 1;
 
     // BFS
     int found = false;
@@ -106,7 +103,7 @@ int bfs(
 
     node child = target_t;
 
-    while (!cmp_node(child, current)) {
+    while (!cmp_node(child, start_position)) {
         path[*tiles+path_len] = child;
         path_len++;
 
@@ -150,14 +147,14 @@ int bfs(
     if (*direction_switches > 0) (*direction_switches)--;
 
     // At the end, also the start position
-    path[*tiles + path_len] = current;
+    path[*tiles + path_len] = start_position;
     path_len++;
 
     // Add the path in the warehouse layout
     for (int i = path_len - 1; i >= 0; i--) {
         // printf("(%d, %d) ", path_row[i], path_col[i]);
-        if (!cmp_node(path[*tiles+i], current) && !cmp_node(path[*tiles+i], target_t)) {
-            if (firstcase) grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
+        if (!cmp_node(path[*tiles+i], start_position) && !cmp_node(path[*tiles+i], target_t)) {
+            if (lastcase) grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
         }
     }
 

@@ -17,12 +17,6 @@ bool dfs_is_valid(int height,int width, int grid[height][width], node current, n
     if (vis[current.y][current.x])
         return false;
 
-
-
-    // Check if target is reached
-    if (cmp_node(current, target))
-        return true;
-
     //Cant walk through shelves or walls
     switch (grid[current.y][current.x]) {
         case v_line: case h_line: case shelf:
@@ -47,8 +41,6 @@ int dfs(
    long* total_tiles,
    bool firstcase) // Should we count tiles
 {
-    int target_orig = grid[target.y][target.x];
-
    // We make an array for stack instead of queue.
    // stack is an array that will hold all nodes we might visit.
    node stack[height * width];

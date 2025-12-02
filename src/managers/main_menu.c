@@ -32,21 +32,19 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
 
+    clear_terminal();
     switch (chosen)
     {
     case 1:
         if (*layout_selected != 1 && *layout_selected != 0) {
-            clear_terminal();
             return false;
         }
 
-        clear_terminal();
         if (*shelf_selected == 0 && !(*procedural)) *target = random_target(*height, *width, layout);
         return true;
 
     case 2:
         // Prompt the user to use a custom or pre-defined shelf
-        clear_terminal();
         print_array(*height, *width, layout,true);
         *procedural = false;
         input_target(*height, *width, layout, target);
@@ -55,14 +53,12 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         return false;
     
     case 3:
-        clear_terminal();
         prompt_procedural(procedural);
         clear_terminal();
         *shelf_selected = 0;
         return false;
     
     case 4:
-        clear_terminal();
         *charging = (node){16, 4};
         *dropoff = (node){16, 31};
         *height = 19;
@@ -79,7 +75,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         int xShelfWidth;
         int sectionWidth;
 
-        clear_terminal();
         setHegihtWidth(height, width, &yShelfSections, &yShelfDivider, &xShelfWidth, &sectionWidth);
         dynamicWarehouseDesign(*height, *width, layout, charging, dropoff, yShelfSections, yShelfDivider, xShelfWidth, sectionWidth);
         print_array(*height, *width, layout, false);
@@ -90,7 +85,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
     }
 
     case 6:
-        clear_terminal();
         select_bench(bench);
         return false;
     
@@ -98,7 +92,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
         exit(1);
     
     default:
-        clear_terminal();
         while (getchar() != '\n');
         printf("INVALID INPUT\n");
         return false;
