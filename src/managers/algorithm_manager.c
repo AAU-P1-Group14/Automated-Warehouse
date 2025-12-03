@@ -209,8 +209,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     passtime, "BFS");
 
                 //Clears the path from the layout array
-                if (procedural) clear_path(height, width, layout, path, &tiles_bfs, targets[0]);
-                clear_path(height, width, layout, path, &tiles_bfs, target_t);
+                force_clear_path(height, width, layout);
 
                 break;
                 }
