@@ -51,10 +51,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
         struct timespec timestamp1;
         struct timespec timestamp2;
 
-        // Tiles for algorithm backend
-        int tiles_bfs = 0;
-        int tiles_dfs = 0;
-
         switch (i) {
 
             // Worst case algorithm
@@ -133,14 +129,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     for (int i = 0; i < bench-1; i++) {
 
                         // BFS Path finding algorithm, adding the path from charging station to target
-                        bfs(height, width, layout, &direction_switches_bfs, targets[i], charging, &tiles_bfs,
+                        bfs(height, width, layout, &direction_switches_bfs, targets[i], charging,
                             &total_tiles_bfs, path, false);
 
                         // Adding in-between direction switch
                         direction_switches_bfs++;
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
-                        bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[i], &tiles_bfs,
+                        bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[i],
                             &total_tiles_bfs, path, false);
 
                         // Progress bar
@@ -153,14 +149,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     for (int i = 0; i < bench-1; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
                         bfs(height, width, layout, &direction_switches_bfs, target_t, charging,
-                            &tiles_bfs, &total_tiles_bfs, path, false);
+                            &total_tiles_bfs, path, false);
 
                         // Adding in-between direction switch
                         direction_switches_bfs++;
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t,
-                            &tiles_bfs, &total_tiles_bfs, path, false);
+                            &total_tiles_bfs, path, false);
 
                         // Progress bar
                         progress_bar(i, bench);
@@ -171,23 +167,23 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     // Run a last time, adding the path to the layout array
                 if (procedural) {
                     bfs(height, width, layout, &direction_switches_bfs, targets[bench-1], charging,
-                        &tiles_bfs, &total_tiles_bfs, path, true);
-
-                    // Adding in-between direction switch
-                    direction_switches_bfs++;
-
-                    bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[bench-1],
-                        &tiles_bfs, &total_tiles_bfs, path, true);
-                    layout[targets[bench-1].y][targets[bench-1].x] = target;
-                }
-                else {
-                    bfs(height, width, layout, &direction_switches_bfs, target_t, charging, &tiles_bfs,
                         &total_tiles_bfs, path, true);
 
                     // Adding in-between direction switch
                     direction_switches_bfs++;
 
-                    bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t, &tiles_bfs,
+                    bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[bench-1],
+                        &total_tiles_bfs, path, true);
+                    layout[targets[bench-1].y][targets[bench-1].x] = target;
+                }
+                else {
+                    bfs(height, width, layout, &direction_switches_bfs, target_t, charging,
+                        &total_tiles_bfs, path, true);
+
+                    // Adding in-between direction switch
+                    direction_switches_bfs++;
+
+                    bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t,
                         &total_tiles_bfs, path, true);
                 }
 
@@ -208,7 +204,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 print_stats_individual(height, width, layout, direction_switches_bfs, total_tiles_bfs, bench,
                     passtime, "BFS");
 
-                //Clears the path from the layout array
+                //Clears the path from the layout array         
                 force_clear_path(height, width, layout);
 
                 break;
@@ -221,13 +217,13 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 if (procedural) {
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(height, width, layout, &direction_switches_dfs, path, targets[i], charging, &tiles_dfs, &total_tiles_dfs, false);
+                        dfs(height, width, layout, &direction_switches_dfs, path, targets[i], charging, &total_tiles_dfs, false);
 
                         // Adding in-between direction switch
                         direction_switches_dfs++;
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[i], &tiles_dfs, &total_tiles_dfs, false);
+                        dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[i], &total_tiles_dfs, false);
 
                         progress_bar(i, bench);
                     }
@@ -237,13 +233,13 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 else {
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
-                        dfs(height, width, layout, &direction_switches_dfs, path, target_t, charging, &tiles_dfs, &total_tiles_dfs, false);
+                        dfs(height, width, layout, &direction_switches_dfs, path, target_t, charging, &total_tiles_dfs, false);
 
                         // Adding in-between direction switch
                         direction_switches_dfs++;
 
                         // DFS Path finding algorithm, adding the path from target station to drop-off
-                        dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &tiles_dfs, &total_tiles_dfs, false);
+                        dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, false);
 
                         progress_bar(i, bench);
                     }
@@ -252,21 +248,21 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 
 
                 if (procedural) {
-                    dfs(height, width, layout, &direction_switches_dfs, path, targets[bench-1], charging, &tiles_dfs, &total_tiles_dfs, true);
+                    dfs(height, width, layout, &direction_switches_dfs, path, targets[bench-1], charging, &total_tiles_dfs, true);
                     
                     // Adding in-between direction switch
                     direction_switches_dfs++;
                     
-                    dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[bench-1], &tiles_dfs, &total_tiles_dfs, true);
+                    dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[bench-1], &total_tiles_dfs, true);
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
                 else {
-                    dfs(height, width, layout, &direction_switches_dfs, path, target_t, charging, &tiles_dfs, &total_tiles_dfs, true);
+                    dfs(height, width, layout, &direction_switches_dfs, path, target_t, charging, &total_tiles_dfs, true);
                     
                     // Adding in-between direction switch
                     direction_switches_dfs++;
 
-                    dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &tiles_dfs, &total_tiles_dfs, true);
+                    dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, true);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);

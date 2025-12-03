@@ -37,7 +37,6 @@ int bfs(
     long* direction_switches,
     node target_t,
     node start,
-    int* tiles,
     long* total_tiles,
     node path[height * width],
     bool lastcase)
@@ -113,7 +112,7 @@ int bfs(
     while (!cmp_node(child, start)) {
 
         // Assigning current position to path array and handling multible BFS runs
-        path[*tiles+path_len] = child;
+        path[path_len] = child;
         path_len++;
 
         // Safety check if something goes wrong
@@ -159,15 +158,15 @@ int bfs(
     if (*direction_switches > 0) (*direction_switches)--;
 
     // At the end, add the start position to the path
-    path[*tiles + path_len] = start;
+    path[path_len] = start;
     path_len++;
 
     // Add the path in the warehouse layout
     for (int i = path_len - 1; i >= 0; i--) {
 
         // Update layout array, if it is not the starting og end point
-        if (!cmp_node(path[*tiles+i], start) && !cmp_node(path[*tiles+i], target_t)) {
-            if (lastcase) grid[path[*tiles+i].y][path[*tiles+i].x] = path_enum;
+        if (!cmp_node(path[i], start) && !cmp_node(path[i], target_t)) {
+            if (lastcase) grid[path[i].y][path[i].x] = path_enum;
         }
     }
 
