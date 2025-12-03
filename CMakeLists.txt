@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 4.0)
 project(Automated-Warehouse C)
 
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+
 set(CMAKE_C_STANDARD 11)
 
 add_executable(Automated-Warehouse src/main.c
