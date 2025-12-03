@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 4.0)
 project(Automated-Warehouse C)
 
-set(CMAKE_EXE_LINKER_FLAGS "-static")
+# Tjek om systemet er Windows
+if (WIN32)
+    # Kun på Windows: Bag bibliotekerne ind i .exe filen
+    set(CMAKE_EXE_LINKER_FLAGS "-static")
+endif()
 
 set(CMAKE_C_STANDARD 11)
 
