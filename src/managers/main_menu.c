@@ -40,33 +40,25 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
     printf("\n\nChoose a number: ");
     scanf(" %d", &chosen);
 
-    // The menu is handled in a switch
+    clear_terminal();
     switch (chosen)
     {
         // Run simulation
     case 1:
         // Input validation on layout_selected
         if (*layout_selected != 1 && *layout_selected != 0) {
-            clear_terminal();
-
-            // Go back to main menu
             return false;
         }
 
-        clear_terminal();
-
-        // If the target is random and not procedural, set a random target
-        if (*shelf_selected == 0 && !(*procedural))
+        if (*shelf_selected == 0 && !(*procedural)) {
             *target = random_target(*height, *width, layout);
+        }
 
-        // Break out from main menu
         return true;
 
         // Custom target
     case 2:
-        clear_terminal();
-
-        // Print the array with numbers for x/rows and y/cols, to make it easier to input the values for custom target
+        // Prompt the user to use a custom or pre-defined shelf
         print_array(*height, *width, layout,true);
 
         *procedural = false;
@@ -84,9 +76,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Random target
     case 3:
-        clear_terminal();
-
-        // Reading from user input whether the random target should be procedurally generated
         prompt_procedural(procedural);
         clear_terminal();
 
@@ -98,9 +87,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Predefined layout
     case 4:
-        clear_terminal();
-
-        // Setting default layout variables
         *charging = (node){16, 4};
         *dropoff = (node){16, 31};
         *height = 19;
@@ -153,9 +139,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Change number of benchmarks
     case 6:
-        clear_terminal();
-
-        // Changing bench with input validation
         select_bench(bench);
 
         // Go back to main menu
@@ -168,9 +151,6 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
         // Default must be an invalid input
     default:
-        clear_terminal();
-
-        // Clear input buffer
         while (getchar() != '\n');
         printf("INVALID INPUT\n");
 

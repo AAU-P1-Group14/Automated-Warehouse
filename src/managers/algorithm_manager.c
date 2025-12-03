@@ -1,5 +1,6 @@
 #include "algorithm_manager.h"
 
+
 void run_algorithms(int height, int width, int layout[height][width], node charging, node dropoff,
                     node target_t, int bench, bool procedural, bool debug) {
 
@@ -11,9 +12,8 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
         path[i] = (node){0, 0};
     }
 
-    node *targets = malloc(sizeof(node) * bench);
-
-    // Creating array of targets
+    node targets[bench];
+    
     if (procedural) {
         for (int i = 0; i < bench; i++) {
             targets[i] = random_target(height, width, layout);
@@ -55,124 +55,111 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
             // Worst case algorithm
             case 0:
-            // Setting start time to timestamp1
-                clock_gettime(CLOCK_REALTIME, &timestamp1);
+                {
+                // Setting start time to timestamp1
+                    clock_gettime(CLOCK_REALTIME, &timestamp1);
 
-                // Worst case algorithm (random movement)
-                // Procedural
-                if (procedural) {
-                    for (int i = 0; i < bench-1; i++) {
-                        total_tiles_worst_case += worst_case(height, width, layout,
-                            &direction_switches_worst_case, targets[i], dropoff, charging, charging);
+                    // Worst case algorithm (random movement)
+                    // Procedural
+                    if (procedural) {
+                        for (int i = 0; i < bench-1; i++) {
+                            total_tiles_worst_case += worst_case(height, width, layout,
+                                &direction_switches_worst_case, targets[i], dropoff, charging, charging);
 
-                        // Progress bar
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
+                            // Progress bar
+                            progress_bar(i, bench);
                         }
                     }
-                }
 
-                // For the same random target
-                else {
-                    for (int i = 0; i < bench-1; i++) {
-                        total_tiles_worst_case += worst_case(height, width, layout,
-                            &direction_switches_worst_case, target_t, dropoff, charging, charging);
+                    // For the same random target
+                    else {
+                        for (int i = 0; i < bench-1; i++) {
+                            total_tiles_worst_case += worst_case(height, width, layout,
+                                &direction_switches_worst_case, target_t, dropoff, charging, charging);
 
-                        // Progress bar
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
+                            // Progress bar
+                            progress_bar(i, bench);
                         }
                     }
+                    // Fjern indhold på linjen
+                    printf("\r");
+
+                    // Systematicly run through the whole layout array to clear path
+                    force_clear_path(width, height, layout);
+
+                // One last run to store the path
+                    if (procedural) {
+                        total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case,
+                            targets[bench-1], dropoff, charging, charging);
+
+                        layout[targets[bench-1].y][targets[bench-1].x] = target;
+                    }
+                    else {
+                        total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case,
+                            target_t, dropoff, charging, charging);
+
+                        layout[target_t.y][target_t.x] = target;
+                    }
+
+                    // Calculate the time it took
+                    clock_gettime(CLOCK_REALTIME, &timestamp2);
+
+                    // Convertion to micro seconds
+                    long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+                    long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+                    long long passtime = passed - current;
+                    elapsed_worst_case = passtime;
+
+                    found_target_worst_case = total_tiles_worst_case > 0;
+                    // Print out the result from worst case
+                    print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
+                        bench, passtime, "Worst Case");
+
+                    //Clears the path from the layout array
+                    force_clear_path(height, width, layout);
+
+                    break;
                 }
-                // Fjern indhold på linjen
-                printf("\r");
-
-                // Systematicly run through the whole layout array to clear path
-                force_clear_path(width, height, layout);
-
-            // One last run to store the path
-                if (procedural) {
-                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case,
-                        targets[bench-1], dropoff, charging, charging);
-
-                    layout[targets[bench-1].y][targets[bench-1].x] = target;
-                }
-                else {
-                    total_tiles_worst_case += worst_case(height, width, layout, &direction_switches_worst_case,
-                        target_t, dropoff, charging, charging);
-
-                    layout[target_t.y][target_t.x] = target;
-                }
-
-                // Calculate the time it took
-                clock_gettime(CLOCK_REALTIME, &timestamp2);
-
-                // Convertion to micro seconds
-                long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
-                long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
-
-                long long passtime = passed - current;
-                elapsed_worst_case = passtime;
-
-                // Defening wether the target was found
-                found_target_worst_case = total_tiles_worst_case/bench > 0;
-
-                // Print out the result from worst case
-                print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
-                    bench, passtime, "Worst Case");
-
-                //Clears the path from the layout array
-                force_clear_path(height, width, layout);
-
-                break;
-
             // BFS algorithm
             case 1:
                 {
-
+                clock_gettime(CLOCK_REALTIME, &timestamp1);
                 if (procedural) {
-
-                    // Setting start timestamp
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
-
                     for (int i = 0; i < bench-1; i++) {
 
                         // BFS Path finding algorithm, adding the path from charging station to target
                         bfs(height, width, layout, &direction_switches_bfs, targets[i], charging,
                             &total_tiles_bfs, path, false);
 
+                        // Adding in-between direction switch
+                        direction_switches_bfs++;
+
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[i],
                             &total_tiles_bfs, path, false);
 
                         // Progress bar
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
-                        }
+                        progress_bar(i, bench);
                     }
 
-                } else {
+                }
 
-                    // Setting start timestamp
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
-
+                else {
                     for (int i = 0; i < bench-1; i++) {
                         // BFS Path finding algorithm, adding the path from charging station to target
                         bfs(height, width, layout, &direction_switches_bfs, target_t, charging,
                             &total_tiles_bfs, path, false);
+
+                        // Adding in-between direction switch
+                        direction_switches_bfs++;
 
                         // BFS Path finding algorithm, adding the path from target station to drop-off
                         bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t,
                             &total_tiles_bfs, path, false);
 
                         // Progress bar
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
-                        }
+                        progress_bar(i, bench);
                     }
                 }
                 printf("\r");
@@ -181,6 +168,10 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 if (procedural) {
                     bfs(height, width, layout, &direction_switches_bfs, targets[bench-1], charging,
                         &total_tiles_bfs, path, true);
+
+                    // Adding in-between direction switch
+                    direction_switches_bfs++;
+
                     bfs(height, width, layout, &direction_switches_bfs, dropoff, targets[bench-1],
                         &total_tiles_bfs, path, true);
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
@@ -188,6 +179,10 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 else {
                     bfs(height, width, layout, &direction_switches_bfs, target_t, charging,
                         &total_tiles_bfs, path, true);
+
+                    // Adding in-between direction switch
+                    direction_switches_bfs++;
+
                     bfs(height, width, layout, &direction_switches_bfs, dropoff, target_t,
                         &total_tiles_bfs, path, true);
                 }
@@ -196,22 +191,20 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
 
                     // Convert to micro seconds
-                current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
-                passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+                long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+                long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
-                passtime = passed - current;
+                long long passtime = passed - current;
 
                 elapsed_bfs = passtime;
 
-                    // Defining if the target was found
-                found_target_bfs = total_tiles_bfs/bench > 0;
+                found_target_bfs = total_tiles_bfs > 0;
 
                 // Print out the result from BFS
                 print_stats_individual(height, width, layout, direction_switches_bfs, total_tiles_bfs, bench,
                     passtime, "BFS");
 
-                //Clears the path from the layout array
-                if (procedural) force_clear_path(height, width, layout);
+                //Clears the path from the layout array         
                 force_clear_path(height, width, layout);
 
                 break;
@@ -220,38 +213,35 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
             // DFS
             case 2:
                 {
+                clock_gettime(CLOCK_REALTIME, &timestamp1);
                 if (procedural) {
-
-                    // Set start time
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
-
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(height, width, layout, &direction_switches_dfs, path, targets[i], charging, &total_tiles_dfs, false);
 
+                        // Adding in-between direction switch
+                        direction_switches_dfs++;
+
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[i], &total_tiles_dfs, false);
 
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
-                        }
+                        progress_bar(i, bench);
                     }
 
-                } else {
-                    clock_gettime(CLOCK_REALTIME, &timestamp1);
-
+                }
+                
+                else {
                     for (int i = 0; i < bench-1; i++) {
                         // DFS Path finding algorithm, adding the path from charging station to target
                         dfs(height, width, layout, &direction_switches_dfs, path, target_t, charging, &total_tiles_dfs, false);
 
+                        // Adding in-between direction switch
+                        direction_switches_dfs++;
+
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, false);
 
-                        if (i % (bench < 100 ? 1 : bench / 100) == 0) {
-                            int progress = i * 100 / bench;
-                            printf("\rPROGRESS: %d%%", progress);
-                        }
+                        progress_bar(i, bench);
                     }
                 }
                 printf("\r");
@@ -259,23 +249,31 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                 if (procedural) {
                     dfs(height, width, layout, &direction_switches_dfs, path, targets[bench-1], charging, &total_tiles_dfs, true);
+                    
+                    // Adding in-between direction switch
+                    direction_switches_dfs++;
+                    
                     dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[bench-1], &total_tiles_dfs, true);
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
                 else {
                     dfs(height, width, layout, &direction_switches_dfs, path, target_t, charging, &total_tiles_dfs, true);
+                    
+                    // Adding in-between direction switch
+                    direction_switches_dfs++;
+
                     dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, true);
                 }
 
                 clock_gettime(CLOCK_REALTIME, &timestamp2);
-                current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
-                passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+                long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+                long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
-                passtime = passed - current;
+                long long passtime = passed - current;
 
                 elapsed_dfs = passtime;
 
-                found_target_dfs = total_tiles_dfs/bench > 0;
+                found_target_dfs = total_tiles_dfs > 0;
 
                 // Print out the result from BFS
                 print_stats_individual(height, width, layout, direction_switches_dfs, total_tiles_dfs, bench, passtime, "DFS");
@@ -290,7 +288,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
         }
     }
 
-    free(targets);
 
     compare_results(bench, total_tiles_worst_case, total_tiles_bfs, total_tiles_dfs,
                     elapsed_worst_case, elapsed_bfs, elapsed_dfs,
@@ -312,6 +309,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 }
 
 
+void progress_bar(int counter, int done) {
+    if (counter % (done < 100 ? 1 : done / 100) == 0) {
+        int progress = counter * 100 / done;
+        printf("\rPROGRESS: %d%%", progress);
+    }
+}
+
+
 void print_stats_individual(int height, int width, int layout[height][width], long direction_switches,
     long long total_tiles, int bench, long long passtime, char* name) {
 
@@ -321,8 +326,7 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
 
     print_array(height, width, layout, false);
 
-    // If target was found
-    if (total_tiles/bench > 0) {
+    if (total_tiles > 0) {
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
         printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
     }

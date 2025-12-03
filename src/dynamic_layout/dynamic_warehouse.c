@@ -77,14 +77,6 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
         mLayout[i] = vacant;
     }
 
-    // Creates an array for the layout to be stored in.
-    char layoutArr[height][width];
-    for (int row = 0; row < height; row++) {
-        for (int col = 0; col < width; col++) {
-            layoutArr[row][col] = vacant;
-        }
-    }
-
     // This is where we create the warehouse layout based on the values given earlier.
     int currentLength = 0;
     int currentRow = 1;
@@ -96,7 +88,6 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
         for (int row = 0; row < yShelfDivider; row++, currentRow++) {
             for (int col = 0; col < width; col++) {
                 mLayout[currentRow * width + col] = vacant;
-                layoutArr[currentRow][col] = vacant;
             }
         }
         // Creates 2 rows with shelves and x cols of divider space
@@ -107,11 +98,9 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
             for (int col = 1; col < width-1; col++) {
                 if (currentLength < xShelfWidth) { // If currentLength in less then the length of a shelf section it places a shelf
                         mLayout[currentRow * width + col] = shelf;
-                        layoutArr[currentRow][col] = shelf;
 
                 } else {
                     mLayout[currentRow * width + col] = vacant; // If it's larger that xShelfWidth it will place a space
-                    layoutArr[currentRow][col] = vacant;
 
                 }
                 currentLength++;
@@ -126,15 +115,12 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
         for (int col = 0; col < width; col++) {
             if (row == 0 || row == height-1) {
                 if (col == 0 || col == width-1) {
-                    layoutArr[row][col] = v_line;
                     mLayout[row * width + col] = v_line;
                 } else {
-                    layoutArr[row][col] = h_line;
                     mLayout[row * width + col] = h_line;
                 }
             }
             if (col == 0 || col == width-1) {
-                layoutArr[row][col] = v_line;
                 mLayout[row * width + col] = v_line;
 
             }
@@ -143,13 +129,11 @@ void dynamicWarehouseDesign(int height, int width, int layout[height][width], no
 
     // Defining charging station position
     int stationRow = height - 3;
-    layoutArr[stationRow][4] = charging;
     mLayout[stationRow * width + 4] = charging;
 
     *charging_station = (node){stationRow, 4};
 
     // Defining drop-off position
-    layoutArr[stationRow][width - 5] = drop_off;
     mLayout[stationRow * width + (width - 5)] = drop_off;
 
     *dropoff_point = (node){stationRow, width - 5};

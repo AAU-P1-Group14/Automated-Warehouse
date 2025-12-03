@@ -15,7 +15,7 @@ bool dfs_is_valid(int height,int width, int grid[height][width], node current, n
     if (vis[current.y][current.x])
         return false;
 
-    // Check if target is reached
+    // If the shelf is the target, return true
     if (cmp_node(current, target))
         return true;
 
