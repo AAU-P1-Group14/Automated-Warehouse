@@ -15,6 +15,7 @@
 #define COLOR_RESET   "\x1b[0m"
 
 void run_algorithms(int height, int width, int layout[height][width], node charging, node dropoff, node target_t, int bench, bool procedural, bool debug);
+void progress_bar(int counter, int done);
 void print_stats_individual(int height, int width, int layout[height][width], long direction_switches, long long total_tiles, int bench, long long passtime, char* name);
 void compare_results(int bench, long tiles_worst_case, long tiles_bfs, long tiles_dfs,
                      long elapsed_worst_case, long elapsed_bfs, long elapsed_dfs,
