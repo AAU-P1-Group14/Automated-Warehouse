@@ -39,7 +39,6 @@ int dfs(
    node path[height * width], // The warehouse layout
    node target, // Target shelf
    node start, // Current position (start position)
-   int* tiles, // Amount of files traveled
    long* total_tiles,
    bool firstcase) // Should we count tiles
 {
