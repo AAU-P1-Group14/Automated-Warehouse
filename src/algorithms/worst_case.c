@@ -1,7 +1,9 @@
 #include "worst_case.h"
 
 int worst_case(int height, int width, int layout[height][width], long* direction_switches, node target,
-    node dropoff, node charging, node position) {
+    node dropoff, node charging, node position, long* elapsed_worst_case) {
+    struct timespec timestamp1;
+    struct timespec timestamp2;
 
     int found_target = false;
     int found_dropoff = false;
@@ -10,6 +12,7 @@ int worst_case(int height, int width, int layout[height][width], long* direction
     
     int direction;
 
+    clock_gettime(CLOCK_REALTIME, &timestamp1);
     while (iterations < 250000 && !(found_dropoff && found_target)) {
         iterations++;
         // Move the robot
@@ -17,6 +20,13 @@ int worst_case(int height, int width, int layout[height][width], long* direction
         // Update the layout and check if target or dropoff is found
         update_and_check(height, width, layout, target, dropoff, charging, position, &found_target, &found_dropoff);
     }
+
+    clock_gettime(CLOCK_REALTIME, &timestamp2);
+    long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+    long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+    *elapsed_worst_case += (passed - current);
+
     if (*direction_switches > 0) (*direction_switches)--;
     if (found_target && found_dropoff) return tiles;
     return 0;

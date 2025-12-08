@@ -39,8 +39,14 @@ int bfs(
     node start,
     long* total_tiles,
     node path[height * width],
-    bool lastcase)
+    bool lastcase,
+    long* elapsed_bfs)
 {
+    struct timespec timestamp1;
+    struct timespec timestamp2;
+
+    clock_gettime(CLOCK_REALTIME, &timestamp1);
+    
     // Simple queue implementation using arrays
     node queue[height * width];
 
@@ -179,6 +185,11 @@ int bfs(
             vis[i][j] = 0;
         }
     }
+    clock_gettime(CLOCK_REALTIME, &timestamp2);
+    long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+    long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+    *elapsed_bfs += (passed - current);
     return true;
 }
 

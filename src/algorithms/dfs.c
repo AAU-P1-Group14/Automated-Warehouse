@@ -40,8 +40,13 @@ int dfs(
    node target, // Target shelf
    node start, // Current position (start position)
    long* total_tiles,
-   bool firstcase) // Should we count tiles
+   bool firstcase,
+   long* elapsed_dfs) // Should we count tiles
 {
+    struct timespec timestamp1;
+    struct timespec timestamp2;
+
+    clock_gettime(CLOCK_REALTIME, &timestamp1);
 
    // We make an array for stack instead of queue.
    // stack is an array that will hold all nodes we might visit.
@@ -182,6 +187,11 @@ int dfs(
            vis[i][j] = 0;
        }
    }
+    clock_gettime(CLOCK_REALTIME, &timestamp2);
+    long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+    long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+    *elapsed_dfs += (passed - current);
     return true;
 }
 
