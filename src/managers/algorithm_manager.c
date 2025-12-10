@@ -67,7 +67,8 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                                 &direction_switches_worst_case, targets[i], dropoff, charging, charging);
 
                             // Progress bar
-                            progress_bar(i, bench);
+                            //progress_bar(i, bench);
+                            newProgressBar(i, bench);
                         }
                     }
 
@@ -78,10 +79,12 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                                 &direction_switches_worst_case, target_t, dropoff, charging, charging);
 
                             // Progress bar
-                            progress_bar(i, bench);
+                            //progress_bar(i, bench);
+                            newProgressBar(i, bench);
                         }
                     }
                     // Fjern indhold på linjen
+                    printf("\n");
                     printf("\r");
 
                     // Systematicly run through the whole layout array to clear path
@@ -140,7 +143,8 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             &total_tiles_bfs, path, false);
 
                         // Progress bar
-                        progress_bar(i, bench);
+                        //progress_bar(i, bench);
+                        newProgressBar(i, bench);
                     }
 
                 }
@@ -159,9 +163,11 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             &total_tiles_bfs, path, false);
 
                         // Progress bar
-                        progress_bar(i, bench);
+                        //progress_bar(i, bench);
+                        newProgressBar(i, bench);
                     }
                 }
+                printf("\n");
                 printf("\r");
 
                     // Run a last time, adding the path to the layout array
@@ -225,7 +231,8 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[i], &total_tiles_dfs, false);
 
-                        progress_bar(i, bench);
+                        //progress_bar(i, bench);
+                        newProgressBar(i, bench);
                     }
 
                 }
@@ -241,9 +248,11 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         // DFS Path finding algorithm, adding the path from target station to drop-off
                         dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, false);
 
-                        progress_bar(i, bench);
+                        //progress_bar(i, bench);
+                        newProgressBar(i, bench);
                     }
                 }
+                printf("\n");
                 printf("\r");
                 
 
@@ -316,6 +325,29 @@ void progress_bar(int counter, int done) {
     }
 }
 
+void newProgressBar(int counter, int benches) {
+        int count = counter+2;
+        //int benches = 10000;
+        int barLength = 50;
+        // Beregner procentdelen af benches som er blevet kørt6
+        double progress = (double)count / benches;
+
+        // Beregner hvor meget på progress barenn skal fyldes
+        int filled = progress * barLength;
+
+        // \r går tilbage til starten af linjen og overskriver det som tidligere var der.
+        printf("\r[");
+
+        // Her printes content ind i progress baren
+        for (int j = 0; j < barLength; j++) {
+            printf(j < filled ? "█" : " ");
+        }
+
+        // Her printes slutningen af progress baren ] samt hvor mange bences den er gennem og en procent visning af progress gennem benches
+        printf("] %i / %i - %6.2f%%", count, benches, progress * 100);
+        // her tvinges alt der må være i scanf (stdout) til at blive printet
+        fflush(stdout);
+}
 
 void print_stats_individual(int height, int width, int layout[height][width], long direction_switches,
     long long total_tiles, int bench, long long passtime, char* name) {

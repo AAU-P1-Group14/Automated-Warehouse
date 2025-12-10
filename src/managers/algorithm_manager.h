@@ -27,3 +27,5 @@ void print_comparison(char algo_name[40], bool found_target, int bench,
     long elapsed_time, long compare_elapsed_time,
     long direction_changes, long direction_changes_compare,
     long realistic_time, long realistic_time_compare);
+
+void newProgressBar(int count, int benches);
