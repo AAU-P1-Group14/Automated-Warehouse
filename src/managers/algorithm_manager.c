@@ -340,7 +340,7 @@ void newProgressBar(int counter, int benches) {
 
         // Her printes content ind i progress baren
         for (int j = 0; j < barLength; j++) {
-            printf(j < filled ? "█" : " ");
+            printf(j < filled ? "#" : " "); // idk hvis det her virker "█"
         }
 
         // Her printes slutningen af progress baren ] samt hvor mange bences den er gennem og en procent visning af progress gennem benches
