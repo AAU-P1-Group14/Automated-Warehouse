@@ -1,7 +1,7 @@
 #include "worst_case.h"
 
-int worst_case(int height, int width, int layout[height][width], long* direction_switches, node target,
-    node dropoff, node charging, node position, long* elapsed_worst_case) {
+int worst_case(int height, int width, int layout[height][width], long long* direction_switches, node target,
+    node dropoff, node charging, node position, long long* elapsed_worst_case) {
     struct timespec timestamp1;
     struct timespec timestamp2;
 
@@ -32,7 +32,7 @@ int worst_case(int height, int width, int layout[height][width], long* direction
     return 0;
 }
 
-void move_position(int height, int width, int* direction, long* direction_switches,
+void move_position(int height, int width, int* direction, long long* direction_switches,
     int layout[height][width], node* position, int* tiles) {
 
     // Create a random number in interval [0, 1, 2, 3]

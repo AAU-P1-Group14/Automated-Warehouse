@@ -35,13 +35,13 @@ int dfs(
     int height,
     int width,
    int grid[height][width],
-   long* direction_switches,
+   long long* direction_switches,
    node path[height * width], // The warehouse layout
    node target, // Target shelf
    node start, // Current position (start position)
-   long* total_tiles,
+   long long* total_tiles,
    bool firstcase,
-   long* elapsed_dfs) // Should we count tiles
+   long long* elapsed_dfs) // Should we count tiles
 {
     struct timespec timestamp1;
     struct timespec timestamp2;
@@ -115,7 +115,7 @@ int dfs(
 
    if (!found) {
        printf("No path found to target: (%d, %d)\n", target.y, target.x);
-       return false;
+       return 0;
    }
 
    // Backtrack the path from target to start position
@@ -130,7 +130,7 @@ int dfs(
        // Safety check if something goes wrong
        if (parent[child.y][child.x].y == -1 && parent[child.y][child.x].x == -1) {
            printf("Error in backtracking\n");
-           return false;
+           return 0;
        }
 
         if (parent[child.y][child.x].x < child.x) {
@@ -192,7 +192,7 @@ int dfs(
     long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
     *elapsed_dfs += (passed - current);
-    return true;
+    return 1;
 }
 
 

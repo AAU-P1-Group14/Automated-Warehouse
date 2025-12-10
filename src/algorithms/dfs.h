@@ -12,7 +12,8 @@
 
 // Check if a node is valid to visit
 bool dfs_is_valid(int height, int width, int grid[height][width], node current, node target);
-int dfs(int height, int width, int grid[height][width], long* direction_switches, node path[height * width],node target,node start,long* total_tiles,bool firstcase, long* elapsed_dfs);
+int dfs(int height, int width, int grid[height][width], long long* direction_switches, node path[height * width],
+    node target,node start, long long* total_tiles,bool firstcase, long long* elapsed_dfs);
 
 
 
