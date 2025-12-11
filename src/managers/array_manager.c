@@ -3,7 +3,8 @@
 #define GREEN   "\x1b[32m"
 #define BLUE    "\x1b[34m"
 #define COLOR_RESET   "\x1b[0m"
-#define BROWN "\x1b[33m"
+#define YELLOW "\x1b[33m"
+#define GREY "\x1b[90m"
 
 
 void horizontal_num(int width) {
@@ -17,7 +18,7 @@ void horizontal_num(int width) {
                 if (i > 9 && i<100)     // then every other number will be printed differently depending on
                     printf(" %d       ", i); // whether they are above or below 9
                 else if (i < 9)
-                    printf("%d        ", i);
+                    printf("%d       ", i);
                 } if (i>=100) {
                     printf(" %d      ", i);
                 }
@@ -91,21 +92,21 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
             {
                 case vacant: printf("  "); break; // If the element is vacant, print a blank space " "
 
-                case v_line: printf("| "); break; // If the element is v_line, print a vertical line "|"
+                case v_line: printf("🧱"); break; // If the element is v_line, print a vertical line "|"
 
-                case h_line: printf("--"); break; // If the element is h_line, print a  horizontal line "-"
+                case h_line: printf("🧱"); break; // If the element is h_line, print a  horizontal line "-"
 
-                case robot: printf("O "); break; // If the element is robot, print a "O"
+                case robot: printf("🤖"); break; // If the element is robot, print a "O"
 
-                case shelf: printf(BROWN "▤ " COLOR_RESET); break; // If the element is shelf, print a "X"
+                case shelf: printf("🗄️"); break; // If the element is shelf, print a "X"
 
-                case drop_off: printf(BLUE "▨ " COLOR_RESET); break; // If the element is drop_off, print a "D"
+                case drop_off: printf( "📍" ); break; // If the element is drop_off, print a "D"
 
                 case charging: printf(BLUE "🔋" COLOR_RESET); break; // If the element is charging, print a "C"
 
-                case path_enum: printf("* "); break; // If the element is on the path, print a "*"
+                case path_enum: printf("🔸"); break; // If the element is on the path, print a "*"
 
-                case target: printf(RED "▤ " COLOR_RESET); break; // If the element is a target, print a "T"
+                case target: printf( "📦" ); break; // If the element is a target, print a "T"
 
                 default: printf("? "); break; // If the element is undefined, print a "?"
             }
