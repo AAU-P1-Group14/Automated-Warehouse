@@ -348,6 +348,7 @@ void progress_bar(int counter, int done) {
     if (counter % (done < 100 ? 1 : done / 100) == 0) {
         int progress = counter * 100 / done;
         printf("\rPROGRESS: %d%%", progress);
+        fflush(stdout);
     }
 }
 
