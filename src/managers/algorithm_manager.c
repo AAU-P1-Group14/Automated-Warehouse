@@ -135,7 +135,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     found_target_worst_case = total_tiles_worst_case > 0;
                     // Print out the result from worst case
                     print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
-                        bench-failed_runs_counter, elapsed_worst_case, "Worst Case", failed_runs_counter);
+                        bench, elapsed_worst_case, "Worst Case", failed_runs_counter);
 
                     //Clears the path from the layout array
                     force_clear_path(height, width, layout);
@@ -367,10 +367,12 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
 
     printf("%s algorithm:\n", name);
 
-    long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, total_tiles/bench > 0);
+    long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, (total_tiles/(bench-failed_runs)) > 0);
 
     print_array(height, width, layout, false);
-    
+
+    fflush(stdout);
+
     if (failed_runs > 0) {
         printf(RED "\nFailed path-finding runs: %d of %d" COLOR_RESET "\n\n",
                failed_runs, bench);
@@ -378,17 +380,17 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
 
     if (total_tiles > 0) {
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
-        printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
+        printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench-failed_runs);
     }
 
     printf("Total benches for %s took %lld microseconds\n", name, passtime);
-    printf("Average route for %s took %lld microseconds\n\n", name, passtime/bench);
+    printf("Average route for %s took %lld microseconds\n\n", name, passtime/bench-failed_runs);
 
     printf("Total direction changes: %lld\n", direction_switches);
-    printf("Average direction changes: %lld\n\n", direction_switches/bench);
+    printf("Average direction changes: %lld\n\n", direction_switches/bench-failed_runs);
 
     printf("Total realistic time: %lld seconds\n", realistic_time);
-    printf("Average realistic time: %lld seconds\n\n\n", realistic_time/bench);
+    printf("Average realistic time: %lld seconds\n\n\n", realistic_time/bench-failed_runs);
 
 }
 
