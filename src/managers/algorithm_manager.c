@@ -6,7 +6,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
     // Creating array that contains coordinates of the robot path
     node path[height*width];
-
     // Clear path array
     for (int i = 0; i < height * width; i++) {
         path[i] = (node){0, 0};
@@ -44,7 +43,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
     int failed_runs_counter = 0;
     int failed_runs_worst_case;
-
     for (int i = 0; i < 3; i++) {
 
         failed_runs_counter = 0;
@@ -127,21 +125,19 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                         layout[target_t.y][target_t.x] = target;
                     }
-
-                    //fflush(stdout);
-                    //printf(" ");
-                    if (failed_runs_counter == bench) failed_runs_counter -= 1;
+                    
+                    // Making sure not to divide by 0 later in the program
+                    if (failed_runs_counter == bench && bench > 1) failed_runs_counter -= 1;
 
                     found_target_worst_case = total_tiles_worst_case > 0;
+
                     // Print out the result from worst case
                     print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
-                        bench-failed_runs_counter, elapsed_worst_case, "Worst Case", failed_runs_counter);
-
+                        bench, elapsed_worst_case, "Worst Case", failed_runs_counter);
                     //Clears the path from the layout array
                     force_clear_path(height, width, layout);
 
                     failed_runs_worst_case = failed_runs_counter;
-
                     break;
                 }
             // BFS algorithm
@@ -367,28 +363,38 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
 
     printf("%s algorithm:\n", name);
 
-    long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, total_tiles/bench > 0);
-
     print_array(height, width, layout, false);
-    
+
+    fflush(stdout);
     if (failed_runs > 0) {
-        printf(RED "\nFailed path-finding runs: %d of %d" COLOR_RESET "\n\n",
+        if (bench == failed_runs+1 && bench > 1) {
+            printf(RED "\nFailed path-finding runs: %d of %d" COLOR_RESET "\n\n",
+                failed_runs+1, bench);  
+        }
+        else {
+            printf(RED "\nFailed path-finding runs: %d of %d" COLOR_RESET "\n\n",
                failed_runs, bench);
+        }
     }
+    if (bench == 1 && failed_runs == 1) {
+        failed_runs = 0;
+    }
+
+    long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, total_tiles > 0);
 
     if (total_tiles > 0) {
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
-        printf("Average route for %s was %lld tiles\n\n", name, total_tiles/bench);
+        printf("Average route for %s was %lld tiles\n\n", name, total_tiles/(bench-failed_runs));
     }
 
     printf("Total benches for %s took %lld microseconds\n", name, passtime);
-    printf("Average route for %s took %lld microseconds\n\n", name, passtime/bench);
+    printf("Average route for %s took %lld microseconds\n\n", name, passtime/(bench-failed_runs));
 
     printf("Total direction changes: %lld\n", direction_switches);
-    printf("Average direction changes: %lld\n\n", direction_switches/bench);
+    printf("Average direction changes: %lld\n\n", direction_switches/(bench-failed_runs));
 
     printf("Total realistic time: %lld seconds\n", realistic_time);
-    printf("Average realistic time: %lld seconds\n\n\n", realistic_time/bench);
+    printf("Average realistic time: %lld seconds\n\n\n", realistic_time/(bench-failed_runs));
 
 }
 
@@ -399,6 +405,12 @@ void compare_results(int bench, int failed_runs, long long tiles_worst_case, lon
                      bool found_worst_case, bool found_bfs, bool found_dfs) {
 
     printf("\n\n\n---------------------- COMPARISON TO WORST CASE (averages) ----------------------\n\n");
+
+    if ((failed_runs + 1 == bench && bench > 1) ||
+        (failed_runs == bench && bench == 1)) {
+        printf("Can't compare with 0 successful worst case runs.");
+        return;
+    }
 
     long long realistic_time_worst_case = calculate_realistic_time(tiles_worst_case, direction_switches_worst_case, found_worst_case);
 
