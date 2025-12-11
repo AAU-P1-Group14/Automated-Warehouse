@@ -12,8 +12,15 @@
 #include <time.h>
 #include <stdlib.h>
 #include <sys/timeb.h>
+#include <windows.h>
+
 
 int main(void) {
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+#endif
+
     int debug = false;
 
     // Setting an output buffer, for faster print of layouts
@@ -64,7 +71,7 @@ int main(void) {
             print_menu(layout_selected, shelf_selection, target_t, bench, procedural);
 
             // Navigating the menu
-            break_main_menu = select(&height, &width, &charging, &dropoff, layout, &layout_selected,
+            break_main_menu = select1(&height, &width, &charging, &dropoff, layout, &layout_selected,
                 &shelf_selection, &target_t, &bench, &procedural);
         }
 

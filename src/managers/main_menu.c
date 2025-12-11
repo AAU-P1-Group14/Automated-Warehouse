@@ -30,7 +30,7 @@ void print_menu(int layout_selected, int shelf_selection, node target, int bench
     printf("--------------------------------\n");
 }
 
-int select(int *height, int *width, node* charging, node* dropoff, int layout[*height][*width],
+int select1(int *height, int *width, node* charging, node* dropoff, int layout[*height][*width],
     int* layout_selected, int* shelf_selected, node* target, int* bench, bool* procedural) {
 
     // Variable for which menu is chosen

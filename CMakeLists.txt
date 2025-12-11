@@ -28,3 +28,5 @@ add_executable(Automated-Warehouse src/main.c
         src/algorithms/worst_case.h
         src/dynamic_layout/dynamic_warehouse.c
         src/dynamic_layout/dynamic_warehouse.h)
+
+add_compile_options(-fexec-charset=UTF-8)

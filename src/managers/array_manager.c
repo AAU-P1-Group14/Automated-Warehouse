@@ -3,6 +3,8 @@
 #define GREEN   "\x1b[32m"
 #define BLUE    "\x1b[34m"
 #define COLOR_RESET   "\x1b[0m"
+#define BROWN "\x1b[33m"
+
 
 void horizontal_num(int width) {
     bool first = true;  // we make a bool
@@ -95,7 +97,7 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
 
                 case robot: printf("O "); break; // If the element is robot, print a "O"
 
-                case shelf: printf(GREEN "X " COLOR_RESET); break; // If the element is shelf, print a "X"
+                case shelf: printf(BROWN "▤ " COLOR_RESET); break; // If the element is shelf, print a "X"
 
                 case drop_off: printf(BLUE "D " COLOR_RESET); break; // If the element is drop_off, print a "D"
 
