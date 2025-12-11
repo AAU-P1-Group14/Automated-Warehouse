@@ -16,9 +16,9 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
     int tiles = 0;
     
     int direction;
-    printf("Jeg lever sgu, makker!\n\n");
+
     clock_gettime(CLOCK_REALTIME, &timestamp1);
-    while (iterations < 2 && !(found_dropoff && found_target)) {
+    while (iterations < 250000 && !(found_dropoff && found_target)) {
         iterations++;
         // Move the robot
         move_position(height, width, &direction, &direction_switches_local, layout, &position, &tiles);
@@ -31,8 +31,6 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
     long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
     elapsed_local += (passed - current);
-
-    printf("Jeg lever sgu, makker!\n\n");
 
     if (found_target && found_dropoff) {
         if (*direction_switches > 0) (*direction_switches)--;

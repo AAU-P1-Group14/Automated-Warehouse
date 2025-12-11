@@ -6,7 +6,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
     // Creating array that contains coordinates of the robot path
     node path[height*width];
-    printf("Jeg lever sgu, makker!\n\n");
     // Clear path array
     for (int i = 0; i < height * width; i++) {
         path[i] = (node){0, 0};
@@ -44,7 +43,6 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
     int failed_runs_counter = 0;
     int failed_runs_worst_case;
-    printf("Jeg lever sgu, makker!\n\n");
     for (int i = 0; i < 3; i++) {
 
         failed_runs_counter = 0;
@@ -64,7 +62,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                         // Result for checking if the path-finding run is successful
                         int result = 0;
-                        printf("Jeg lever sgu, makker!\n\n");
+
                         for (int i = 0; i < bench-1; i++) {
                              result = worst_case(height, width, layout,
                                 &direction_switches_worst_case, targets[i], dropoff, charging, charging, &elapsed_worst_case);
@@ -132,15 +130,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     if (failed_runs_counter == bench && bench > 1) failed_runs_counter -= 1;
 
                     found_target_worst_case = total_tiles_worst_case > 0;
+
                     // Print out the result from worst case
                     print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
                         bench, elapsed_worst_case, "Worst Case", failed_runs_counter);
-
                     //Clears the path from the layout array
                     force_clear_path(height, width, layout);
 
                     failed_runs_worst_case = failed_runs_counter;
-
                     break;
                 }
             // BFS algorithm
@@ -366,12 +363,9 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
 
     printf("%s algorithm:\n", name);
 
-    long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, (total_tiles/(bench-failed_runs)) > 0);
-
     print_array(height, width, layout, false);
 
     fflush(stdout);
-
     if (failed_runs > 0) {
         if (bench == failed_runs+1 && bench > 1) {
             printf(RED "\nFailed path-finding runs: %d of %d" COLOR_RESET "\n\n",
@@ -385,6 +379,8 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
     if (bench == 1 && failed_runs == 1) {
         failed_runs = 0;
     }
+
+    long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, total_tiles > 0);
 
     if (total_tiles > 0) {
         printf("\nTotal tiles traveled for %s was %lld tiles\n", name, total_tiles);
