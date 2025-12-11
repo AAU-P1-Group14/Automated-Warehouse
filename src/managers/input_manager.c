@@ -101,7 +101,7 @@ int input_validation(int height, int width, int layout[height][width], node targ
 }
 
 node random_target(int height, int width, int layout[height][width]) {
-
+    srand(time(NULL));
     // 2D array to store the coordinates of all shelves
     node shelf_arr[height * width];
 

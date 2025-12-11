@@ -18,9 +18,6 @@ int main(void) {
 
     // Setting an output buffer, for faster print of layouts
     setvbuf(stdout, NULL, _IOFBF, 4096);
-
-    // Creating a seed for the rand function
-    srand(time(NULL));
   
     // Initialising arrays
     // Creating an 2D array to store the warehouse layout

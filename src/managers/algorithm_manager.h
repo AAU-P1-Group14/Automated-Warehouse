@@ -18,7 +18,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 void progress_bar(int counter, int done);
 void print_stats_individual(int height, int width, int layout[height][width], long long direction_switches,
     long long total_tiles, int bench, long long passtime, char* name, int failed_runs);
-void compare_results(int bench, long long tiles_worst_case, long long tiles_bfs, long long tiles_dfs,
+void compare_results(int bench, int failed_runs, long long tiles_worst_case, long long tiles_bfs, long long tiles_dfs,
                      long long elapsed_worst_case, long long elapsed_bfs, long long elapsed_dfs,
                      long long direction_switches_worst_case, long long direction_switches_bfs, long long direction_switches_dfs,
                      bool found_worst_case, bool found_bfs, bool found_dfs);

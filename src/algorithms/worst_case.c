@@ -5,6 +5,11 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
     struct timespec timestamp1;
     struct timespec timestamp2;
 
+    long long elapsed_local = 0;
+    long long direction_switches_local = 0;
+
+    srand(time(NULL));
+
     int found_target = false;
     int found_dropoff = false;
     int iterations = 0;
@@ -16,7 +21,7 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
     while (iterations < 250000 && !(found_dropoff && found_target)) {
         iterations++;
         // Move the robot
-        move_position(height, width, &direction, direction_switches, layout, &position, &tiles);
+        move_position(height, width, &direction, &direction_switches_local, layout, &position, &tiles);
         // Update the layout and check if target or dropoff is found
         update_and_check(height, width, layout, target, dropoff, charging, position, &found_target, &found_dropoff);
     }
@@ -25,10 +30,15 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
     long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
     long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
 
-    *elapsed_worst_case += (passed - current);
+    elapsed_local += (passed - current);
 
-    if (*direction_switches > 0) (*direction_switches)--;
-    if (found_target && found_dropoff) return tiles;
+    if (found_target && found_dropoff) {
+        if (*direction_switches > 0) (*direction_switches)--;
+        *direction_switches += direction_switches_local;
+        *elapsed_worst_case += elapsed_local;
+        return tiles;
+    }
+
     return 0;
 }
 
