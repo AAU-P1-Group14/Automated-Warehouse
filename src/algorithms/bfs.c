@@ -34,13 +34,19 @@ int bfs(
     int height,
     int width,
     int grid[height][width],
-    long* direction_switches,
+    long long* direction_switches,
     node target_t,
     node start,
-    long* total_tiles,
+    long long* total_tiles,
     node path[height * width],
-    bool lastcase)
+    bool lastcase,
+    long long* elapsed_bfs)
 {
+    struct timespec timestamp1;
+    struct timespec timestamp2;
+
+    clock_gettime(CLOCK_REALTIME, &timestamp1);
+    
     // Simple queue implementation using arrays
     node queue[height * width];
 
@@ -99,8 +105,8 @@ int bfs(
     }
 
     if (!found) {
-        printf("No path found to target: (%d, %d)\n", target_t.y, target_t.x);
-        return false;
+        // printf("No path found to target: (%d, %d)\n", target_t.y, target_t.x);
+        return 0;
     }
 
     // Backtrack the path from target to start
@@ -118,7 +124,7 @@ int bfs(
         // Safety check if something goes wrong
         if (parent[child.y][child.x].y == -1 && parent[child.y][child.x].x == -1) {
             printf("Error in backtracking\n");
-            return false;
+            return 0;
         }
 
         // Calculating direction changes
@@ -179,6 +185,11 @@ int bfs(
             vis[i][j] = 0;
         }
     }
-    return true;
+    clock_gettime(CLOCK_REALTIME, &timestamp2);
+    long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+    long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+    *elapsed_bfs += (passed - current);
+    return 1;
 }
 

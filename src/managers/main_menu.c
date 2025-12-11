@@ -38,6 +38,10 @@ int select(int *height, int *width, node* charging, node* dropoff, int layout[*h
 
     // Print for the user
     printf("\n\nChoose a number: ");
+
+    // Flush buffer
+    fflush(stdout);
+
     scanf(" %d", &chosen);
 
     clear_terminal();

@@ -35,13 +35,18 @@ int dfs(
     int height,
     int width,
    int grid[height][width],
-   long* direction_switches,
+   long long* direction_switches,
    node path[height * width], // The warehouse layout
    node target, // Target shelf
    node start, // Current position (start position)
-   long* total_tiles,
-   bool firstcase) // Should we count tiles
+   long long* total_tiles,
+   bool firstcase,
+   long long* elapsed_dfs) // Should we count tiles
 {
+    struct timespec timestamp1;
+    struct timespec timestamp2;
+
+    clock_gettime(CLOCK_REALTIME, &timestamp1);
 
    // We make an array for stack instead of queue.
    // stack is an array that will hold all nodes we might visit.
@@ -109,8 +114,8 @@ int dfs(
    }
 
    if (!found) {
-       printf("No path found to target: (%d, %d)\n", target.y, target.x);
-       return false;
+       // printf("No path found to target: (%d, %d)\n", target.y, target.x);
+       return 0;
    }
 
    // Backtrack the path from target to start position
@@ -125,7 +130,7 @@ int dfs(
        // Safety check if something goes wrong
        if (parent[child.y][child.x].y == -1 && parent[child.y][child.x].x == -1) {
            printf("Error in backtracking\n");
-           return false;
+           return 0;
        }
 
         if (parent[child.y][child.x].x < child.x) {
@@ -182,7 +187,12 @@ int dfs(
            vis[i][j] = 0;
        }
    }
-    return true;
+    clock_gettime(CLOCK_REALTIME, &timestamp2);
+    long long current = timestamp1.tv_sec * 1000000LL + timestamp1.tv_nsec / 1000;
+    long long passed = timestamp2.tv_sec * 1000000LL + timestamp2.tv_nsec / 1000;
+
+    *elapsed_dfs += (passed - current);
+    return 1;
 }
 
 

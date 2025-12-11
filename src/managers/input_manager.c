@@ -4,6 +4,9 @@ void prompt_procedural(bool* procedural) {
     while (1) {
         printf("Should the target be procedurally generated? (y/n) ");
 
+        // Flush output buffer
+        fflush(stdout);
+
         char yn;
 
         //We read the input and check how many inputs was successfully read from the input buffer.
@@ -34,6 +37,9 @@ void select_bench(int* bench) {
     while (1) {
         printf("Enter benches (number): ");
 
+        // Flush output buffer
+        fflush(stdout);
+
         //We read the input and check how many inputs was successfully read from the input buffer.
         int buffer = scanf(" %d", bench);
 
@@ -52,6 +58,9 @@ void select_bench(int* bench) {
 void input_target(int height, int width, int layout[height][width], node* target){
     while (1) {
         printf("Enter target (row col): ");
+
+        // Flush output buffer
+        fflush(stdout);
 
         //We read the input and check how many inputs was successfully read from the input buffer.
         int buffer = scanf(" %d %d", &target->y, &target->x);
