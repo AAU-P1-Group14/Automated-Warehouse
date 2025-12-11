@@ -100,13 +100,13 @@ void print_array(int height, int width, int layout[height][width], bool print_nu
 
                 case shelf: printf("🗄️"); break; // If the element is shelf, print a "X"
 
-                case drop_off: printf( "📍" ); break; // If the element is drop_off, print a "D"
+                case drop_off: printf("📍" ); break; // If the element is drop_off, print a "D"
 
-                case charging: printf(BLUE "🔋" COLOR_RESET); break; // If the element is charging, print a "C"
+                case charging: printf("🔋"); break; // If the element is charging, print a "C"
 
                 case path_enum: printf("🔸"); break; // If the element is on the path, print a "*"
 
-                case target: printf( "📦" ); break; // If the element is a target, print a "T"
+                case target: printf("📦" ); break; // If the element is a target, print a "T"
 
                 default: printf("? "); break; // If the element is undefined, print a "?"
             }
