@@ -501,7 +501,7 @@ void print_comparison(char algo_name[40], bool found_target, int bench,
     else
     {
         printf("Realistic time: %lld seconds (" RED "%+lld " COLOR_RESET "seconds)\n\n",
-               realistic_time / bench, realistic_time_compare / bench);
+               realistic_time / bench, realistic_time_compare);
     }
 
 }

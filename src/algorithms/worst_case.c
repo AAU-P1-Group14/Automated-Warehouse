@@ -34,8 +34,8 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
 
     if (found_target && found_dropoff) {
         if (*direction_switches > 0) (*direction_switches)--;
-        *direction_switches = direction_switches_local;
-        *elapsed_worst_case = elapsed_local;
+        *direction_switches += direction_switches_local;
+        *elapsed_worst_case += elapsed_local;
         return tiles;
     }
 
