@@ -15,6 +15,9 @@
 
 int main(void) {
     int debug = false;
+
+    // Setting an output buffer, for faster print of layouts
+    setvbuf(stdout, NULL, _IOFBF, 4096);
   
     // Initialising arrays
     // Creating an 2D array to store the warehouse layout
@@ -70,6 +73,8 @@ int main(void) {
 
 
         printf("Press enter to return to main menu..\n");
+
+        fflush(stdout);
 
         // When running in external console, the program only closes after enter is pressed
         getchar();

@@ -29,6 +29,9 @@ void setHegihtWidth(
                "Give 5 inputs and separate each by a space ' '. \n"
                "User Inputs: ");
 
+        // Flush output buffer
+        fflush(stdout);
+
         scanf("%i %i %i %i %i", yShelfSections, yShelfDivider, &xShelfSections, xShelfWidth, &xShelfDivider);
 
 

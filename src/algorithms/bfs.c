@@ -105,7 +105,7 @@ int bfs(
     }
 
     if (!found) {
-        printf("No path found to target: (%d, %d)\n", target_t.y, target_t.x);
+        // printf("No path found to target: (%d, %d)\n", target_t.y, target_t.x);
         return 0;
     }
 

@@ -357,6 +357,7 @@ void progress_bar(int counter, int done) {
     if (counter % (done < 100 ? 1 : done / 100) == 0) {
         int progress = counter * 100 / done;
         printf("\rPROGRESS: %d%%", progress);
+        fflush(stdout);
     }
 }
 
@@ -371,8 +372,8 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
     print_array(height, width, layout, false);
     
     if (failed_runs > 0) {
-        printf(RED "\nFailed path-finding runs: %d" COLOR_RESET "\n\n",
-               failed_runs);
+        printf(RED "\nFailed path-finding runs: %d of %d" COLOR_RESET "\n\n",
+               failed_runs, bench);
     }
 
     if (total_tiles > 0) {
@@ -449,10 +450,10 @@ void compare_results(int bench, int failed_runs, long long tiles_worst_case, lon
 
 
 long long calculate_realistic_time(long long tiles, long long direction_switches, bool found_target) {
-    long long result_seconds = 0;
-    if (!found_target) result_seconds = tiles * (long long)TILES_PER_SECOND + direction_switches * 2;
-    else result_seconds = tiles * (long long)TILES_PER_SECOND + direction_switches * 2 + 10;
-    return result_seconds;
+    double result_seconds = 0;
+    if (!found_target) result_seconds = (double)tiles * TILES_PER_SECOND + (double)direction_switches * 2;
+    else result_seconds = (double)tiles * TILES_PER_SECOND + (double)direction_switches * 2 + 10;
+    return (long long)result_seconds;
 }
 
 
