@@ -114,7 +114,7 @@ int dfs(
    }
 
    if (!found) {
-       printf("No path found to target: (%d, %d)\n", target.y, target.x);
+       // printf("No path found to target: (%d, %d)\n", target.y, target.x);
        return 0;
    }
 
