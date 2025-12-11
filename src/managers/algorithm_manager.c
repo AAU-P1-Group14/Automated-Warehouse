@@ -6,7 +6,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
     // Creating array that contains coordinates of the robot path
     node path[height*width];
-
+    printf("Jeg lever sgu, makker!\n\n");
     // Clear path array
     for (int i = 0; i < height * width; i++) {
         path[i] = (node){0, 0};
@@ -44,7 +44,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
     int failed_runs_counter = 0;
     int failed_runs_worst_case;
-
+    printf("Jeg lever sgu, makker!\n\n");
     for (int i = 0; i < 3; i++) {
 
         failed_runs_counter = 0;
@@ -64,7 +64,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
 
                         // Result for checking if the path-finding run is successful
                         int result = 0;
-
+                        printf("Jeg lever sgu, makker!\n\n");
                         for (int i = 0; i < bench-1; i++) {
                              result = worst_case(height, width, layout,
                                 &direction_switches_worst_case, targets[i], dropoff, charging, charging, &elapsed_worst_case);
@@ -410,7 +410,8 @@ void compare_results(int bench, int failed_runs, long long tiles_worst_case, lon
 
     printf("\n\n\n---------------------- COMPARISON TO WORST CASE (averages) ----------------------\n\n");
 
-    if (failed_runs + 1 == bench) {
+    if ((failed_runs + 1 == bench && bench > 1) ||
+        (failed_runs == bench && bench == 1)) {
         printf("Can't compare with 0 successful worst case runs.");
         return;
     }
