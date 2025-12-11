@@ -15,9 +15,6 @@
 
 int main(void) {
     int debug = false;
-
-    // Creating a seed for the rand function
-    srand(time(NULL));
   
     // Initialising arrays
     // Creating an 2D array to store the warehouse layout

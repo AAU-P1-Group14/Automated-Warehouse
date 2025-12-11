@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "../utility/types.h"
 
 void init_array(int height, int width, int layout[height][width]); // prototype of initArray

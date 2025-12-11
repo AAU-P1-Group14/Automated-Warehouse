@@ -5,6 +5,8 @@ int worst_case(int height, int width, int layout[height][width], long long* dire
     struct timespec timestamp1;
     struct timespec timestamp2;
 
+    srand(time(NULL));
+
     int found_target = false;
     int found_dropoff = false;
     int iterations = 0;
