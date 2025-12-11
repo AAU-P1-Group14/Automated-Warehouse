@@ -42,9 +42,12 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
     long long direction_switches_dfs = 0;
     long long direction_switches_bfs = 0;
 
+    int failed_runs_counter = 0;
+    int failed_runs_worst_case;
+
     for (int i = 0; i < 3; i++) {
 
-        int failed_runs = 0;
+        failed_runs_counter = 0;
 
         // Input target in layout array
         if (!procedural) layout[target_t.y][target_t.x] = target;
@@ -67,7 +70,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                                 &direction_switches_worst_case, targets[i], dropoff, charging, charging, &elapsed_worst_case);
 
                             if (result == 0)
-                                failed_runs++;
+                                failed_runs_counter++;
                             else
                                 total_tiles_worst_case += result;
 
@@ -87,7 +90,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                                 &direction_switches_worst_case, target_t, dropoff, charging, charging, &elapsed_worst_case);
 
                             if (result == 0)
-                                failed_runs++;
+                                failed_runs_counter++;
                             else
                                 total_tiles_worst_case += result;
 
@@ -107,7 +110,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             targets[bench-1], dropoff, charging, charging, &elapsed_worst_case);
 
                         if (result == 0)
-                            failed_runs++;
+                            failed_runs_counter++;
                         else
                             total_tiles_worst_case += result;
 
@@ -118,20 +121,26 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             target_t, dropoff, charging, charging, &elapsed_worst_case);
 
                         if (result == 0)
-                            failed_runs++;
+                            failed_runs_counter++;
                         else
                             total_tiles_worst_case += result;
 
                         layout[target_t.y][target_t.x] = target;
                     }
 
+                    //fflush(stdout);
+                    //printf(" ");
+                    if (failed_runs_counter == bench) failed_runs_counter -= 1;
+
                     found_target_worst_case = total_tiles_worst_case > 0;
                     // Print out the result from worst case
                     print_stats_individual(height, width, layout, direction_switches_worst_case, total_tiles_worst_case,
-                        bench, elapsed_worst_case, "Worst Case", failed_runs);
+                        bench-failed_runs_counter, elapsed_worst_case, "Worst Case", failed_runs_counter);
 
                     //Clears the path from the layout array
                     force_clear_path(height, width, layout);
+
+                    failed_runs_worst_case = failed_runs_counter;
 
                     break;
                 }
@@ -157,7 +166,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             &total_tiles_bfs, path, false, &elapsed_bfs);
 
                         if (result == 0)
-                            failed_runs++;
+                            failed_runs_counter++;
 
                         // Progress bar
                         progress_bar(i, bench);
@@ -183,7 +192,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                             &total_tiles_bfs, path, false, &elapsed_bfs);
 
                         if (result == 0)
-                            failed_runs++;
+                            failed_runs_counter++;
 
                         // Progress bar
                         progress_bar(i, bench);
@@ -203,7 +212,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         &total_tiles_bfs, path, true, &elapsed_bfs);
 
                     if (result == 0)
-                        failed_runs++;
+                        failed_runs_counter++;
 
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
                 }
@@ -218,14 +227,14 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         &total_tiles_bfs, path, true, &elapsed_bfs);
 
                     if (result == 0)
-                        failed_runs++;
+                        failed_runs_counter++;
                 }
 
                 found_target_bfs = total_tiles_bfs > 0;
 
                 // Print out the result from BFS
                 print_stats_individual(height, width, layout, direction_switches_bfs, total_tiles_bfs, bench,
-                    elapsed_bfs, "BFS", failed_runs);
+                    elapsed_bfs, "BFS", failed_runs_counter);
 
                 //Clears the path from the layout array         
                 force_clear_path(height, width, layout);
@@ -252,7 +261,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         result = dfs(height, width, layout, &direction_switches_dfs, path, dropoff, targets[i], &total_tiles_dfs, false, &elapsed_dfs);
 
                         if (result == 0)
-                            failed_runs++;
+                            failed_runs_counter++;
 
                         progress_bar(i, bench);
                     }
@@ -275,7 +284,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                         result = dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, false, &elapsed_dfs);
 
                         if (result == 0)
-                            failed_runs++;
+                            failed_runs_counter++;
 
                         progress_bar(i, bench);
                     }
@@ -293,7 +302,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     layout[targets[bench-1].y][targets[bench-1].x] = target;
 
                     if (result == 0)
-                        failed_runs++;
+                        failed_runs_counter++;
 
                 }
                 else {
@@ -305,13 +314,13 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
                     int result = dfs(height, width, layout, &direction_switches_dfs, path, dropoff, target_t, &total_tiles_dfs, true, &elapsed_dfs);
 
                     if (result == 0)
-                        failed_runs++;
+                        failed_runs_counter++;
                 }
 
                 found_target_dfs = total_tiles_dfs > 0;
 
                 // Print out the result from BFS
-                print_stats_individual(height, width, layout, direction_switches_dfs, total_tiles_dfs, bench, elapsed_dfs, "DFS", failed_runs);
+                print_stats_individual(height, width, layout, direction_switches_dfs, total_tiles_dfs, bench, elapsed_dfs, "DFS", failed_runs_counter);
 
                 //Clears the path from the layout array
                 force_clear_path(height, width, layout);
@@ -324,7 +333,7 @@ void run_algorithms(int height, int width, int layout[height][width], node charg
     }
 
 
-    compare_results(bench, total_tiles_worst_case, total_tiles_bfs, total_tiles_dfs,
+    compare_results(bench, failed_runs_worst_case, total_tiles_worst_case, total_tiles_bfs, total_tiles_dfs,
                     elapsed_worst_case, elapsed_bfs, elapsed_dfs,
                     direction_switches_worst_case, direction_switches_bfs, direction_switches_dfs,
                     found_target_worst_case, found_target_bfs, found_target_dfs);
@@ -360,7 +369,7 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
     long long realistic_time = calculate_realistic_time(total_tiles, direction_switches, total_tiles/bench > 0);
 
     print_array(height, width, layout, false);
-
+    
     if (failed_runs > 0) {
         printf(RED "\nFailed path-finding runs: %d" COLOR_RESET "\n\n",
                failed_runs);
@@ -383,7 +392,7 @@ void print_stats_individual(int height, int width, int layout[height][width], lo
 }
 
 
-void compare_results(int bench, long long tiles_worst_case, long long tiles_bfs, long long tiles_dfs,
+void compare_results(int bench, int failed_runs, long long tiles_worst_case, long long tiles_bfs, long long tiles_dfs,
                      long long elapsed_worst_case, long long elapsed_bfs, long long elapsed_dfs,
                      long long direction_switches_worst_case, long long direction_switches_bfs, long long direction_switches_dfs,
                      bool found_worst_case, bool found_bfs, bool found_dfs) {
@@ -395,16 +404,16 @@ void compare_results(int bench, long long tiles_worst_case, long long tiles_bfs,
     // BFS -------------------
     
     // Comparing tiles with worst case
-    long long tiles_compare_bfs = (tiles_bfs - tiles_worst_case) / bench;
+    long long tiles_compare_bfs = tiles_bfs/bench - tiles_worst_case/(bench-failed_runs);
 
     // Comparing elapsed time with worst case
-    long long elapsed_compare_bfs = (elapsed_bfs - elapsed_worst_case) / bench;
+    long long elapsed_compare_bfs = elapsed_bfs/bench - elapsed_worst_case/(bench-failed_runs);
 
-    long long direction_switches_compare_bfs = (direction_switches_bfs - direction_switches_worst_case) / bench;
+    long long direction_switches_compare_bfs = direction_switches_bfs/bench - direction_switches_worst_case/(bench-failed_runs);
 
     // Comparing realistic time with worst case
     long long realistic_time_bfs = calculate_realistic_time(tiles_bfs, direction_switches_bfs, found_bfs);
-    long long realistic_time_compare_bfs = (realistic_time_bfs - realistic_time_worst_case) / bench;
+    long long realistic_time_compare_bfs = realistic_time_bfs/bench - realistic_time_worst_case/(bench-failed_runs);
 
     print_comparison("Breadth First search (BFS)", found_bfs, bench,
         tiles_bfs, tiles_compare_bfs,
@@ -417,16 +426,16 @@ void compare_results(int bench, long long tiles_worst_case, long long tiles_bfs,
     // DFS -------------------
 
     // Comparing tiles with worst case
-    long long tiles_compare_dfs = (tiles_dfs - tiles_worst_case) / bench;
+    long long tiles_compare_dfs = tiles_dfs/bench - tiles_worst_case/(bench-failed_runs);
 
     // Comparing elapsed time with worst case
-    long long elapsed_compare_dfs = (elapsed_dfs - elapsed_worst_case) / bench;
+    long long elapsed_compare_dfs = elapsed_dfs/bench - elapsed_worst_case/(bench-failed_runs);
 
-    long long direction_switches_compare_dfs = (direction_switches_dfs - direction_switches_worst_case) / bench;
+    long long direction_switches_compare_dfs = direction_switches_dfs/bench - direction_switches_worst_case/(bench-failed_runs);
 
     // Comparing realistic time with worst case
     long long realistic_time_dfs = calculate_realistic_time(tiles_dfs, direction_switches_dfs, found_dfs);
-    long long realistic_time_compare_dfs = (realistic_time_dfs - realistic_time_worst_case) / bench;
+    long long realistic_time_compare_dfs = realistic_time_dfs/bench - realistic_time_worst_case/(bench-failed_runs);
 
     print_comparison("Depth First Search (DFS)", found_dfs, bench,
         tiles_dfs, tiles_compare_dfs,
