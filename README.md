@@ -34,7 +34,8 @@ When the program runs, the user can customize all of the above parameters to the
 
 This shows an example of what the output from the BFS algorithm could look like:
 
-![Algorithm Output Example](../../../../../var/folders/l2/lkryvpwj233dnzz34bn9kmrm0000gn/T/TemporaryItems/NSIRD_screencaptureui_cvPjeT/Screenshot%202025-12-18%20at%2011.03.12.png)
+<img width="577" height="643" alt="Screenshot 2025-12-18 at 11 15 07" src="https://github.com/user-attachments/assets/1722482a-417a-47f3-b09f-f673fe3819e1" />
+
 
 #### Total tiles traveled for BFS was
 The total amount of tiles traveled.
