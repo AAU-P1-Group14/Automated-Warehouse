@@ -35,8 +35,8 @@ When the program runs, the user can customize all of the above parameters to the
 ### Algorithms
 This shows an example of what the output from the BFS algorithm could look like. The output for BFS, DFS and worst-case follows the same structure and includes the same results.
 
-<img width="577" height="643" alt="Screenshot 2025-12-18 at 11 15 07" src="https://github.com/user-attachments/assets/1722482a-417a-47f3-b09f-f673fe3819e1" />
 
+<img width="575" height="708" alt="Screenshot 2025-12-18 at 11 38 58" src="https://github.com/user-attachments/assets/22a364cd-9882-430c-93b9-77dda48358a8" />
 
 #### Total tiles traveled for BFS was:
 The total amount of tiles traveled.
@@ -57,15 +57,15 @@ How many times the robot changed directions.
 The average number of direction changes per route.
 
 #### Total realistic time:
-Estimated total time for the route in a real-world scenario.
+Estimated total time for the robot in a real-world scenario.
 
 #### Average realistic time:
-Estimated average time per bench in a real-world scenario.
+Estimated average time for the robot in a real-world scenario per bench.
 
 ### Comparison
 This is a comparison in the end that compares BFS and DFS to worst case.
 
-<img width="663" height="383" alt="Screenshot 2025-12-18 at 11 21 44" src="https://github.com/user-attachments/assets/b829e91a-9b49-49ad-b6aa-ec681ca0a20a" />
+<img width="658" height="419" alt="Screenshot 2025-12-18 at 11 39 12" src="https://github.com/user-attachments/assets/ca0ea094-af42-4f1a-8a43-b82a11e68ad6" />
 
 
 #### Target Found:
