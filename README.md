@@ -45,10 +45,10 @@ The total amount of tiles traveled.
 The average length of the path it found.
 
 #### Total benches for BFS took:
-The total combined time.
+The total combined time in micro seconds that it took for the algorithm to finish.
 
 #### Average route for BFS took:
-The average time per bench.
+The average time per bench in micro seconds that it took for the algorithm to finish.
 
 #### Total direction changes:
 How many times the robot changed directions.
@@ -69,16 +69,16 @@ This is a comparison in the end that compares BFS and DFS to worst case.
 
 
 #### Target Found:
-- If the algorithm found the target
+- If the algorithm found the target.
 
 #### Direction switches:
-- total amount of direction switches
+- The average amount of direction switches.
 
 #### Tiles:
-- The length of the path
+- The average length of the path in tiles.
 
 #### Algorithm Time:
-- The time it took for the algorithm to complete the operation in microseconds
+- The time it took for the algorithm to funish in micro seconds
 
 #### Realistic Time:
-- The realistic time it would take for the algorithm complete the operation
+- An estimated realistic time it would take for the robot to complete the operation
