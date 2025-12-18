@@ -65,7 +65,8 @@ Estimated average time per bench in a real-world scenario.
 ### Comparison
 This is a comparison in the end that compares BFS and DFS to worst case.
 
-IMAGE HERE
+<img width="663" height="383" alt="Screenshot 2025-12-18 at 11 21 44" src="https://github.com/user-attachments/assets/b829e91a-9b49-49ad-b6aa-ec681ca0a20a" />
+
 
 #### Target Found:
 - If the algorithm found the target
