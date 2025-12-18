@@ -1,13 +1,12 @@
 # Automated-Warehouse
 
-<<<<<<< Updated upstream
-<img width="277" height="354" alt="Screenshot 2025-12-18 at 10 32 15" src="https://github.com/user-attachments/assets/532c6f77-770d-4a4a-91ba-0b4a758ef080" />
-=======
+
 This tool is designed to simulate different algorithms and benchmark them on either a predefined or user-created dynamic layout.
 
 The following shows the program's user interface, which lists 7 options:
 
-#### (1) - Start Simulation: Runs the algorithms after configuring the warehouse environment.
+#### (1) - Start Simulation: 
+Runs the algorithms after configuring the warehouse environment.
 
 #### (2) - Custom Target: 
 Allows the user to choose a custom pickup shelf.
@@ -30,4 +29,3 @@ Exits the program.
 <img width="277" height="354" alt="Screenshot 2025-12-18 at 10 32 15" src="https://github.com/user-attachments/assets/532c6f77-770d-4a4a-91ba-0b4a758ef080" />
 
 When the program runs, the user can customize all of the above parameters to their preference. After configuration, the simulation can be started by selecting option 1.
->>>>>>> Stashed changes
