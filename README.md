@@ -39,31 +39,31 @@ This shows an example of what the output from the BFS algorithm could look like.
 <img width="575" height="708" alt="Screenshot 2025-12-18 at 11 38 58" src="https://github.com/user-attachments/assets/22a364cd-9882-430c-93b9-77dda48358a8" />
 
 #### Total tiles traveled for BFS was:
-The total amount of tiles traveled.
+- The total amount of tiles traveled.
 
 #### Average route for BFS was:
-The average length of the path it found.
+- The average length of the path it found.
 
 #### Total benches for BFS took:
-The total combined time in micro seconds that it took for the algorithm to finish.
+- The total combined time in micro seconds that it took for the algorithm to finish.
 
 #### Average route for BFS took:
-The average time per bench in micro seconds that it took for the algorithm to finish.
+- The average time per bench in micro seconds that it took for the algorithm to finish.
 
 #### Total direction changes:
-How many times the robot changed directions.
+- How many times the robot changed directions.
 
 #### Average direction changes:
-The average number of direction changes per route.
+- The average number of direction changes per route.
 
 #### Total realistic time:
-Estimated total time for the robot in a real-world scenario.
+- Estimated total time for the robot in a real-world scenario.
 
 #### Average realistic time:
-Estimated average time for the robot in a real-world scenario per bench.
+- Estimated average time for the robot in a real-world scenario per bench.
 
 ### Comparison
-This is a comparison in the end that compares BFS and DFS to worst case.
+- This is a comparison in the end that compares BFS and DFS to worst case.
 
 <img width="658" height="419" alt="Screenshot 2025-12-18 at 11 39 12" src="https://github.com/user-attachments/assets/ca0ea094-af42-4f1a-8a43-b82a11e68ad6" />
 
